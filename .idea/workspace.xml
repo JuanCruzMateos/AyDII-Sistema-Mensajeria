@@ -5,24 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5486df74-5d68-4513-bf6f-42320c48c0d3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/build.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/grupouno/model/agenda/IAgenda.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/grupouno/model/conversation/IConversationService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/org/grupouno/model/agenda/AgendaTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/org/grupouno/model/agenda/UserTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/org/grupouno/model/conversation/ConversationServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/org/grupouno/model/conversation/ConversationTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/org/grupouno/model/session/ChatSessionTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/run_local.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/controller/ChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/grupouno/controller/ChatController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/model/Agenda.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/grupouno/model/agenda/Agenda.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/model/ChatSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/grupouno/model/session/ChatSession.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/model/Conversation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/grupouno/model/conversation/Conversation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/model/ConversationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/grupouno/model/conversation/ConversationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/model/IChatSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/grupouno/model/session/IChatSession.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/model/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/grupouno/model/conversation/Message.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/grupouno/model/agenda/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/network/ClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/grupouno/network/ClientHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/network/Peer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/grupouno/network/Peer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/view/ConfigScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/grupouno/view/ConfigScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,6 +78,11 @@
     "Docker.Dockerfile.executor": "Run",
     "JAR Application.sistema-mensajeria-1.0-SNAPSHOT.jar.executor": "Run",
     "JAR Application.sistema-mensajeria-1.0.0.jar.executor": "Run",
+    "JUnit.AgendaTest.executor": "Run",
+    "JUnit.ConversationServiceTest.executor": "Run",
+    "JUnit.ConversationTest.addMessageAppendsMessageToConversation.executor": "Run",
+    "JUnit.ConversationTest.executor": "Run",
+    "JUnit.UserTest.executor": "Run",
     "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
     "Maven.sistema-mensajeria [clean].executor": "Run",
     "Maven.sistema-mensajeria [compile].executor": "Run",
@@ -124,63 +118,82 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Shell Script.build.sh">
-    <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.grupouno.App" />
+  <component name="RunManager" selected="JUnit.ChatSessionTest">
+    <configuration name="AgendaTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="sistema-mensajeria" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.grupouno.*" />
+          <option name="PATTERN" value="org.grupouno.model.agenda.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <option name="PACKAGE_NAME" value="org.grupouno.model.agenda" />
+      <option name="MAIN_CLASS_NAME" value="org.grupouno.model.agenda.AgendaTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="sistema-mensajeria-1.0.0.jar" type="JarApplication" temporary="true">
-      <option name="JAR_PATH" value="$PROJECT_DIR$/target/sistema-mensajeria-1.0.0.jar" />
-      <method v="2" />
+    <configuration name="ChatSessionTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="sistema-mensajeria" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.grupouno.model.session.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.grupouno.model.session" />
+      <option name="MAIN_CLASS_NAME" value="org.grupouno.model.session.ChatSessionTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
-    <configuration name="build.sh" type="ShConfigurationType" temporary="true">
-      <option name="SCRIPT_TEXT" value="" />
-      <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
-      <option name="SCRIPT_PATH" value="$PROJECT_DIR$/build.sh" />
-      <option name="SCRIPT_OPTIONS" value="" />
-      <option name="INDEPENDENT_SCRIPT_WORKING_DIRECTORY" value="true" />
-      <option name="SCRIPT_WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="INDEPENDENT_INTERPRETER_PATH" value="true" />
-      <option name="INTERPRETER_PATH" value="/bin/bash" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="EXECUTE_IN_TERMINAL" value="true" />
-      <option name="EXECUTE_SCRIPT_FILE" value="true" />
-      <envs />
-      <method v="2" />
+    <configuration name="ConversationServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="sistema-mensajeria" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.grupouno.model.conversation.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.grupouno.model.conversation" />
+      <option name="MAIN_CLASS_NAME" value="org.grupouno.model.conversation.ConversationServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
-    <configuration name="run_local.sh" type="ShConfigurationType" temporary="true">
-      <option name="SCRIPT_TEXT" value="" />
-      <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
-      <option name="SCRIPT_PATH" value="$PROJECT_DIR$/run_local.sh" />
-      <option name="SCRIPT_OPTIONS" value="" />
-      <option name="INDEPENDENT_SCRIPT_WORKING_DIRECTORY" value="true" />
-      <option name="SCRIPT_WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="INDEPENDENT_INTERPRETER_PATH" value="true" />
-      <option name="INTERPRETER_PATH" value="/bin/bash" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="EXECUTE_IN_TERMINAL" value="true" />
-      <option name="EXECUTE_SCRIPT_FILE" value="true" />
-      <envs />
-      <method v="2" />
+    <configuration name="ConversationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="sistema-mensajeria" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.grupouno.model.conversation.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.grupouno.model.conversation" />
+      <option name="MAIN_CLASS_NAME" value="org.grupouno.model.conversation.ConversationTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
-    <configuration name="Dockerfile build" type="docker-deploy" factoryName="dockerfile" temporary="true" server-name="Docker">
-      <deployment type="dockerfile">
-        <settings>
-          <option name="imageTag" value="maven3.8.6-openjdk-21_build" />
-          <option name="buildCliOptions" value="--target build" />
-          <option name="sourceFilePath" value="Dockerfile" />
-        </settings>
-      </deployment>
-      <method v="2" />
+    <configuration name="ConversationTest.addMessageAppendsMessageToConversation" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="sistema-mensajeria" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.grupouno.model.conversation.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.grupouno.model.conversation" />
+      <option name="MAIN_CLASS_NAME" value="org.grupouno.model.conversation.ConversationTest" />
+      <option name="METHOD_NAME" value="addMessageAppendsMessageToConversation" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
       <deployment type="dockerfile">
@@ -190,11 +203,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Shell Script.build.sh" />
-        <item itemvalue="JAR Application.sistema-mensajeria-1.0.0.jar" />
-        <item itemvalue="Docker.Dockerfile build" />
-        <item itemvalue="Shell Script.run_local.sh" />
-        <item itemvalue="Application.App" />
+        <item itemvalue="JUnit.ChatSessionTest" />
+        <item itemvalue="JUnit.ConversationServiceTest" />
+        <item itemvalue="JUnit.ConversationTest.addMessageAppendsMessageToConversation" />
+        <item itemvalue="JUnit.ConversationTest" />
+        <item itemvalue="JUnit.AgendaTest" />
       </list>
     </recent_temporary>
   </component>
@@ -221,7 +234,7 @@
       <workItem from="1743605850679" duration="53915000" />
       <workItem from="1743981709095" duration="6083000" />
       <workItem from="1743987836989" duration="29482000" />
-      <workItem from="1744584037214" duration="8987000" />
+      <workItem from="1744584037214" duration="10494000" />
     </task>
     <servers />
   </component>
