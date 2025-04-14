@@ -2,10 +2,9 @@ package org.grupouno.model.session;
 
 import org.grupouno.model.agenda.User;
 import org.grupouno.model.conversation.Message;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,16 +14,6 @@ public class ChatSessionTest {
         ChatSession instance1 = ChatSession.getInstance();
         ChatSession instance2 = ChatSession.getInstance();
         assertSame(instance1, instance2);
-    }
-
-    @Test
-    public void initAgendaPopulatesAgendaWithDefaultContacts() {
-        ChatSession session = ChatSession.getInstance();
-        session.initAgenda();
-        List<String> contacts = session.getAgendaContacts();
-        assertTrue(contacts.contains("juan"));
-        assertTrue(contacts.contains("eze"));
-        assertTrue(contacts.contains("erik"));
     }
 
     @Test

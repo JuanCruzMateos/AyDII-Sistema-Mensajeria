@@ -62,9 +62,9 @@ public class ChatSession implements IChatSession {
     public void initAgenda() {
         logger.info("Initializing agendaImpl");
         this.agenda = new Agenda(new HashMap<>());
-        this.agenda.addContact(new User("juan", "127.0.0.1", 50747));
-        this.agenda.addContact(new User("eze", "127.0.0.1", 50748));
-        this.agenda.addContact(new User("erik", "127.0.0.1", 50749));
+//        this.agenda.addContact(new User("juan", "127.0.0.1", 50747));
+//        this.agenda.addContact(new User("eze", "127.0.0.1", 50748));
+//        this.agenda.addContact(new User("erik", "127.0.0.1", 50749));
     }
 
     public void initConversationService() {

@@ -1,6 +1,7 @@
 package org.grupouno.network;
 
 import org.grupouno.controller.ChatController;
+import org.grupouno.exceptions.ConnectionRefusedException;
 import org.grupouno.model.conversation.Message;
 
 import java.io.IOException;
@@ -23,6 +24,8 @@ public class Peer implements Runnable {
     public void run() {
         logger.info("Starting server on port " + serverPort);
         try (ServerSocket serverSocket = new ServerSocket(serverPort)) {
+            logger.info("Server started on port " + serverSocket.getLocalPort());
+            logger.info("Waiting for connections... ");
             while (true) {
                 try {
                     Socket clientSocket = serverSocket.accept();
@@ -37,13 +40,13 @@ public class Peer implements Runnable {
         }
     }
 
-    public void sendMessage(Message message, String recipientIp, int recipientPort) {
+    public void sendMessage(Message message, String recipientIp, int recipientPort) throws ConnectionRefusedException {
         try (Socket clientSocket = new Socket(recipientIp, recipientPort);
              ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream())) {
             out.writeObject(message);
             out.flush();
         } catch (IOException e) {
-            logger.warning("Error sending message: " + e.getMessage());
+            throw new ConnectionRefusedException("Failed to send message to " + recipientIp + ":" + recipientPort, e);
         }
     }
 }

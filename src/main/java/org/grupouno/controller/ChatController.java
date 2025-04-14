@@ -1,5 +1,6 @@
 package org.grupouno.controller;
 
+import org.grupouno.exceptions.ConnectionRefusedException;
 import org.grupouno.model.agenda.User;
 import org.grupouno.model.conversation.Message;
 import org.grupouno.model.session.ChatSession;
@@ -138,19 +139,25 @@ public class ChatController implements ActionListener {
         String textInputArea = this.chatSessionScreen.getTextInputArea();
         String contactNickName = this.chatSessionScreen.getCurrentConversationContact();
         logger.info("Sending message to " + contactNickName);
-        if (!textInputArea.isEmpty()) {
+        if (textInputArea.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "El contacto no está disponible.", "Error", JOptionPane.ERROR_MESSAGE);
+            logger.warning("Contact not available: " + contactNickName);
+        } else {
             User contact = this.chatSession.getContactByNickname(contactNickName);
             if (contact != null) {
                 LocalDateTime timeStamp = LocalDateTime.now();
                 Message message = new Message(this.chatSession.getNickname(), this.chatSession.getIp(), this.chatSession.getPort(), contact.nickname(), contact.ip(), contact.port(), textInputArea, timeStamp);
                 logger.info("Sending message: " + textInputArea);
-                this.peer.sendMessage(message, contact.ip(), contact.port());
-                this.chatSession.sendMessage(message);
-                this.chatSessionScreen.appendNewMessageToChatArea(message.getFormattedSendedMessage() + "\n");
-                this.chatSessionScreen.resetTextInputArea();
-            } else {
-                JOptionPane.showMessageDialog(null, "El contacto no está disponible.", "Error", JOptionPane.ERROR_MESSAGE);
-                logger.warning("Contact not available: " + contactNickName);
+                try {
+                    this.peer.sendMessage(message, contact.ip(), contact.port());
+                    this.chatSession.sendMessage(message);
+                    this.chatSessionScreen.appendNewMessageToChatArea(message.getFormattedSendedMessage() + "\n");
+                    this.chatSessionScreen.resetTextInputArea();
+                    logger.info("Message sent to " + contactNickName);
+                } catch (ConnectionRefusedException e) {
+                    logger.warning("Connection refused: " + e.getMessage());
+                    JOptionPane.showMessageDialog(null, "El contacto no esta conectado.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
     }
