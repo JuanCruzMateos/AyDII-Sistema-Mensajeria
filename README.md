@@ -1,6 +1,5 @@
 # Sistema Mensajeria
 
-### Descripción
+### Features
 
-- Peer to Peer
-- Maven
+- Peer to Peer Architecture

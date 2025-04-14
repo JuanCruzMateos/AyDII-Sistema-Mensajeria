@@ -3,7 +3,7 @@ package org.grupouno.network;
 // necesito la referencia a la clase ChatSession aca!
 
 import org.grupouno.controller.ChatController;
-import org.grupouno.model.Message;
+import org.grupouno.model.conversation.Message;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

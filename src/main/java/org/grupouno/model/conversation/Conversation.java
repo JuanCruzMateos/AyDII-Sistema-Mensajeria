@@ -1,4 +1,4 @@
-package org.grupouno.model;
+package org.grupouno.model.conversation;
 
 import java.util.List;
 

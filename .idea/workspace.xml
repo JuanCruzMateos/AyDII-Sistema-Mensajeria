@@ -5,8 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5486df74-5d68-4513-bf6f-42320c48c0d3" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/build.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/grupouno/model/agenda/IAgenda.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/grupouno/model/conversation/IConversationService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/run_local.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/controller/ChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/grupouno/controller/ChatController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/model/Agenda.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/grupouno/model/agenda/Agenda.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/model/ChatSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/grupouno/model/session/ChatSession.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/model/Conversation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/grupouno/model/conversation/Conversation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/model/ConversationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/grupouno/model/conversation/ConversationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/model/IChatSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/grupouno/model/session/IChatSession.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/model/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/grupouno/model/conversation/Message.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/grupouno/model/agenda/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/network/ClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/grupouno/network/ClientHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/network/Peer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/grupouno/network/Peer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/view/ConfigScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/grupouno/view/ConfigScreen.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,8 +32,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Record" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -61,49 +77,54 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.AddContactScreen.executor&quot;: &quot;Run&quot;,
-    &quot;Application.AgendaScreen.executor&quot;: &quot;Run&quot;,
-    &quot;Application.App.executor&quot;: &quot;Run&quot;,
-    &quot;Application.ChatScreen.executor&quot;: &quot;Run&quot;,
-    &quot;Application.ConfigScreen.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Docker.Dockerfile.executor&quot;: &quot;Run&quot;,
-    &quot;JAR Application.sistema-mensajeria-1.0-SNAPSHOT.jar.executor&quot;: &quot;Run&quot;,
-    &quot;JAR Application.sistema-mensajeria-1.0.0.jar.executor&quot;: &quot;Run&quot;,
-    &quot;Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.sistema-mensajeria [org.apache.maven.plugins:maven-clean-plugin:3.2.0:clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.sistema-mensajeria [org.apache.maven.plugins:maven-clean-plugin:3.2.0:help].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.sistema-mensajeria [org.apache.maven.plugins:maven-compiler-plugin:3.8.1:compile].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.sistema-mensajeria [org.apache.maven.plugins:maven-compiler-plugin:3.8.1:help].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.sistema-mensajeria [org.apache.maven.plugins:maven-jar-plugin:3.2.0:jar].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.sistema-mensajeria [org.apache.maven.plugins:maven-jar-plugin:3.2.2:help].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.sistema-mensajeria [org.apache.maven.plugins:maven-jar-plugin:3.2.2:jar].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.sistema-mensajeria [org.apache.maven.plugins:maven-jar-plugin:3.4.1:help].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.sistema-mensajeria [org.apache.maven.plugins:maven-jar-plugin:3.4.1:jar].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Shell Script.run_local.sh.executor&quot;: &quot;Run&quot;,
-    &quot;code.cleanup.on.save&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;v1.0.0&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/juancruz/Documents/ingenieria/analisis-diseno-02/sistema-mensajeria&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;rearrange.code.on.save&quot;: &quot;true&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;aDefault&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.appearance&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.AddContactScreen.executor": "Run",
+    "Application.AgendaScreen.executor": "Run",
+    "Application.App.executor": "Run",
+    "Application.ChatScreen.executor": "Run",
+    "Application.ConfigScreen.executor": "Run",
+    "Application.Main.executor": "Run",
+    "Docker.Dockerfile build.executor": "Run",
+    "Docker.Dockerfile.executor": "Run",
+    "JAR Application.sistema-mensajeria-1.0-SNAPSHOT.jar.executor": "Run",
+    "JAR Application.sistema-mensajeria-1.0.0.jar.executor": "Run",
+    "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
+    "Maven.sistema-mensajeria [clean].executor": "Run",
+    "Maven.sistema-mensajeria [compile].executor": "Run",
+    "Maven.sistema-mensajeria [org.apache.maven.plugins:maven-clean-plugin:3.2.0:clean].executor": "Run",
+    "Maven.sistema-mensajeria [org.apache.maven.plugins:maven-clean-plugin:3.2.0:help].executor": "Run",
+    "Maven.sistema-mensajeria [org.apache.maven.plugins:maven-compiler-plugin:3.8.1:compile].executor": "Run",
+    "Maven.sistema-mensajeria [org.apache.maven.plugins:maven-compiler-plugin:3.8.1:help].executor": "Run",
+    "Maven.sistema-mensajeria [org.apache.maven.plugins:maven-jar-plugin:3.2.0:jar].executor": "Run",
+    "Maven.sistema-mensajeria [org.apache.maven.plugins:maven-jar-plugin:3.2.2:help].executor": "Run",
+    "Maven.sistema-mensajeria [org.apache.maven.plugins:maven-jar-plugin:3.2.2:jar].executor": "Run",
+    "Maven.sistema-mensajeria [org.apache.maven.plugins:maven-jar-plugin:3.4.1:help].executor": "Run",
+    "Maven.sistema-mensajeria [org.apache.maven.plugins:maven-jar-plugin:3.4.1:jar].executor": "Run",
+    "Maven.sistema-mensajeria [package].executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Shell Script.build.sh.executor": "Run",
+    "Shell Script.run_local.sh.executor": "Run",
+    "code.cleanup.on.save": "true",
+    "git-widget-placeholder": "v1.0.0",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/juancruz/Documents/ingenieria/analisis-diseno-02/sistema-mensajeria",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "rearrange.code.on.save": "true",
+    "run.code.analysis.last.selected.profile": "aDefault",
+    "settings.editor.selected.configurable": "ml.llm.LLMConfigurable",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RunManager" selected="Application.App">
+}]]></component>
+  <component name="RunManager" selected="Shell Script.build.sh">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.grupouno.App" />
       <module name="sistema-mensajeria" />
@@ -117,15 +138,23 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="sistema-mensajeria" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="sistema-mensajeria-1.0.0.jar" type="JarApplication" temporary="true">
       <option name="JAR_PATH" value="$PROJECT_DIR$/target/sistema-mensajeria-1.0.0.jar" />
+      <method v="2" />
+    </configuration>
+    <configuration name="build.sh" type="ShConfigurationType" temporary="true">
+      <option name="SCRIPT_TEXT" value="" />
+      <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
+      <option name="SCRIPT_PATH" value="$PROJECT_DIR$/build.sh" />
+      <option name="SCRIPT_OPTIONS" value="" />
+      <option name="INDEPENDENT_SCRIPT_WORKING_DIRECTORY" value="true" />
+      <option name="SCRIPT_WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="INDEPENDENT_INTERPRETER_PATH" value="true" />
+      <option name="INTERPRETER_PATH" value="/bin/bash" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="EXECUTE_IN_TERMINAL" value="true" />
+      <option name="EXECUTE_SCRIPT_FILE" value="true" />
+      <envs />
       <method v="2" />
     </configuration>
     <configuration name="run_local.sh" type="ShConfigurationType" temporary="true">
@@ -143,9 +172,11 @@
       <envs />
       <method v="2" />
     </configuration>
-    <configuration name="Dockerfile" type="docker-deploy" factoryName="dockerfile" temporary="true" server-name="Docker">
+    <configuration name="Dockerfile build" type="docker-deploy" factoryName="dockerfile" temporary="true" server-name="Docker">
       <deployment type="dockerfile">
         <settings>
+          <option name="imageTag" value="maven3.8.6-openjdk-21_build" />
+          <option name="buildCliOptions" value="--target build" />
           <option name="sourceFilePath" value="Dockerfile" />
         </settings>
       </deployment>
@@ -159,19 +190,19 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.App" />
+        <item itemvalue="Shell Script.build.sh" />
         <item itemvalue="JAR Application.sistema-mensajeria-1.0.0.jar" />
+        <item itemvalue="Docker.Dockerfile build" />
         <item itemvalue="Shell Script.run_local.sh" />
-        <item itemvalue="Application.Main" />
-        <item itemvalue="Docker.Dockerfile" />
+        <item itemvalue="Application.App" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.21829.142" />
-        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-IU-242.21829.142" />
+        <option value="bundled-jdk-9823dce3aa75-a94e463ab2e7-intellij.indexing.shared.core-IU-243.26053.27" />
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-IU-243.26053.27" />
       </set>
     </attachedChunks>
   </component>
@@ -190,6 +221,7 @@
       <workItem from="1743605850679" duration="53915000" />
       <workItem from="1743981709095" duration="6083000" />
       <workItem from="1743987836989" duration="29482000" />
+      <workItem from="1744584037214" duration="8987000" />
     </task>
     <servers />
   </component>

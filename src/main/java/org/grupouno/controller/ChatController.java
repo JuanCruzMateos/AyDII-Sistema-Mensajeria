@@ -1,8 +1,8 @@
 package org.grupouno.controller;
 
-import org.grupouno.model.ChatSession;
-import org.grupouno.model.Message;
-import org.grupouno.model.User;
+import org.grupouno.model.agenda.User;
+import org.grupouno.model.conversation.Message;
+import org.grupouno.model.session.ChatSession;
 import org.grupouno.network.Peer;
 import org.grupouno.view.AddContactScreen;
 import org.grupouno.view.AgendaScreen;
@@ -23,9 +23,6 @@ import java.util.logging.Logger;
 public class ChatController implements ActionListener {
     private static final Logger logger = Logger.getLogger(ChatController.class.getName());
     private static ChatController instance;
-    private String nickname;
-    private String ip;
-    private int port;
     private Peer peer;
     private ChatSession chatSession;
     private IChatSessionScreen chatSessionScreen;
@@ -33,7 +30,6 @@ public class ChatController implements ActionListener {
     private AddContactScreen addContactScreen;
 
     private ChatController() {
-        // Private constructor to prevent instantiation
     }
 
     public static ChatController getInstance() {
@@ -43,22 +39,13 @@ public class ChatController implements ActionListener {
         return instance;
     }
 
-    public void setNickname(String inputNickname) {
-        this.nickname = inputNickname;
-    }
-
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
-    }
-
-    public void startChatSession() {
-        logger.info("Starting chat session with nickname: " + this.nickname);
+    public void startChatSession(String nickname, String ip, int port) {
+        logger.info("Starting chat session with nickname: " + nickname);
         this.chatSessionScreen = new ChatSessionScreen(nickname, ip, String.valueOf(port));
         this.chatSession = ChatSession.getInstance();
+        this.chatSession.setNickname(nickname);
+        this.chatSession.setIp(ip);
+        this.chatSession.setPort(port);
         this.chatSession.initAgenda();
         this.chatSession.initConversationService();
         this.peer = new Peer(port, this);
@@ -143,7 +130,7 @@ public class ChatController implements ActionListener {
             logger.info("New contact added: " + contactName);
             this.agendaScreen.setContactList(this.chatSession.getAgendaContacts());
             JOptionPane.showMessageDialog(null, "Contacto agregado: " + contactName);
-            this.addContactScreen.dispose(); // Close window after adding contact
+            this.addContactScreen.dispose();
         }
     }
 
@@ -155,7 +142,7 @@ public class ChatController implements ActionListener {
             User contact = this.chatSession.getContactByNickname(contactNickName);
             if (contact != null) {
                 LocalDateTime timeStamp = LocalDateTime.now();
-                Message message = new Message(this.nickname, this.ip, this.port, contact.nickname(), contact.ip(), contact.port(), textInputArea, timeStamp);
+                Message message = new Message(this.chatSession.getNickname(), this.chatSession.getIp(), this.chatSession.getPort(), contact.nickname(), contact.ip(), contact.port(), textInputArea, timeStamp);
                 logger.info("Sending message: " + textInputArea);
                 this.peer.sendMessage(message, contact.ip(), contact.port());
                 this.chatSession.sendMessage(message);
@@ -177,8 +164,6 @@ public class ChatController implements ActionListener {
         } else {
             logger.info("New message from: " + message.senderNickname());
             this.chatSessionScreen.updateConversationList(message.senderNickname());
-//            this.chatSessionScreen.selectContactInList(message.senderNickname());
-//            this.chatSessionScreen.setChatAreaText(this.chatSession.getMessagesByContact(message.senderNickname()));
             JOptionPane.showMessageDialog(null, "Nuevo mensaje de " + message.senderNickname());
         }
     }

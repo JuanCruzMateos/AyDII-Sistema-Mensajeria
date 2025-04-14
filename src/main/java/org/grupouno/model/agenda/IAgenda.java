@@ -1,0 +1,19 @@
+package org.grupouno.model.agenda;
+
+import java.util.List;
+
+/**
+ * Interface that represents the agenda of the user.
+ * <p>
+ * It contains methods to add contacts, check if a contact is in the agenda,
+ * get a contact by its nickname, and get all contact nicknames.
+ */
+public interface IAgenda {
+    void addContact(User contact);
+
+    boolean isContactInAgenda(String contactNickname);
+
+    User getContactByNickname(String contactNickname);
+
+    List<String> getContactNicknames();
+}

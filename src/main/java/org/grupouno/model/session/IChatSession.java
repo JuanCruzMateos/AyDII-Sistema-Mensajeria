@@ -1,17 +1,18 @@
-package org.grupouno.model;
+package org.grupouno.model.session;
 
-import org.grupouno.exceptions.ConversationNotFoundException;
 import org.grupouno.exceptions.UserNotFoundException;
+import org.grupouno.model.agenda.User;
+import org.grupouno.model.conversation.Message;
 
 public interface IChatSession {
 
     void addNewContact(User user);
 
-    boolean isContactInAgenda(String contactNickname);
+//    boolean isContactInAgenda(String contactNickname);
 
     User getContactByNickname(String contactNickname) throws UserNotFoundException;
 
-    Conversation getConversationByContactNickname(String receiverNickname) throws ConversationNotFoundException;
+//    Conversation getConversationByContactNickname(String receiverNickname) throws ConversationNotFoundException;
 
     boolean existsConversationWith(String contactNickname);
 

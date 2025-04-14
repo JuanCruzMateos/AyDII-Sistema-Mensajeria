@@ -1,6 +1,11 @@
-package org.grupouno.model;
+package org.grupouno.model.session;
 
-import org.grupouno.exceptions.ConversationNotFoundException;
+import org.grupouno.model.agenda.Agenda;
+import org.grupouno.model.agenda.IAgenda;
+import org.grupouno.model.agenda.User;
+import org.grupouno.model.conversation.Conversation;
+import org.grupouno.model.conversation.ConversationService;
+import org.grupouno.model.conversation.Message;
 
 import java.util.HashMap;
 import java.util.List;
@@ -8,12 +13,15 @@ import java.util.logging.Logger;
 
 /**
  * Singleton class that represents the chat application.
- * It contains the agenda and the list of conversations.
+ * It contains the agendaImpl and the list of conversations.
  */
 public class ChatSession implements IChatSession {
     private static final Logger logger = Logger.getLogger(ChatSession.class.getName());
     private static ChatSession instance;
-    private Agenda agenda;
+    private String nickname;
+    private String ip;
+    private int port;
+    private IAgenda agenda;
     private ConversationService conversationService;
 
     private ChatSession() {
@@ -27,8 +35,32 @@ public class ChatSession implements IChatSession {
         return ChatSession.instance;
     }
 
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
     public void initAgenda() {
-        logger.info("Initializing agenda");
+        logger.info("Initializing agendaImpl");
         this.agenda = new Agenda(new HashMap<>());
         this.agenda.addContact(new User("juan", "127.0.0.1", 50747));
         this.agenda.addContact(new User("eze", "127.0.0.1", 50748));
@@ -40,7 +72,7 @@ public class ChatSession implements IChatSession {
     }
 
     public synchronized List<String> getAgendaContacts() {
-        return this.agenda.contacts().keySet().stream().toList();
+        return this.agenda.getContactNicknames();
     }
 
     public synchronized String getMessagesByContact(String contactNickname) {
@@ -60,10 +92,10 @@ public class ChatSession implements IChatSession {
         this.agenda.addContact(user);
     }
 
-    @Override
-    public synchronized boolean isContactInAgenda(String contactNickname) {
-        return this.agenda.isContactInAgenda(contactNickname);
-    }
+//    @Override
+//    public synchronized boolean isContactInAgenda(String contactNickname) {
+//        return this.agenda.isContactInAgenda(contactNickname);
+//    }
 
     @Override
     public synchronized boolean existsConversationWith(String contactNickname) {
@@ -80,14 +112,14 @@ public class ChatSession implements IChatSession {
         this.conversationService.startNewConversation(contactNickname);
     }
 
-    @Override
-    public synchronized Conversation getConversationByContactNickname(String receiverNickname) throws ConversationNotFoundException {
-        if (!this.conversationService.existsConversationWith(receiverNickname)) {
-            throw new ConversationNotFoundException("Conversation not found with " + receiverNickname);
-        } else {
-            return this.conversationService.getConversationByContactNickname(receiverNickname);
-        }
-    }
+//    @Override
+//    public synchronized Conversation getConversationByContactNickname(String receiverNickname) throws ConversationNotFoundException {
+//        if (!this.conversationService.existsConversationWith(receiverNickname)) {
+//            throw new ConversationNotFoundException("Conversation not found with " + receiverNickname);
+//        } else {
+//            return this.conversationService.getConversationByContactNickname(receiverNickname);
+//        }
+//    }
 
     @Override
     public synchronized void sendMessage(Message message) {
@@ -97,7 +129,7 @@ public class ChatSession implements IChatSession {
     @Override
     public synchronized void receiveMessage(Message message) {
         if (!this.agenda.isContactInAgenda(message.senderNickname())) {
-            logger.info("Contact not found in agenda, adding new contact:" + message.senderNickname());
+            logger.info("Contact not found in agendaImpl, adding new contact:" + message.senderNickname());
             this.agenda.addContact(new User(message.senderNickname(), message.senderIP(), message.senderPort()));
         }
         if (!this.conversationService.existsConversationWith(message.senderNickname())) {

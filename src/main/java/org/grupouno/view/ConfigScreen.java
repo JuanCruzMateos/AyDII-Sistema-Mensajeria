@@ -89,10 +89,7 @@ public class ConfigScreen extends JFrame {
                             JOptionPane.showMessageDialog(null, "Puerto no disponible. Por favor, elija otro puerto.", "Error", JOptionPane.ERROR_MESSAGE);
                         } else {
                             JOptionPane.showMessageDialog(null, "Iniciando sesión como " + inputNickname, "Info", JOptionPane.INFORMATION_MESSAGE);
-                            ChatController.getInstance().setNickname(inputNickname);
-                            ChatController.getInstance().setIp(inputIP);
-                            ChatController.getInstance().setPort(Integer.parseInt(inputPort));
-                            ChatController.getInstance().startChatSession();
+                            ChatController.getInstance().startChatSession(inputNickname, inputIP, Integer.parseInt(inputPort));
                             dispose();
                         }
                     }
