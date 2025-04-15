@@ -5,6 +5,7 @@ import org.grupouno.model.agenda.IAgenda;
 import org.grupouno.model.agenda.User;
 import org.grupouno.model.conversation.Conversation;
 import org.grupouno.model.conversation.ConversationService;
+import org.grupouno.model.conversation.IConversationService;
 import org.grupouno.model.conversation.Message;
 
 import java.util.HashMap;
@@ -22,7 +23,7 @@ public class ChatSession implements IChatSession {
     private String ip;
     private int port;
     private IAgenda agenda;
-    private ConversationService conversationService;
+    private IConversationService conversationService;
 
     private ChatSession() {
 
@@ -60,14 +61,12 @@ public class ChatSession implements IChatSession {
     }
 
     public void initAgenda() {
-        logger.info("Initializing agendaImpl");
+        logger.info("Initializing agenda");
         this.agenda = new Agenda(new HashMap<>());
-//        this.agenda.addContact(new User("juan", "127.0.0.1", 50747));
-//        this.agenda.addContact(new User("eze", "127.0.0.1", 50748));
-//        this.agenda.addContact(new User("erik", "127.0.0.1", 50749));
     }
 
     public void initConversationService() {
+        logger.info("Initializing conversation service");
         this.conversationService = new ConversationService(new HashMap<>());
     }
 

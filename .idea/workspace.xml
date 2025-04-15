@@ -5,18 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5486df74-5d68-4513-bf6f-42320c48c0d3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/grupouno/exceptions/ConnectionRefusedException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/run.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/controller/ChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/grupouno/controller/ChatController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/model/session/ChatSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/grupouno/model/session/ChatSession.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/network/Peer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/grupouno/network/Peer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/grupouno/AppTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/grupouno/model/agenda/UserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/grupouno/model/agenda/UserTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/grupouno/model/conversation/ConversationServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/grupouno/model/conversation/ConversationServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/grupouno/model/conversation/ConversationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/grupouno/model/conversation/ConversationTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/grupouno/model/session/ChatSessionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/grupouno/model/session/ChatSessionTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
