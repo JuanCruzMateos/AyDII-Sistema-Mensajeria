@@ -7,7 +7,8 @@ public enum MessageType {
     MESSAGE_ACK("/message_ack"),
     DISCONNECT("/disconnect"),
     DISCONNECT_ACK("/disconnect_ack"),
-    ERROR("/error");
+    ERROR("/error"),
+    DIRECTORY("/directory");
 
     private final String type;
 
