@@ -5,6 +5,7 @@ import org.grupouno.validation.ConnectionValidator;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -89,8 +90,12 @@ public class ConfigScreen extends JFrame {
                             JOptionPane.showMessageDialog(null, "Puerto no disponible. Por favor, elija otro puerto.", "Error", JOptionPane.ERROR_MESSAGE);
                         } else {
                             JOptionPane.showMessageDialog(null, "Iniciando sesión como " + inputNickname, "Info", JOptionPane.INFORMATION_MESSAGE);
-                            ChatController.getInstance().startChatSession(inputNickname, inputIP, Integer.parseInt(inputPort));
-                            dispose();
+                            try {
+                                ChatController.getInstance().startChatSession(inputNickname, inputIP, Integer.parseInt(inputPort));
+                                dispose();
+                            } catch (IOException ex) {
+                                JOptionPane.showMessageDialog(null, "Error al iniciar sesión: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                            }
                         }
                     }
                 }

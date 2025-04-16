@@ -5,51 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5486df74-5d68-4513-bf6f-42320c48c0d3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/client/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/test/java/org/grupouno/AppTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/entities/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/entities/src/main/java/org/grupouno/App.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/entities/src/main/java/org/grupouno/model/conversation/MessageType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/entities/src/test/java/org/grupouno/AppTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/org/grupouno/App.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/org/grupouno/server/ChatServer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/org/grupouno/server/ClientHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/org/grupouno/server/IChatServer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/org/grupouno/server/IClientHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/test/java/org/grupouno/AppTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/exceptions/ConnectionRefusedException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/network/ChatClientImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/network/IChatClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/org/grupouno/exceptions/ClientNotConnectedException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/ClientHandlerImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/IClientHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/class-diagram-01.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/controller/ChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/controller/ChatController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/exceptions/ConnectionRefusedException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/exceptions/ConversationNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/entities/src/main/java/org/grupouno/exceptions/ConversationNotFoundException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/exceptions/UserNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/entities/src/main/java/org/grupouno/exceptions/UserNotFoundException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/model/agenda/Agenda.java" beforeDir="false" afterPath="$PROJECT_DIR$/entities/src/main/java/org/grupouno/model/agenda/Agenda.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/model/agenda/IAgenda.java" beforeDir="false" afterPath="$PROJECT_DIR$/entities/src/main/java/org/grupouno/model/agenda/IAgenda.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/model/agenda/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/entities/src/main/java/org/grupouno/model/agenda/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/model/conversation/Conversation.java" beforeDir="false" afterPath="$PROJECT_DIR$/entities/src/main/java/org/grupouno/model/conversation/Conversation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/model/conversation/ConversationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/entities/src/main/java/org/grupouno/model/conversation/ConversationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/model/conversation/IConversationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/entities/src/main/java/org/grupouno/model/conversation/IConversationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/model/conversation/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/entities/src/main/java/org/grupouno/model/conversation/Message.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/model/session/ChatSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/entities/src/main/java/org/grupouno/model/session/ChatSession.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/model/session/IChatSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/entities/src/main/java/org/grupouno/model/session/IChatSession.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/network/ClientHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/network/ConnectionValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/entities/src/main/java/org/grupouno/validation/ConnectionValidator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/network/Peer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/view/AddContactScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/AddContactScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/view/AgendaScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/AgendaScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/view/ChatSessionScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/ChatSessionScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/view/ConfigScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/ConfigScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/grupouno/view/IChatSessionScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/IChatSessionScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/grupouno/model/agenda/AgendaTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/grupouno/model/agenda/UserTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/grupouno/model/conversation/ConversationServiceTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/grupouno/model/conversation/ConversationTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/grupouno/model/session/ChatSessionTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/client/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/controller/ChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/controller/ChatController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/ConfigScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/ConfigScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/test/java/org/grupouno/AppTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/test/java/org/grupouno/AppTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entities/src/main/java/org/grupouno/App.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/entities/src/main/java/org/grupouno/model/conversation/MessageType.java" beforeDir="false" afterPath="$PROJECT_DIR$/entities/src/main/java/org/grupouno/model/conversation/MessageType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entities/src/main/java/org/grupouno/model/session/ChatSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/entities/src/main/java/org/grupouno/model/session/ChatSession.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entities/src/main/java/org/grupouno/model/session/IChatSession.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/entities/src/test/java/org/grupouno/AppTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/entities/src/test/java/org/grupouno/AppTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/org/grupouno/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/org/grupouno/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/org/grupouno/server/ChatServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/ChatServerImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/org/grupouno/server/ClientHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/org/grupouno/server/IChatServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/IChatServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/org/grupouno/server/IClientHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/test/java/org/grupouno/AppTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/test/java/org/grupouno/AppTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,9 +40,9 @@
       <list>
         <option value="Record" />
         <option value="package-info" />
-        <option value="Class" />
-        <option value="Interface" />
         <option value="Enum" />
+        <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -142,6 +121,7 @@
     "Maven.sistema-mensajeria [org.apache.maven.plugins:maven-jar-plugin:3.4.1:help].executor": "Run",
     "Maven.sistema-mensajeria [org.apache.maven.plugins:maven-jar-plugin:3.4.1:jar].executor": "Run",
     "Maven.sistema-mensajeria [package].executor": "Run",
+    "Maven.sistema-mensajeria [test].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Shell Script.build.sh.executor": "Run",
@@ -170,6 +150,10 @@
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/client/src/main/java/org/grupouno" />
+    </key>
+    <key name="ExtractSuperBase.RECENT_KEYS">
+      <recent name="org.grupouno.model.session" />
+      <recent name="org.grupouno.network" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="org.grupouno.validation" />

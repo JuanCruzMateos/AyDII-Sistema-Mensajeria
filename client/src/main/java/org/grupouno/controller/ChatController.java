@@ -1,10 +1,11 @@
 package org.grupouno.controller;
 
-import org.grupouno.exceptions.ConnectionRefusedException;
 import org.grupouno.model.agenda.User;
 import org.grupouno.model.conversation.Message;
+import org.grupouno.model.conversation.MessageType;
 import org.grupouno.model.session.ChatSession;
-import org.grupouno.network.Peer;
+import org.grupouno.network.ChatClientImpl;
+import org.grupouno.network.IChatClient;
 import org.grupouno.view.AddContactScreen;
 import org.grupouno.view.AgendaScreen;
 import org.grupouno.view.ChatSessionScreen;
@@ -13,6 +14,8 @@ import org.grupouno.view.IChatSessionScreen;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.Socket;
 import java.time.LocalDateTime;
 import java.util.logging.Logger;
 
@@ -24,7 +27,7 @@ import java.util.logging.Logger;
 public class ChatController implements ActionListener {
     private static final Logger logger = Logger.getLogger(ChatController.class.getName());
     private static ChatController instance;
-    private Peer peer;
+    private IChatClient chatClient;
     private ChatSession chatSession;
     private IChatSessionScreen chatSessionScreen;
     private AgendaScreen agendaScreen;
@@ -40,7 +43,7 @@ public class ChatController implements ActionListener {
         return instance;
     }
 
-    public void startChatSession(String nickname, String ip, int port) {
+    public void startChatSession(String nickname, String ip, int port) throws IOException {
         logger.info("Starting chat session with nickname: " + nickname);
         this.chatSessionScreen = new ChatSessionScreen(nickname, ip, String.valueOf(port));
         this.chatSession = ChatSession.getInstance();
@@ -49,9 +52,8 @@ public class ChatController implements ActionListener {
         this.chatSession.setPort(port);
         this.chatSession.initAgenda();
         this.chatSession.initConversationService();
-        this.peer = new Peer(port, this);
+        this.chatClient = new ChatClientImpl(new Socket("127.0.0.1", 50479));
         this.chatSessionScreen.setVisible(true);
-        new Thread(this.peer).start();
     }
 
     @Override
@@ -146,18 +148,13 @@ public class ChatController implements ActionListener {
             User contact = this.chatSession.getContactByNickname(contactNickName);
             if (contact != null) {
                 LocalDateTime timeStamp = LocalDateTime.now();
-                Message message = new Message(this.chatSession.getNickname(), this.chatSession.getIp(), this.chatSession.getPort(), contact.nickname(), contact.ip(), contact.port(), textInputArea, timeStamp);
+                Message message = new Message(this.chatSession.getNickname(), this.chatSession.getIp(), this.chatSession.getPort(), contact.nickname(), contact.ip(), contact.port(), textInputArea, timeStamp, MessageType.MESSAGE);
                 logger.info("Sending message: " + textInputArea);
-                try {
-                    this.peer.sendMessage(message, contact.ip(), contact.port());
-                    this.chatSession.sendMessage(message);
-                    this.chatSessionScreen.appendNewMessageToChatArea(message.getFormattedSendedMessage() + "\n");
-                    this.chatSessionScreen.resetTextInputArea();
-                    logger.info("Message sent to " + contactNickName);
-                } catch (ConnectionRefusedException e) {
-                    logger.warning("Connection refused: " + e.getMessage());
-                    JOptionPane.showMessageDialog(null, "El contacto no esta conectado.", "Error", JOptionPane.ERROR_MESSAGE);
-                }
+                this.chatClient.sendMessage(contact.nickname(), contact.ip(), contact.port(), textInputArea);
+                this.chatSession.sendMessage(message);
+                this.chatSessionScreen.appendNewMessageToChatArea(message.getFormattedSendedMessage() + "\n");
+                this.chatSessionScreen.resetTextInputArea();
+                logger.info("Message sent to " + contactNickName);
             }
         }
     }

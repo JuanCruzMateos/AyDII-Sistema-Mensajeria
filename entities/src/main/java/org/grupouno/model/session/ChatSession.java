@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  * Singleton class that represents the chat application.
  * It contains the agendaImpl and the list of conversations.
  */
-public class ChatSession implements IChatSession {
+public class ChatSession {
     private static final Logger logger = Logger.getLogger(ChatSession.class.getName());
     private static ChatSession instance;
     private String nickname;
@@ -86,46 +86,28 @@ public class ChatSession implements IChatSession {
                 .reduce("", (acc, message) -> acc + message + "\n");
     }
 
-    @Override
     public synchronized void addNewContact(User user) {
         this.agenda.addContact(user);
     }
 
-//    @Override
-//    public synchronized boolean isContactInAgenda(String contactNickname) {
-//        return this.agenda.isContactInAgenda(contactNickname);
-//    }
-
-    @Override
     public synchronized boolean existsConversationWith(String contactNickname) {
         return this.conversationService.existsConversationWith(contactNickname);
     }
 
-    @Override
+
     public synchronized User getContactByNickname(String contactNickname) {
         return this.agenda.getContactByNickname(contactNickname);
     }
 
-    @Override
     public synchronized void startNewConversation(String contactNickname) {
         this.conversationService.startNewConversation(contactNickname);
     }
 
-//    @Override
-//    public synchronized Conversation getConversationByContactNickname(String receiverNickname) throws ConversationNotFoundException {
-//        if (!this.conversationService.existsConversationWith(receiverNickname)) {
-//            throw new ConversationNotFoundException("Conversation not found with " + receiverNickname);
-//        } else {
-//            return this.conversationService.getConversationByContactNickname(receiverNickname);
-//        }
-//    }
 
-    @Override
     public synchronized void sendMessage(Message message) {
         this.conversationService.addMessage(message, message.receiverNickname());
     }
 
-    @Override
     public synchronized void receiveMessage(Message message) {
         if (!this.agenda.isContactInAgenda(message.senderNickname())) {
             logger.info("Contact not found in agendaImpl, adding new contact:" + message.senderNickname());

@@ -15,7 +15,7 @@ public class App {
     }
 
     public static void main(String[] args) {
-        logger.info("Starting P2P ChatSession Application V" + VERSION);
+        logger.info("Starting Client Server ChatSession Application V" + VERSION);
         SwingUtilities.invokeLater(() -> new ConfigScreen().setVisible(true));
     }
 }

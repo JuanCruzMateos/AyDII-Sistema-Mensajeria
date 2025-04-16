@@ -1,4 +1,4 @@
-package org.grupouno.server;
+package org.grupouno.network;
 
 import org.grupouno.model.agenda.Agenda;
 import org.grupouno.model.agenda.IAgenda;
@@ -11,13 +11,13 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
-public class ChatServer implements IChatServer {
-    private final Logger logger = Logger.getLogger(ChatServer.class.getName());
+public class ChatServerImpl implements IChatServer {
+    private final Logger logger = Logger.getLogger(ChatServerImpl.class.getName());
     private final int serverPort;
     private final IAgenda directory;
     private final IConversationService pendingMessages;
 
-    public ChatServer(int serverPort) {
+    public ChatServerImpl(int serverPort) {
         this.serverPort = serverPort;
         this.directory = new Agenda(new HashMap<>());
         this.pendingMessages = new ConversationService(new HashMap<>());
@@ -33,7 +33,7 @@ public class ChatServer implements IChatServer {
                 try {
                     Socket clientSocket = serverSocket.accept();
                     logger.info("Accepted connection from " + clientSocket.getInetAddress() + ":" + clientSocket.getPort());
-                    new Thread(new ClientHandler(clientSocket, this.directory, this.pendingMessages)).start();
+                    new Thread(new ClientHandlerImpl(clientSocket, this.directory, this.pendingMessages)).start();
                 } catch (IOException e) {
                     logger.warning("Error accepting connection: " + e.getMessage());
                 }
