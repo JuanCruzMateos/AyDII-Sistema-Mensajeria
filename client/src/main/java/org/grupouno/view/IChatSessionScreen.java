@@ -18,4 +18,8 @@ public interface IChatSessionScreen {
     void appendNewMessageToChatArea(String s);
 
     void selectContactInList(String contact);
+
+    String getSessionUsername();
+
+    void closeWindow();
 }

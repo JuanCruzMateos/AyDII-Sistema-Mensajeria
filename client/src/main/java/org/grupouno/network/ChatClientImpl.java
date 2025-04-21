@@ -1,5 +1,7 @@
 package org.grupouno.network;
 
+
+import org.grupouno.controller.ChatController;
 import org.grupouno.model.conversation.Message;
 import org.grupouno.model.conversation.MessageType;
 
@@ -8,89 +10,102 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.logging.Logger;
 
-public class ChatClientImpl implements IChatClient {
+public class ChatClientImpl implements IChatClient, Runnable {
     private final Logger logger = Logger.getLogger(ChatClientImpl.class.getName());
-    private final String serverIp;
-    private final int serverPort;
     private final Socket socket;
-    private final ObjectOutputStream outputStream;
     private final ObjectInputStream inputStream;
+    private final ObjectOutputStream outputStream;
+    private final ChatController chatController;
 
-    public ChatClientImpl(Socket socket) {
+    public ChatClientImpl(Socket socket, ChatController chatController) throws IOException {
         this.socket = socket;
-        this.serverIp = socket.getInetAddress().getHostAddress();
-        this.serverPort = socket.getPort();
+        this.outputStream = new ObjectOutputStream(socket.getOutputStream());
+        this.outputStream.flush();
+        this.inputStream = new ObjectInputStream(socket.getInputStream());
+        this.chatController = chatController;
+    }
+
+    @Override
+    public void run() {
         try {
-            this.outputStream = new ObjectOutputStream(socket.getOutputStream());
-            this.inputStream = new ObjectInputStream(socket.getInputStream());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            while (true) {
+                Message message = (Message) inputStream.readObject();
+                logger.info("Received message: " + message.type());
+                // REGISTER, DISCONNECT, GET_DIRECTORY are the requests send to the server
+                switch (message.type()) {
+                    case MESSAGE -> this.chatController.receiveMessage(message);
+                    case DIRECTORY -> this.chatController.updateDirectory(message);
+                    case ERROR, MESSAGE_ACK, DISCONNECT_ACK, REGISTER_ACK ->
+                            logger.info("Received " + message.type() + " message");
+                }
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            logger.warning("Error receiving message: " + e.getMessage());
+        } finally {
+            this.close();
         }
     }
 
     @Override
-    public Message postMessage(Message message) {
-        Message response = null;
+    public synchronized void sendMessage(Message message) {
+        logger.info("Sending message: " + message);
         try {
             outputStream.writeObject(message);
-            outputStream.flush();
-            logger.info("Message sent: " + message);
+            outputStream.flush(); // Ensure the stream is flushed after writing
+            logger.info("Message sent");
         } catch (IOException e) {
-            logger.warning("Error sending message: " + e.getMessage());
+            logger.warning("Error during message communication: " + e.getMessage());
         }
+    }
+
+    @Override
+    public void registerWithServer(String nickname, String ip, int port) {
+        Message message = new Message(
+                nickname, ip, port, null,
+                socket.getInetAddress().getHostAddress(),
+                socket.getPort(), null,
+                LocalDateTime.now(), MessageType.REGISTER
+        );
+        this.sendMessage(message);
+    }
+
+    @Override
+    public synchronized void getConnectedUsers(String nickname) {
+        Message message = new Message(
+                nickname, socket.getLocalAddress().getHostAddress(),
+                socket.getLocalPort(), null,
+                socket.getInetAddress().getHostAddress(),
+                socket.getPort(), null,
+                LocalDateTime.now(), MessageType.GET_DIRECTORY
+        );
+        this.sendMessage(message);
+    }
+
+
+    @Override
+    public void disconnect(String nickname) {
+        Message message = new Message(
+                nickname, socket.getLocalAddress().getHostAddress(),
+                socket.getLocalPort(), null,
+                socket.getInetAddress().getHostAddress(),
+                socket.getPort(), null,
+                LocalDateTime.now(), MessageType.DISCONNECT
+        );
+        this.sendMessage(message);
+    }
+
+    @Override
+    public synchronized void close() {
         try {
-            response = (Message) this.inputStream.readObject();
-            return response;
-        } catch (IOException | ClassNotFoundException e) {
-            logger.warning("Error reading response: " + e.getMessage());
-        }
-        return response;
-    }
-
-    @Override
-    public void sendMessage(String nickname, String ip, int port, String content) {
-        Message message = new Message(nickname, ip, port, null, this.serverIp, this.serverPort, content, LocalDateTime.now(), MessageType.MESSAGE);
-        Message response = this.postMessage(message);
-        logger.info("Response received: " + response);
-    }
-
-    @Override
-    public void registerClient(String nickname, String ip, int port) {
-        Message message = new Message(nickname, ip, port, null, this.serverIp, this.serverPort, null, LocalDateTime.now(), MessageType.REGISTER);
-        Message response = this.postMessage(message);
-        logger.info("Response received: " + response);
-    }
-
-    @Override
-    public List<String> getDirectory(String nickname, String ip, int port) {
-        Message message = new Message(nickname, ip, port, null, this.serverIp, this.serverPort, null, LocalDateTime.now(), MessageType.GET_DIRECTORY);
-        Message response = this.postMessage(message);
-        logger.info("Response received: " + response);
-        if (response != null && response.type() == MessageType.DIRECTORY) {
-            String[] connectedUsers = response.content().split(",");
-            logger.info("Connected users: " + String.join(", ", connectedUsers));
-            return List.of(connectedUsers);
-        } else {
-            logger.warning("Error getting directory: " + (response != null ? response.content() : "No response"));
-            return null;
-        }
-    }
-
-    @Override
-    public void close() {
-        try {
-            if (outputStream != null) {
-                outputStream.close();
-            }
-            if (socket != null) {
-                socket.close();
-            }
+            if (inputStream != null) inputStream.close();
+            if (outputStream != null) outputStream.close();
+            if (socket != null && !socket.isClosed()) socket.close();
             logger.info("Connection closed");
-        } catch (Exception e) {
+        } catch (IOException e) {
             logger.warning("Error closing connection: " + e.getMessage());
         }
     }
+
 }

@@ -2,16 +2,14 @@ package org.grupouno.network;
 
 import org.grupouno.model.conversation.Message;
 
-import java.util.List;
-
 public interface IChatClient {
-    Message postMessage(Message message);
+    void sendMessage(Message message); // Renamed from sendAndReceiveMessage
 
-    void sendMessage(String nickname, String ip, int port, String content);
+    void registerWithServer(String nickname, String ip, int port); // Renamed from registerClientWithServer
 
-    void registerClient(String nickname, String ip, int port);
+    void getConnectedUsers(String nickname); // Renamed from fetchConnectedUsers
 
-    List<String> getDirectory(String nickname, String ip, int port);
+    void disconnect(String nickname);
 
     void close();
 }

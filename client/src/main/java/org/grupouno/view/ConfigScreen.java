@@ -33,7 +33,7 @@ public class ConfigScreen extends JFrame {
 
         // Spacer Panel to add more space below the title
         JPanel spacerPanel = new JPanel();
-        spacerPanel.setPreferredSize(new Dimension(10, 20)); // Increase vertical space
+        spacerPanel.setPreferredSize(new Dimension(10, 20));
         mainPanel.add(spacerPanel, BorderLayout.CENTER);
 
         // Form Panel
@@ -48,7 +48,7 @@ public class ConfigScreen extends JFrame {
             ip = InetAddress.getLoopbackAddress().getHostAddress();
         } catch (Exception e) {
             Logger.getLogger(ConfigScreen.class.getName()).log(Level.SEVERE, null, e);
-            ip = "127.0.0.1"; // Fallback to localhost
+            ip = "127.0.0.1";
         }
         ipField = new JTextField(ip);
         formPanel.add(ipField);
@@ -99,7 +99,6 @@ public class ConfigScreen extends JFrame {
                         }
                     }
                 }
-
             }
         });
         setLocationRelativeTo(null);

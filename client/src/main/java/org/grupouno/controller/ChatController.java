@@ -6,17 +6,19 @@ import org.grupouno.model.conversation.MessageType;
 import org.grupouno.model.session.ChatSession;
 import org.grupouno.network.ChatClientImpl;
 import org.grupouno.network.IChatClient;
-import org.grupouno.view.AddContactScreen;
 import org.grupouno.view.AgendaScreen;
 import org.grupouno.view.ChatSessionScreen;
+import org.grupouno.view.DirectoryScreen;
 import org.grupouno.view.IChatSessionScreen;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.logging.Logger;
 
 
@@ -25,13 +27,15 @@ import java.util.logging.Logger;
  * It handles the chat session, user interactions, and message sending.
  */
 public class ChatController implements ActionListener {
+    private static final String DEFAULT_SERVER_ADDRESS = "127.0.0.1";
+    private static final int DEFAULT_SERVER_PORT = 50480;
     private static final Logger logger = Logger.getLogger(ChatController.class.getName());
     private static ChatController instance;
     private IChatClient chatClient;
     private ChatSession chatSession;
     private IChatSessionScreen chatSessionScreen;
     private AgendaScreen agendaScreen;
-    private AddContactScreen addContactScreen;
+    private DirectoryScreen directoryScreen;
 
     private ChatController() {
     }
@@ -44,6 +48,7 @@ public class ChatController implements ActionListener {
     }
 
     public void startChatSession(String nickname, String ip, int port) throws IOException {
+        this.chatClient = new ChatClientImpl(new Socket(InetAddress.getByName(DEFAULT_SERVER_ADDRESS), DEFAULT_SERVER_PORT, InetAddress.getByName(ip), port), this);
         logger.info("Starting chat session with nickname: " + nickname);
         this.chatSessionScreen = new ChatSessionScreen(nickname, ip, String.valueOf(port));
         this.chatSession = ChatSession.getInstance();
@@ -52,7 +57,8 @@ public class ChatController implements ActionListener {
         this.chatSession.setPort(port);
         this.chatSession.initAgenda();
         this.chatSession.initConversationService();
-        this.chatClient = new ChatClientImpl(new Socket("127.0.0.1", 50479));
+        this.chatClient.registerWithServer(nickname, ip, port);
+        new Thread((Runnable) this.chatClient).start();
         this.chatSessionScreen.setVisible(true);
     }
 
@@ -63,10 +69,23 @@ public class ChatController implements ActionListener {
         switch (command) {
             case "send" -> this.sendMessage();
             case "openNewConversationScreen" -> this.openNewConversationScreen();
-            case "openNewContactScreen" -> this.openNewContactScreen();
-            case "addNewContact" -> this.addContact();
+            case "openDirectoryScreen" -> this.openDirectoryScreen();
+            case "addContact" -> this.addContact();
             case "startConversation" -> this.startConversation();
+            case "disconnect" -> this.disconect();
         }
+    }
+
+    private void disconect() {
+        this.chatClient.disconnect(this.chatSessionScreen.getSessionUsername());
+        this.chatSessionScreen.closeWindow();
+//        this.chatSessionScreen = null;
+//        this.chatSession = null;
+//        this.chatClient = null;
+//        this.agendaScreen = null;
+//        this.directoryScreen = null;
+        logger.info("Disconnected from chat session.");
+        JOptionPane.showMessageDialog(null, "Desconectado de la sesión de chat.");
     }
 
     /**
@@ -75,13 +94,12 @@ public class ChatController implements ActionListener {
      * Opens the agenda screen and sets the contact list to the contacts in the chat session.
      */
     private void openNewConversationScreen() {
-        logger.info("Opening agenda screen to select a contact.");
+        logger.info("Opening new conversation screen.");
         this.agendaScreen = new AgendaScreen();
-        this.agendaScreen.setDefaultCloseOperation(AgendaScreen.DISPOSE_ON_CLOSE);
         this.agendaScreen.addActionListener(this);
         this.agendaScreen.setContactList(this.chatSession.getAgendaContacts());
-        this.agendaScreen.setVisible(true);
         this.agendaScreen.setDefaultCloseOperation(AgendaScreen.DISPOSE_ON_CLOSE);
+        this.agendaScreen.setVisible(true);
     }
 
 
@@ -113,27 +131,49 @@ public class ChatController implements ActionListener {
      * <p>
      * Opens the add contact screen to allow the user to add a new contact.
      */
-    private void openNewContactScreen() {
-        logger.info("Opening add contact screen.");
-        this.addContactScreen = new AddContactScreen();
-        this.addContactScreen.setVisible(true);
-        this.addContactScreen.setDefaultCloseOperation(AddContactScreen.DISPOSE_ON_CLOSE);
-        this.addContactScreen.addActionListener(this);
+    //    private void openDirectoryScreen() {
+    //        logger.info("Opening directory screen.");
+    //        this.directoryScreen = new DirectoryScreen();
+    //        this.directoryScreen.addActionListener(this);
+    //        this.directoryScreen.setActiveUsers(this.chatClient.getConnectedUsers(this.chatSession.getNickname()));
+    //        this.directoryScreen.setDefaultCloseOperation(DirectoryScreen.DISPOSE_ON_CLOSE);
+    //        this.directoryScreen.setVisible(true);
+    //    }
+    public void openDirectoryScreen() {
+        logger.info("Opening directory screen.");
+        this.directoryScreen = new DirectoryScreen();
+        this.directoryScreen.addActionListener(this);
+        this.chatClient.getConnectedUsers(this.chatSession.getNickname());
+        this.directoryScreen.setDefaultCloseOperation(DirectoryScreen.DISPOSE_ON_CLOSE);
+        this.directoryScreen.setVisible(true);
+    }
+
+    public void updateDirectory(Message message) {
+        logger.info("Updating directory with received user list.");
+        @SuppressWarnings("unchecked")
+        Set<User> connectedUsers = (Set<User>) message.content();
+        if (connectedUsers != null) {
+            logger.info("Received " + connectedUsers.size() + " connected users.");
+            // Update the UI or internal state with the connected users
+            this.directoryScreen.setActiveUsers(connectedUsers, this.chatSession.getNickname());
+        } else {
+            logger.warning("Received empty or null user list.");
+        }
     }
 
     private void addContact() {
         logger.info("Adding new contact.");
-        String contactName = this.addContactScreen.getContactName();
-        String contactIp = this.addContactScreen.getContactIp();
-        int contactPort = this.addContactScreen.getContactPort();
+        String contactName = this.directoryScreen.getContactName();
+        String contactIp = this.directoryScreen.getContactIp();
+        int contactPort = this.directoryScreen.getContactPort();
         if (contactName.isEmpty() || contactIp.isEmpty() || contactPort == 0) {
-            JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Todos los campos deben estar definidos.", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
             this.chatSession.addNewContact(new User(contactName, contactIp, contactPort));
             logger.info("New contact added: " + contactName);
             this.agendaScreen.setContactList(this.chatSession.getAgendaContacts());
             JOptionPane.showMessageDialog(null, "Contacto agregado: " + contactName);
-            this.addContactScreen.dispose();
+            this.directoryScreen.dispose();
         }
     }
 
@@ -150,9 +190,9 @@ public class ChatController implements ActionListener {
                 LocalDateTime timeStamp = LocalDateTime.now();
                 Message message = new Message(this.chatSession.getNickname(), this.chatSession.getIp(), this.chatSession.getPort(), contact.nickname(), contact.ip(), contact.port(), textInputArea, timeStamp, MessageType.MESSAGE);
                 logger.info("Sending message: " + textInputArea);
-                this.chatClient.sendMessage(contact.nickname(), contact.ip(), contact.port(), textInputArea);
+                this.chatClient.sendMessage(message);
                 this.chatSession.sendMessage(message);
-                this.chatSessionScreen.appendNewMessageToChatArea(message.getFormattedSendedMessage() + "\n");
+                this.chatSessionScreen.appendNewMessageToChatArea(message.getFormattedMessage() + "\n");
                 this.chatSessionScreen.resetTextInputArea();
                 logger.info("Message sent to " + contactNickName);
             }
@@ -164,7 +204,7 @@ public class ChatController implements ActionListener {
         this.chatSession.receiveMessage(message);
         if (message.senderNickname().equals(this.chatSessionScreen.getCurrentConversationContact())) {
             logger.info("Message received from current conversation contact: " + message.senderNickname());
-            this.chatSessionScreen.appendNewMessageToChatArea(message.getFormattedSendedMessage());
+            this.chatSessionScreen.appendNewMessageToChatArea(message.getFormattedMessage());
         } else {
             logger.info("New message from: " + message.senderNickname());
             this.chatSessionScreen.updateConversationList(message.senderNickname());

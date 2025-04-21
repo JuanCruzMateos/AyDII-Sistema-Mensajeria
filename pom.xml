@@ -11,7 +11,7 @@
     <modules>
         <module>server</module>
         <module>client</module>
-        <module>entities</module>
+        <module>shared</module>
     </modules>
 
     <properties>
@@ -50,7 +50,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>org.grupouno.App</mainClass>
+                            <mainClass>org.grupouno.ClientApp</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

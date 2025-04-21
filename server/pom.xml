@@ -19,7 +19,7 @@
     <dependencies>
         <dependency>
             <groupId>org.grupouno</groupId>
-            <artifactId>entities</artifactId>
+            <artifactId>shared</artifactId>
             <version>1.0.0</version>
             <scope>compile</scope>
         </dependency>
@@ -42,7 +42,7 @@
                             <transformers>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>org.grupouno.App
+                                    <mainClass>org.grupouno.ServerApp
                                     </mainClass>
                                 </transformer>
                             </transformers>
