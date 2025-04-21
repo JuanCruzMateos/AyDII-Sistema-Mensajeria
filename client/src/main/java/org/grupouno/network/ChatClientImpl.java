@@ -37,8 +37,10 @@ public class ChatClientImpl implements IChatClient, Runnable {
                 switch (message.type()) {
                     case MESSAGE -> this.chatController.receiveMessage(message);
                     case DIRECTORY -> this.chatController.updateDirectory(message);
-                    case ERROR, MESSAGE_ACK, DISCONNECT_ACK, REGISTER_ACK ->
-                            logger.info("Received " + message.type() + " message");
+                    case ERROR -> logger.warning("Error receiving message: " + message.type());
+                    case MESSAGE_ACK, DISCONNECT_ACK, REGISTER_ACK -> {
+                        // none of these messages should be handled by the client
+                    }
                 }
             }
         } catch (IOException | ClassNotFoundException e) {

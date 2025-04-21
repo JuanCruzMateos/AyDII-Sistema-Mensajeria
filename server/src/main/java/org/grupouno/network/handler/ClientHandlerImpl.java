@@ -13,6 +13,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -108,21 +109,28 @@ public class ClientHandlerImpl implements Runnable, IClientHandler {
     @Override
     public synchronized void sendPendingMessages(String nickname) {
         Conversation pendingMessages = this.pendingMessages.getConversationByContactNickname(nickname);
-        if (pendingMessages != null) {
-            try {
-                ObjectOutputStream out = this.connectedClients.get(nickname).objectOutputStream();
-                for (Message message : pendingMessages.messages()) {
+        ConnectionManager clientConnection = this.connectedClients.get(nickname);
+        if (clientConnection != null && pendingMessages != null && !pendingMessages.messages().isEmpty()) {
+            Conversation ioErrorMessages = new Conversation(new ArrayList<>());
+            ObjectOutputStream out = clientConnection.objectOutputStream();
+            for (Message message : pendingMessages.messages()) {
+                try {
                     logger.info("Sending pending message to " + nickname + ": " + message);
                     out.writeObject(message);
                     out.flush();
                     this.serverResponse(message.senderNickname(), "Message received", MessageType.MESSAGE_ACK);
+                } catch (IOException e) {
+                    logger.warning("Error sending pending messages to " + nickname + ": " + e.getMessage());
+                    ioErrorMessages.addMessage(message);
                 }
-                logger.info("Pending messages sent to " + nickname);
-            } catch (IOException e) {
-                logger.warning("Error sending pending messages to " + nickname + ": " + e.getMessage());
             }
-        } else {
-            logger.info("No pending messages for " + nickname);
+            if (!ioErrorMessages.messages().isEmpty()) {
+                logger.warning("Error messages saved. " + nickname + ": " + ioErrorMessages.messages());
+                this.pendingMessages.setMessages(nickname, ioErrorMessages);
+            } else {
+                logger.info("All pending messages sent successfully to " + nickname);
+                this.pendingMessages.getConversationByContactNickname(nickname).messages().clear();
+            }
         }
     }
 
@@ -131,10 +139,9 @@ public class ClientHandlerImpl implements Runnable, IClientHandler {
         if (!pendingMessages.existsConversationWith(message.receiverNickname())) {
             logger.info("Starting new conversation for " + message.receiverNickname());
             pendingMessages.startNewConversation(message.receiverNickname());
-        } else {
-            logger.info("Adding message to pending messages for " + message.receiverNickname());
-            pendingMessages.addMessage(message, message.receiverNickname());
         }
+        logger.info("Adding message to pending messages for " + message.receiverNickname());
+        pendingMessages.addMessage(message, message.receiverNickname());
     }
 
     @Override

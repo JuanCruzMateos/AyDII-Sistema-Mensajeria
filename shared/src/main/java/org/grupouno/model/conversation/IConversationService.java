@@ -8,4 +8,6 @@ public interface IConversationService {
     void startNewConversation(String contactNickname);
 
     void addMessage(Message message, String contactNickname);
+
+    void setMessages(String contactNickname, Conversation conversation);
 }
