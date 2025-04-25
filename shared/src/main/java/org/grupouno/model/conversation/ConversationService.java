@@ -1,6 +1,5 @@
 package org.grupouno.model.conversation;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -25,7 +24,7 @@ public class ConversationService implements IConversationService {
 
     @Override
     public synchronized void startNewConversation(String contactNickname) {
-        this.conversations.put(contactNickname, new Conversation(new ArrayList<>()));
+        this.conversations.put(contactNickname, new Conversation());
     }
 
     @Override

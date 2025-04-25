@@ -6,10 +6,19 @@
   <component name="ChangeListManager">
     <list default="true" id="5486df74-5d68-4513-bf6f-42320c48c0d3" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/network/ChatClientImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/network/ChatClientImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/controller/ChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/controller/ChatController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/AgendaScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/AgendaScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/DirectoryScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/DirectoryScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/org/grupouno/ServerApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/org/grupouno/ServerApp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/handler/ClientHandlerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/handler/ClientHandlerImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/server/ChatServerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/server/ChatServerImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/org/grupouno/model/agenda/Agenda.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/grupouno/model/directory/Directory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/org/grupouno/model/agenda/IAgenda.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/grupouno/model/directory/IDirectory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/org/grupouno/model/agenda/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/grupouno/model/directory/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/org/grupouno/model/conversation/Conversation.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/grupouno/model/conversation/Conversation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/shared/src/main/java/org/grupouno/model/conversation/ConversationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/grupouno/model/conversation/ConversationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/org/grupouno/model/conversation/IConversationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/grupouno/model/conversation/IConversationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/org/grupouno/model/conversation/MessageType.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/grupouno/model/conversation/MessageType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/org/grupouno/model/session/ChatSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/grupouno/model/session/ChatSession.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +88,7 @@
     "Application.App (1).executor": "Run",
     "Application.App.executor": "Run",
     "Application.ChatScreen.executor": "Run",
-    "Application.ClientApp.executor": "Debug",
+    "Application.ClientApp.executor": "Run",
     "Application.ConfigScreen.executor": "Run",
     "Application.DirectoryScreen.executor": "Run",
     "Application.Main.executor": "Run",
@@ -116,6 +125,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Shell Script.build.sh.executor": "Run",
+    "Shell Script.run_client.sh.executor": "Run",
     "Shell Script.run_local.sh.executor": "Run",
     "code.cleanup.on.save": "true",
     "git-widget-placeholder": "v2.0.0",
@@ -150,7 +160,7 @@
       <recent name="org.grupouno.validation" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.ClientApp">
+  <component name="RunManager">
     <configuration name="ClientApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.grupouno.ClientApp" />
       <module name="client" />
@@ -235,7 +245,9 @@
       <workItem from="1743987836989" duration="29482000" />
       <workItem from="1744584037214" duration="10494000" />
       <workItem from="1744997412123" duration="18441000" />
-      <workItem from="1745095970626" duration="42180000" />
+      <workItem from="1745095970626" duration="42375000" />
+      <workItem from="1745613817935" duration="73000" />
+      <workItem from="1745613899318" duration="1431000" />
     </task>
     <servers />
   </component>

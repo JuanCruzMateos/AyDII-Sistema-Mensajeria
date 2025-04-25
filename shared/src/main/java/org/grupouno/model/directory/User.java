@@ -1,4 +1,4 @@
-package org.grupouno.model.agenda;
+package org.grupouno.model.directory;
 
 import java.io.Serializable;
 

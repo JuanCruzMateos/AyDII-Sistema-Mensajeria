@@ -1,11 +1,11 @@
 package org.grupouno.network.handler;
 
-import org.grupouno.model.agenda.IAgenda;
-import org.grupouno.model.agenda.User;
 import org.grupouno.model.conversation.Conversation;
 import org.grupouno.model.conversation.IConversationService;
 import org.grupouno.model.conversation.Message;
 import org.grupouno.model.conversation.MessageType;
+import org.grupouno.model.directory.IDirectory;
+import org.grupouno.model.directory.User;
 import org.grupouno.network.connections.ConnectionManager;
 
 import java.io.IOException;
@@ -13,7 +13,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -21,12 +20,12 @@ import java.util.logging.Logger;
 public class ClientHandlerImpl implements Runnable, IClientHandler {
     private final Logger logger = Logger.getLogger(ClientHandlerImpl.class.getName());
     private final ConnectionManager connection;
-    private final IAgenda directory;
+    private final IDirectory directory;
     private final IConversationService pendingMessages;
     private final HashMap<String, ConnectionManager> connectedClients;
 
 
-    public ClientHandlerImpl(Socket socket, IAgenda directory, IConversationService pendingMessages, HashMap<String, ConnectionManager> connectedClients) throws IOException {
+    public ClientHandlerImpl(Socket socket, IDirectory directory, IConversationService pendingMessages, HashMap<String, ConnectionManager> connectedClients) throws IOException {
         this.connection = new ConnectionManager(socket, new ObjectOutputStream(socket.getOutputStream()), new ObjectInputStream(socket.getInputStream()));
         this.directory = directory;
         this.pendingMessages = pendingMessages;
@@ -110,10 +109,10 @@ public class ClientHandlerImpl implements Runnable, IClientHandler {
     public synchronized void sendPendingMessages(String nickname) {
         Conversation pendingMessages = this.pendingMessages.getConversationByContactNickname(nickname);
         ConnectionManager clientConnection = this.connectedClients.get(nickname);
-        if (clientConnection != null && pendingMessages != null && !pendingMessages.messages().isEmpty()) {
-            Conversation ioErrorMessages = new Conversation(new ArrayList<>());
+        if (clientConnection != null && pendingMessages != null && !pendingMessages.isEmpty()) {
+            Conversation ioErrorMessages = new Conversation();
             ObjectOutputStream out = clientConnection.objectOutputStream();
-            for (Message message : pendingMessages.messages()) {
+            for (Message message : pendingMessages.getMessages()) {
                 try {
                     logger.info("Sending pending message to " + nickname + ": " + message);
                     out.writeObject(message);
@@ -124,24 +123,24 @@ public class ClientHandlerImpl implements Runnable, IClientHandler {
                     ioErrorMessages.addMessage(message);
                 }
             }
-            if (!ioErrorMessages.messages().isEmpty()) {
-                logger.warning("Error messages saved. " + nickname + ": " + ioErrorMessages.messages());
+            if (!ioErrorMessages.isEmpty()) {
+                logger.warning("Error messages saved. " + nickname + ": " + ioErrorMessages.getMessages());
                 this.pendingMessages.setMessages(nickname, ioErrorMessages);
             } else {
                 logger.info("All pending messages sent successfully to " + nickname);
-                this.pendingMessages.getConversationByContactNickname(nickname).messages().clear();
+                this.pendingMessages.getConversationByContactNickname(nickname).clear();
             }
         }
     }
 
     @Override
     public synchronized void addMessageToPendingMessages(Message message) {
-        if (!pendingMessages.existsConversationWith(message.receiverNickname())) {
+        if (!this.pendingMessages.existsConversationWith(message.receiverNickname())) {
             logger.info("Starting new conversation for " + message.receiverNickname());
-            pendingMessages.startNewConversation(message.receiverNickname());
+            this.pendingMessages.startNewConversation(message.receiverNickname());
         }
         logger.info("Adding message to pending messages for " + message.receiverNickname());
-        pendingMessages.addMessage(message, message.receiverNickname());
+        this.pendingMessages.addMessage(message, message.receiverNickname());
     }
 
     @Override

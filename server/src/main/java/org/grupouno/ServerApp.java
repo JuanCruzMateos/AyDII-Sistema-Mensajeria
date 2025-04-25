@@ -1,7 +1,7 @@
 package org.grupouno;
 
-import org.grupouno.model.agenda.Agenda;
 import org.grupouno.model.conversation.ConversationService;
+import org.grupouno.model.directory.Directory;
 import org.grupouno.network.server.ChatServerImpl;
 import org.grupouno.validation.ConnectionValidator;
 
@@ -23,7 +23,7 @@ public class ServerApp {
         logger.info("Starting ChatServerImpl Application V" + VERSION);
 
         if (ConnectionValidator.isValidPort(SERVER_PORT) && ConnectionValidator.isPortAvailable(SERVER_PORT)) {
-            ChatServerImpl chatServerImpl = new ChatServerImpl(SERVER_PORT, new Agenda(new HashMap<>()), new ConversationService(new HashMap<>()), new HashMap<>());
+            ChatServerImpl chatServerImpl = new ChatServerImpl(SERVER_PORT, new Directory(), new ConversationService(new HashMap<>()), new HashMap<>());
             chatServerImpl.startServer();
         } else {
             logger.severe("Port " + SERVER_PORT + " is invalid or already in use. Please choose another port.");

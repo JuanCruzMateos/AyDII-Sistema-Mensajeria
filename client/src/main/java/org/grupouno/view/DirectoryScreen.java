@@ -1,7 +1,7 @@
 package org.grupouno.view;
 
 import org.grupouno.controller.ChatController;
-import org.grupouno.model.agenda.User;
+import org.grupouno.model.directory.User;
 
 import javax.swing.*;
 import java.awt.*;

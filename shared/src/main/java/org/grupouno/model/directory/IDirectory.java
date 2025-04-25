@@ -1,4 +1,4 @@
-package org.grupouno.model.agenda;
+package org.grupouno.model.directory;
 
 import java.util.List;
 import java.util.Set;
@@ -9,7 +9,7 @@ import java.util.Set;
  * It contains methods to add contacts, check if a contact is in the agenda,
  * get a contact by its nickname, and get all contact nicknames.
  */
-public interface IAgenda {
+public interface IDirectory {
     void addContact(User contact);
 
     void removeContact(String contactNickname);

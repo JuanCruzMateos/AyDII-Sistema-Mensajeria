@@ -23,7 +23,7 @@ public class AgendaScreen extends JFrame {
         add(mainPanel, BorderLayout.CENTER);
 
         // Title
-        JLabel titleLabel = new JLabel("Agenda", SwingConstants.CENTER);
+        JLabel titleLabel = new JLabel("Directory", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
         mainPanel.add(titleLabel, BorderLayout.NORTH);
 

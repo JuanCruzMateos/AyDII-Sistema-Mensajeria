@@ -1,12 +1,12 @@
 package org.grupouno.model.session;
 
-import org.grupouno.model.agenda.Agenda;
-import org.grupouno.model.agenda.IAgenda;
-import org.grupouno.model.agenda.User;
 import org.grupouno.model.conversation.Conversation;
 import org.grupouno.model.conversation.ConversationService;
 import org.grupouno.model.conversation.IConversationService;
 import org.grupouno.model.conversation.Message;
+import org.grupouno.model.directory.Directory;
+import org.grupouno.model.directory.IDirectory;
+import org.grupouno.model.directory.User;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +22,7 @@ public class ChatSession {
     private String nickname;
     private String ip;
     private int port;
-    private IAgenda agenda;
+    private IDirectory agenda;
     private IConversationService conversationService;
 
     private ChatSession() {
@@ -62,7 +62,7 @@ public class ChatSession {
 
     public void initAgenda() {
         logger.info("Initializing agenda");
-        this.agenda = new Agenda(new HashMap<>());
+        this.agenda = new Directory();
     }
 
     public void initConversationService() {
@@ -81,7 +81,7 @@ public class ChatSession {
             this.conversationService.startNewConversation(contactNickname);
         }
         Conversation c = this.conversationService.getConversationByContactNickname(contactNickname);
-        return c.messages().stream()
+        return c.getMessages().stream()
                 .map(Message::getFormattedMessage)
                 .reduce("", (acc, message) -> acc + message + "\n");
     }

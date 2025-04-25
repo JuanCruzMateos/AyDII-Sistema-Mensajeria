@@ -1,4 +1,4 @@
-package org.grupouno.model.agenda;
+package org.grupouno.model.directory;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -8,7 +8,12 @@ import java.util.Set;
 /**
  * Class that represents the agenda of the user.
  */
-public record Agenda(HashMap<String, User> contacts) implements IAgenda, Serializable {
+public class Directory implements IDirectory, Serializable {
+    private final HashMap<String, User> contacts;
+
+    public Directory() {
+        this.contacts = new HashMap<>();
+    }
 
     @Override
     public synchronized void addContact(User contact) {

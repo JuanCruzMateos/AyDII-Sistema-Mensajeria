@@ -1,7 +1,7 @@
 package org.grupouno.network.server;
 
-import org.grupouno.model.agenda.IAgenda;
 import org.grupouno.model.conversation.IConversationService;
+import org.grupouno.model.directory.IDirectory;
 import org.grupouno.network.connections.ConnectionManager;
 import org.grupouno.network.handler.ClientHandlerImpl;
 
@@ -16,11 +16,11 @@ import java.util.logging.Logger;
 public class ChatServerImpl implements IChatServer {
     private final Logger logger = Logger.getLogger(ChatServerImpl.class.getName());
     private final int serverPort;
-    private final IAgenda directory;
+    private final IDirectory directory;
     private final IConversationService pendingMessages;
     private final HashMap<String, ConnectionManager> connectedClients;
 
-    public ChatServerImpl(int serverPort, IAgenda directory, IConversationService pendingMessages, HashMap<String, ConnectionManager> connectedClients) {
+    public ChatServerImpl(int serverPort, IDirectory directory, IConversationService pendingMessages, HashMap<String, ConnectionManager> connectedClients) {
         this.serverPort = serverPort;
         this.directory = directory;
         this.pendingMessages = pendingMessages;

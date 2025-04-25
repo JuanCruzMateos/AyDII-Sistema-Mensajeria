@@ -1,8 +1,8 @@
 package org.grupouno.controller;
 
-import org.grupouno.model.agenda.User;
 import org.grupouno.model.conversation.Message;
 import org.grupouno.model.conversation.MessageType;
+import org.grupouno.model.directory.User;
 import org.grupouno.model.session.ChatSession;
 import org.grupouno.network.ChatClientImpl;
 import org.grupouno.network.IChatClient;
