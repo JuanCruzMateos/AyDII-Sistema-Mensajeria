@@ -103,7 +103,10 @@ public class ChatClientImpl implements IChatClient, Runnable {
         try {
             if (inputStream != null) inputStream.close();
             if (outputStream != null) outputStream.close();
-            if (socket != null && !socket.isClosed()) socket.close();
+            if (socket != null && !socket.isClosed()) {
+                socket.setReuseAddress(true);
+                socket.close();
+            }
             logger.info("Connection closed");
         } catch (IOException e) {
             logger.warning("Error closing connection: " + e.getMessage());

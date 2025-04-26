@@ -1,5 +1,9 @@
 package org.grupouno.properties;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
 public class ConfigLoader {
 //    private static Properties properties;
 //
@@ -18,4 +22,15 @@ public class ConfigLoader {
 //        // Priority: System Property > Environment Variable > config.properties > null
 //        return System.getProperty(key, System.getenv().getOrDefault(key, properties.getProperty(key)));
 //    }
+
+    public static void main(String[] args) {
+        Properties properties = new Properties();
+        try (InputStream input = ConfigLoader.class.getClassLoader().getResourceAsStream("config.properties")) {
+            properties.load(input);
+            String myValue = properties.getProperty("some.key");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+    }
 }

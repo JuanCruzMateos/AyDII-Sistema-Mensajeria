@@ -29,7 +29,7 @@ public class ChatServerImpl implements IChatServer {
 
     @Override
     public void startServer() {
-        InetAddress localHost = null;
+        InetAddress localHost;
         try {
             localHost = InetAddress.getByName("127.0.0.1");
         } catch (UnknownHostException e) {
