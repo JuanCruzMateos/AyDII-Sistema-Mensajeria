@@ -1,6 +1,7 @@
 package org.grupouno.model.directory;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -16,7 +17,7 @@ public interface IDirectory {
 
     boolean isContactInAgenda(String contactNickname);
 
-    User getContactByNickname(String contactNickname);
+    Optional<User> getContactByNickname(String contactNickname);
 
     List<String> getContactNicknames();
 

@@ -1,4 +1,4 @@
-package org.grupouno.network.handler;
+package org.grupouno.network.handlers;
 
 import org.grupouno.model.conversation.Message;
 import org.grupouno.model.conversation.MessageType;

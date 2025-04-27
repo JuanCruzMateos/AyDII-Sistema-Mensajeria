@@ -3,6 +3,7 @@ package org.grupouno.model.directory;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -31,8 +32,8 @@ public class Directory implements IDirectory, Serializable {
     }
 
     @Override
-    public synchronized User getContactByNickname(String contactNickname) {
-        return this.contacts.get(contactNickname);
+    public synchronized Optional<User> getContactByNickname(String contactNickname) {
+        return Optional.ofNullable(this.contacts.get(contactNickname));
     }
 
     @Override

@@ -4,7 +4,7 @@
 
     <groupId>org.grupouno</groupId>
     <artifactId>sistema-mensajeria</artifactId>
-    <version>1.0.0</version>
+    <version>2.0.0</version>
     <packaging>pom</packaging>
 
     <name>sistema-mensajeria</name>
@@ -45,6 +45,8 @@
                 <configuration>
                     <includes>
                         <include>**/*.class</include>
+                        <include>**/*.properties</include>
+                        <include>**/*.xml</include>
                     </includes>
                     <archive>
                         <manifest>

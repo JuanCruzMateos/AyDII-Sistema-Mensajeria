@@ -6,7 +6,7 @@ import java.net.ServerSocket;
 /**
  * Utility class that validates the connection parameters such as IP address and port number.
  */
-public class ConnectionValidator {
+public class NetworkValidator {
 
     public static boolean isValidIp(String ip) {
         String ipRegex = "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";

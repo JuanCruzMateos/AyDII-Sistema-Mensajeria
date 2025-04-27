@@ -41,14 +41,14 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
         gbc.weightx = 0;
         gbc.anchor = GridBagConstraints.EAST;
 
-        JButton disconnectButton = new JButton("Desconectar");
+        JButton disconnectButton = new JButton("Desconectar ❌");
         disconnectButton.setActionCommand("disconnect");
         disconnectButton.addActionListener(ChatController.getInstance());
         disconnectButton.setFont(new Font("Arial", Font.BOLD, 12));
 //        disconnectButton.setForeground(Color.WHITE);
         disconnectButton.setBackground(new Color(217, 22, 42)); // Bootstrap red
         disconnectButton.setFocusPainted(false);
-        disconnectButton.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+//        disconnectButton.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 
         topPanel.add(disconnectButton, gbc);
         add(topPanel, BorderLayout.NORTH);
@@ -60,7 +60,7 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
         JPanel leftPanel = new JPanel(new BorderLayout());
         leftPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        JLabel conversationsLabel = new JLabel("Conversaciones", SwingConstants.CENTER);
+        JLabel conversationsLabel = new JLabel("Conversaciones 📨", SwingConstants.CENTER);
         conversationsLabel.setFont(new Font("Arial", Font.BOLD, 14));
         leftPanel.add(conversationsLabel, BorderLayout.NORTH);
 
@@ -79,7 +79,7 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
                 String selectedContact = this.conversationList.getSelectedValue();
                 if (selectedContact != null) {
                     this.currentConversationContact = selectedContact;
-                    chatTitle.setText("Conversando con: " + selectedContact);
+                    chatTitle.setText("Conversando con 📥 " + selectedContact);
                     ChatController.getInstance().setCurrentContact(selectedContact);
                 }
             }
@@ -107,7 +107,7 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
         messageField = new JTextField();
         bottomPanel.add(messageField, BorderLayout.CENTER);
 
-        JButton sendButton = new JButton("Enviar");
+        JButton sendButton = new JButton("Enviar ▶");
         sendButton.setActionCommand("send");
         sendButton.addActionListener(ChatController.getInstance());
         sendButton.setFont(new Font("Arial", Font.BOLD, 12));

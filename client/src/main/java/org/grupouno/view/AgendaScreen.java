@@ -23,7 +23,7 @@ public class AgendaScreen extends JFrame {
         add(mainPanel, BorderLayout.CENTER);
 
         // Title
-        JLabel titleLabel = new JLabel("Directory", SwingConstants.CENTER);
+        JLabel titleLabel = new JLabel("Agenda", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
         mainPanel.add(titleLabel, BorderLayout.NORTH);
 
@@ -42,7 +42,7 @@ public class AgendaScreen extends JFrame {
         startConversationButton.setPreferredSize(new Dimension(160, 35));
         buttonPanel.add(startConversationButton);
 
-        this.addNewContactButton = new JButton("Agregar Contacto");
+        this.addNewContactButton = new JButton("Ver Directorio");
         addNewContactButton.setActionCommand("openDirectoryScreen");
         addNewContactButton.setFont(new Font("Arial", Font.BOLD, 12));
         addNewContactButton.setPreferredSize(new Dimension(160, 35));

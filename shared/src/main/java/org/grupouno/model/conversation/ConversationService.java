@@ -6,10 +6,10 @@ import java.util.HashMap;
  * Manages conversations and their associated messages.
  */
 public class ConversationService implements IConversationService {
-    private final HashMap<String, Conversation> conversations;
+    private final HashMap<String, IConversation> conversations;
 
-    public ConversationService(HashMap<String, Conversation> conversations) {
-        this.conversations = conversations;
+    public ConversationService() {
+        this.conversations = new HashMap<>();
     }
 
     @Override
@@ -18,7 +18,7 @@ public class ConversationService implements IConversationService {
     }
 
     @Override
-    public synchronized Conversation getConversationByContactNickname(String receiverNickname) {
+    public synchronized IConversation getConversationByContactNickname(String receiverNickname) {
         return this.conversations.get(receiverNickname);
     }
 
@@ -33,7 +33,7 @@ public class ConversationService implements IConversationService {
     }
 
     @Override
-    public synchronized void setMessages(String contactNickname, Conversation conversation) {
-        this.conversations.put(contactNickname, conversation);
+    public synchronized void setMessages(String contactNickname, IConversation IConversation) {
+        this.conversations.put(contactNickname, IConversation);
     }
 }

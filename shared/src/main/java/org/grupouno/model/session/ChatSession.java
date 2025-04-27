@@ -1,15 +1,15 @@
 package org.grupouno.model.session;
 
-import org.grupouno.model.conversation.Conversation;
 import org.grupouno.model.conversation.ConversationService;
+import org.grupouno.model.conversation.IConversation;
 import org.grupouno.model.conversation.IConversationService;
 import org.grupouno.model.conversation.Message;
 import org.grupouno.model.directory.Directory;
 import org.grupouno.model.directory.IDirectory;
 import org.grupouno.model.directory.User;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 /**
@@ -67,7 +67,7 @@ public class ChatSession {
 
     public void initConversationService() {
         logger.info("Initializing conversation service");
-        this.conversationService = new ConversationService(new HashMap<>());
+        this.conversationService = new ConversationService();
     }
 
     public synchronized List<String> getAgendaContacts() {
@@ -75,12 +75,12 @@ public class ChatSession {
     }
 
     public synchronized String getMessagesByContact(String contactNickname) {
-        Conversation conversation = this.conversationService.getConversationByContactNickname(contactNickname);
-        if (conversation == null) {
+        IConversation IConversation = this.conversationService.getConversationByContactNickname(contactNickname);
+        if (IConversation == null) {
             logger.info("Conversation not found, starting new conversation.");
             this.conversationService.startNewConversation(contactNickname);
         }
-        Conversation c = this.conversationService.getConversationByContactNickname(contactNickname);
+        IConversation c = this.conversationService.getConversationByContactNickname(contactNickname);
         return c.getMessages().stream()
                 .map(Message::getFormattedMessage)
                 .reduce("", (acc, message) -> acc + message + "\n");
@@ -95,7 +95,7 @@ public class ChatSession {
     }
 
 
-    public synchronized User getContactByNickname(String contactNickname) {
+    public synchronized Optional<User> getContactByNickname(String contactNickname) {
         return this.agenda.getContactByNickname(contactNickname);
     }
 

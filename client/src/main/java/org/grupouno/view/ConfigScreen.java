@@ -1,7 +1,7 @@
 package org.grupouno.view;
 
 import org.grupouno.controller.ChatController;
-import org.grupouno.validation.ConnectionValidator;
+import org.grupouno.validation.NetworkValidator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,11 +38,11 @@ public class ConfigScreen extends JFrame {
 
         // Form Panel
         JPanel formPanel = new JPanel(new GridLayout(3, 2, 10, 7));
-        formPanel.add(new JLabel("Nickname:"));
+        formPanel.add(new JLabel("👤 Nickname:"));
         nicknameField = new JTextField();
         formPanel.add(nicknameField);
 
-        formPanel.add(new JLabel("IP:"));
+        formPanel.add(new JLabel("🌐 IP:"));
         String ip;
         try {
             ip = InetAddress.getLoopbackAddress().getHostAddress();
@@ -53,7 +53,7 @@ public class ConfigScreen extends JFrame {
         ipField = new JTextField(ip);
         formPanel.add(ipField);
 
-        formPanel.add(new JLabel("Puerto:"));
+        formPanel.add(new JLabel("📡 Puerto:"));
         String port = "50747"; // Fallback to default port
         portField = new JTextField(port);
         formPanel.add(portField);
@@ -80,13 +80,13 @@ public class ConfigScreen extends JFrame {
             if (inputNickname.isEmpty() || inputIP.isEmpty() || inputPort.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Todos los campos son obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
-                if (!ConnectionValidator.isValidIp(inputIP)) {
+                if (!NetworkValidator.isValidIp(inputIP)) {
                     JOptionPane.showMessageDialog(null, "IP no válida. Formato esperado: xxx.xxx.xxx.xxx", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    if (!ConnectionValidator.isValidPort(Integer.parseInt(inputPort))) {
+                    if (!NetworkValidator.isValidPort(Integer.parseInt(inputPort))) {
                         JOptionPane.showMessageDialog(null, "Puerto no válido. Debe estar entre 1 y 65535.", "Error", JOptionPane.ERROR_MESSAGE);
                     } else {
-                        if (!ConnectionValidator.isPortAvailable(Integer.parseInt(inputPort))) {
+                        if (!NetworkValidator.isPortAvailable(Integer.parseInt(inputPort))) {
                             JOptionPane.showMessageDialog(null, "Puerto no disponible. Por favor, elija otro puerto.", "Error", JOptionPane.ERROR_MESSAGE);
                         } else {
                             JOptionPane.showMessageDialog(null, "Iniciando sesión como " + inputNickname, "Info", JOptionPane.INFORMATION_MESSAGE);

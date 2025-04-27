@@ -1,9 +1,10 @@
 package org.grupouno.network.server;
 
+import org.grupouno.config.ConfigService;
 import org.grupouno.model.conversation.IConversationService;
 import org.grupouno.model.directory.IDirectory;
 import org.grupouno.network.connections.ConnectionManager;
-import org.grupouno.network.handler.ClientHandlerImpl;
+import org.grupouno.network.handlers.ClientHandlerImpl;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -31,19 +32,19 @@ public class ChatServerImpl implements IChatServer {
     public void startServer() {
         InetAddress localHost;
         try {
-            localHost = InetAddress.getByName("127.0.0.1");
+            localHost = InetAddress.getByName(ConfigService.getConfig("SERVER_IP"));
         } catch (UnknownHostException e) {
             throw new RuntimeException(e);
         }
         logger.info("Starting server on port " + serverPort);
         try (ServerSocket serverSocket = new ServerSocket(serverPort, 50, localHost)) {
-            logger.info("Server started on port " + serverSocket.getLocalPort());
+//            logger.info("Server started on port " + serverSocket.getLocalPort());
             logger.info("Waiting for connections... ");
             while (true) {
                 try {
                     Socket clientSocket = serverSocket.accept();
                     logger.info("Accepted connection from " + clientSocket.getInetAddress() + ":" + clientSocket.getPort());
-                    logger.info("Local address: " + clientSocket.getLocalAddress() + ":" + clientSocket.getLocalPort());
+//                    logger.info("Local address: " + clientSocket.getLocalAddress() + ":" + clientSocket.getLocalPort());
                     new Thread(new ClientHandlerImpl(clientSocket, this.directory, this.pendingMessages, this.connectedClients)).start();
                 } catch (IOException e) {
                     logger.warning("Error accepting connection: " + e.getMessage());

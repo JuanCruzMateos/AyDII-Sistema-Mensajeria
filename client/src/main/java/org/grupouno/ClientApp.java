@@ -1,21 +1,17 @@
 package org.grupouno;
 
+import org.grupouno.config.ConfigService;
+import org.grupouno.logging.LoggingConfigLoader;
 import org.grupouno.view.ConfigScreen;
 
 import javax.swing.*;
 import java.util.logging.Logger;
 
 public class ClientApp {
-    private static final Logger logger = Logger.getLogger(ClientApp.class.getName());
-    private static final String VERSION = "2.0.0";
-
-    static {
-        System.setProperty("java.util.logging.SimpleFormatter.format",
-                "[%1$tF %1$tT] [%4$s] [%2$s] %5$s%6$s%n");
-    }
-
     public static void main(String[] args) {
-        logger.info("Starting Client Server ChatSession Application V" + VERSION);
+        LoggingConfigLoader.loadConfig();
+        Logger logger = Logger.getLogger(ClientApp.class.getName());
+        logger.info("Starting Client Server ChatSession Application V" + ConfigService.getConfig("VERSION"));
         SwingUtilities.invokeLater(() -> new ConfigScreen().setVisible(true));
     }
 }

@@ -10,6 +10,4 @@ public interface IChatClient {
     void getConnectedUsers(String nickname); // Renamed from fetchConnectedUsers
 
     void disconnect(String nickname);
-
-    void close();
 }

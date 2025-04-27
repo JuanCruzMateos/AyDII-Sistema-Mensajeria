@@ -1,5 +1,6 @@
 package org.grupouno.controller;
 
+import org.grupouno.config.ConfigService;
 import org.grupouno.model.conversation.Message;
 import org.grupouno.model.conversation.MessageType;
 import org.grupouno.model.directory.User;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -27,8 +29,6 @@ import java.util.logging.Logger;
  * It handles the chat session, user interactions, and message sending.
  */
 public class ChatController implements ActionListener {
-    private static final String DEFAULT_SERVER_ADDRESS = "127.0.0.1";
-    private static final int DEFAULT_SERVER_PORT = 50480;
     private static final Logger logger = Logger.getLogger(ChatController.class.getName());
     private static ChatController instance;
     private IChatClient chatClient;
@@ -48,7 +48,9 @@ public class ChatController implements ActionListener {
     }
 
     public void startChatSession(String nickname, String ip, int port) throws IOException {
-        this.chatClient = new ChatClientImpl(new Socket(InetAddress.getByName(DEFAULT_SERVER_ADDRESS), DEFAULT_SERVER_PORT, InetAddress.getByName(ip), port), this);
+//        System.out.println(ConfigService.getConfig("SERVER_IP"));
+//        System.out.println(ConfigService.getConfig("SERVER_PORT"));
+        this.chatClient = new ChatClientImpl(new Socket(InetAddress.getByName(ConfigService.getConfig("SERVER_IP")), Integer.parseInt(ConfigService.getConfig("SERVER_PORT")), InetAddress.getByName(ip), port), this);
         logger.info("Starting chat session with nickname: " + nickname);
         this.chatSessionScreen = new ChatSessionScreen(nickname, ip, String.valueOf(port));
         this.chatSession = ChatSession.getInstance();
@@ -79,11 +81,6 @@ public class ChatController implements ActionListener {
     private void disconect() {
         this.chatClient.disconnect(this.chatSessionScreen.getSessionUsername());
         this.chatSessionScreen.closeWindow();
-//        this.chatSessionScreen = null;
-//        this.chatSession = null;
-//        this.chatClient = null;
-//        this.agendaScreen = null;
-//        this.directoryScreen = null;
         logger.info("Disconnected from chat session.");
         JOptionPane.showMessageDialog(null, "Desconectado de la sesión de chat.");
     }
@@ -131,14 +128,6 @@ public class ChatController implements ActionListener {
      * <p>
      * Opens the add contact screen to allow the user to add a new contact.
      */
-    //    private void openDirectoryScreen() {
-    //        logger.info("Opening directory screen.");
-    //        this.directoryScreen = new DirectoryScreen();
-    //        this.directoryScreen.addActionListener(this);
-    //        this.directoryScreen.setActiveUsers(this.chatClient.getConnectedUsers(this.chatSession.getNickname()));
-    //        this.directoryScreen.setDefaultCloseOperation(DirectoryScreen.DISPOSE_ON_CLOSE);
-    //        this.directoryScreen.setVisible(true);
-    //    }
     public void openDirectoryScreen() {
         logger.info("Opening directory screen.");
         this.directoryScreen = new DirectoryScreen();
@@ -154,7 +143,6 @@ public class ChatController implements ActionListener {
         Set<User> connectedUsers = (Set<User>) message.content();
         if (connectedUsers != null) {
             logger.info("Received " + connectedUsers.size() + " connected users.");
-            // Update the UI or internal state with the connected users
             this.directoryScreen.setActiveUsers(connectedUsers, this.chatSession.getNickname());
         } else {
             logger.warning("Received empty or null user list.");
@@ -185,10 +173,10 @@ public class ChatController implements ActionListener {
             JOptionPane.showMessageDialog(null, "El contacto no está disponible.", "Error", JOptionPane.ERROR_MESSAGE);
             logger.warning("Contact not available: " + contactNickName);
         } else {
-            User contact = this.chatSession.getContactByNickname(contactNickName);
-            if (contact != null) {
+            Optional<User> contact = this.chatSession.getContactByNickname(contactNickName);
+            if (contact.isPresent()) {
                 LocalDateTime timeStamp = LocalDateTime.now();
-                Message message = new Message(this.chatSession.getNickname(), this.chatSession.getIp(), this.chatSession.getPort(), contact.nickname(), contact.ip(), contact.port(), textInputArea, timeStamp, MessageType.MESSAGE);
+                Message message = new Message(this.chatSession.getNickname(), this.chatSession.getIp(), this.chatSession.getPort(), contact.get().nickname(), contact.get().ip(), contact.get().port(), textInputArea, timeStamp, MessageType.MESSAGE);
                 logger.info("Sending message: " + textInputArea);
                 this.chatClient.sendMessage(message);
                 this.chatSession.sendMessage(message);
