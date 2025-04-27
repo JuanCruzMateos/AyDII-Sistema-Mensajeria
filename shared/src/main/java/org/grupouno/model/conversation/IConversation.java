@@ -11,7 +11,4 @@ public interface IConversation {
     boolean isEmpty();
 
     Iterator<Message> iterator();
-
-    @Override
-    String toString();
 }
