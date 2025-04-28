@@ -11,7 +11,7 @@ public class ClientApp {
     public static void main(String[] args) {
         LoggingConfigLoader.loadConfig();
         Logger logger = Logger.getLogger(ClientApp.class.getName());
-        logger.info("Starting Client Server ChatSession Application V" + ConfigService.getConfig("VERSION"));
+        logger.info("Starting Client Server ChatSessionImpl Application V" + ConfigService.getConfig("VERSION"));
         SwingUtilities.invokeLater(() -> new ConfigScreen().setVisible(true));
     }
 }

@@ -32,8 +32,4 @@ public class ConversationService implements IConversationService {
         this.conversations.get(contactNickname).addMessage(message);
     }
 
-    @Override
-    public synchronized void setMessages(String contactNickname, IConversation IConversation) {
-        this.conversations.put(contactNickname, IConversation);
-    }
 }
