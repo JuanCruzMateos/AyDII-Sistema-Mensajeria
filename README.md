@@ -1,5 +1,11 @@
 # Sistema Mensajeria
 
+## Authors
+
+- [@Erik Borgnia](https://github.com/erik19borgnia)
+- [@Ezequiel Rodriguez](https://github.com/rodriquiel)
+- [@Juan Cruz Mateos](https://github.com/JuanCruzMateos)
+
 ### Requirements
 
 - JDK 21

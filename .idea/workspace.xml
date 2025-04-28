@@ -5,14 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5486df74-5d68-4513-bf6f-42320c48c0d3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/build.ps1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/run_client.ps1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/run_server.ps1" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.sh" beforeDir="false" afterPath="$PROJECT_DIR$/build.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/run_client.sh" beforeDir="false" afterPath="$PROJECT_DIR$/run_client.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/run_server.sh" beforeDir="false" afterPath="$PROJECT_DIR$/run_server.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -273,7 +267,7 @@
       <workItem from="1745613817935" duration="73000" />
       <workItem from="1745613899318" duration="35661000" />
       <workItem from="1745799415171" duration="589000" />
-      <workItem from="1745800024464" duration="2409000" />
+      <workItem from="1745800024464" duration="3008000" />
     </task>
     <servers />
   </component>
