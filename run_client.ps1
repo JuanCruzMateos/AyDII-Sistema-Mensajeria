@@ -7,10 +7,10 @@ function Write-Log {
     Write-Host "[$timestamp] $Message" -ForegroundColor $Color
 }
 
-Write-Log "Running Server Application..." "Cyan"
+Write-Log "Running Client Application..." "Cyan"
 
 # Run the application
-java -jar ./server/target/client-2.0.0.jar
+java -jar ./client/target/client-2.0.0.jar
 $exitCode = $LASTEXITCODE
 
 if ($exitCode -eq 0) {
