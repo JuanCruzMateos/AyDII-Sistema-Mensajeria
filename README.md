@@ -1,20 +1,61 @@
 # Sistema Mensajeria
 
+### Requirements
+
+- JDK 21
+- Maven 3.9.9
+
+### How to run
+
+Compile and Packege into JAR:
+
+```bash
+# Linux / MacOs
+./build.sh
+
+# Windows (PowerShell)
+./build.ps1
+```
+
+Run Server:
+
+```bash
+# Linux / MacOs
+./run-server.sh
+
+# Windows (PowerShell)
+./run-server.ps1
+```
+
+Run Client:
+
+```bash
+# Linux / MacOs
+./run-client.sh
+
+# Windows (PowerShell)
+./run-client.ps1
+```
+
 ### Features
 
-- Client Server Architecture
+- Client Server Architecture using Java Sockets API
+- [Miro: App Views](https://miro.com/app/board/uXjVIIzRKVk=/?share_link_id=515267466048)
 - [App Diagrams](https://drive.google.com/file/d/1Zmh6bPMxTE17LMO0-eJCsA6TapxukpU8/view?usp=sharing)
-    - Diagrama de casos de uso
-    - Modelo de dominio
-    - Diagrama de clases
-    - Diagrama de componentes
-    - Diagrama de despliegue
+    - Modelo de Casos de Uso
+    - Modelo de Dominio
+    - Diagrama de Componentes
+    - Diagrama de Despliegue
+    - Diseño de Interfaces de Usuario (ver Miro)
+    - Diagrama de Clases
+    - Diagrama de secuencia a nivel componentes
+    - Diagrama de Paquetes
 
 ### Class Diagram
 
-![Class Diagram]()
+![Class Diagram](class-diagram.png)
 
 ### Todo
 
-- [ ] Mejor visibilidad del nombre de usuario
-- [ ] Agregar docker
+- [ ] Agregar Docker
+- [ ] Agregar Tests
