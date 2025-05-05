@@ -1,5 +1,6 @@
 package org.grupouno.network.server;
 
+import org.grupouno.HeartBeatSender;
 import org.grupouno.model.conversation.IConversationService;
 import org.grupouno.model.directory.IDirectory;
 import org.grupouno.network.connections.ConnectionManager;
@@ -30,8 +31,13 @@ public class ChatServerImpl implements IChatServer {
     @Override
     public void startServer() {
         InetAddress localHost = null;
+        String monitorAddress = "127.0.0.1"; // monitor IP direction
+        int monitorPort = 9999;  // monitor listening port
+        String nodeId = "node1";    // Server Id
+
         try {
             localHost = InetAddress.getByName("127.0.0.1");
+            new HeartBeatSender(nodeId, monitorAddress, monitorPort).start();
         } catch (UnknownHostException e) {
             throw new RuntimeException(e);
         }

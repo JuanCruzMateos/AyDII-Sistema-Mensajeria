@@ -5,20 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5486df74-5d68-4513-bf6f-42320c48c0d3" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/monitor/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/HeartBeatListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/Monitor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/org/grupouno/HeartBeatSender.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/controller/ChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/controller/ChatController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/AgendaScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/AgendaScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/DirectoryScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/DirectoryScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/org/grupouno/ServerApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/org/grupouno/ServerApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/handler/ClientHandlerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/handler/ClientHandlerImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/server/ChatServerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/server/ChatServerImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/org/grupouno/model/agenda/Agenda.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/grupouno/model/directory/Directory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/org/grupouno/model/agenda/IAgenda.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/grupouno/model/directory/IDirectory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/org/grupouno/model/agenda/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/grupouno/model/directory/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/org/grupouno/model/conversation/Conversation.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/grupouno/model/conversation/Conversation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/org/grupouno/model/conversation/ConversationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/grupouno/model/conversation/ConversationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/org/grupouno/model/conversation/MessageType.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/grupouno/model/conversation/MessageType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/java/org/grupouno/model/session/ChatSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/grupouno/model/session/ChatSession.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,6 +87,7 @@
     "Application.ConfigScreen.executor": "Run",
     "Application.DirectoryScreen.executor": "Run",
     "Application.Main.executor": "Run",
+    "Application.Monitor.executor": "Run",
     "Application.P.executor": "Run",
     "Application.Prueba.executor": "Run",
     "Application.ServerApp.executor": "Run",
@@ -128,8 +124,9 @@
     "Shell Script.run_client.sh.executor": "Run",
     "Shell Script.run_local.sh.executor": "Run",
     "code.cleanup.on.save": "true",
-    "git-widget-placeholder": "v2.0.0",
+    "git-widget-placeholder": "v3.0.0",
     "kotlin-language-version-configured": "true",
+    "last_directory_selection": "C:/Users/gc/Documents/Ezequiel/AFacultad/Analisis y diseño de sistemas 2/tp/AyDII-Sistema-Mensajeria/server/src/main/java/org/grupouno",
     "last_opened_file_path": "/Users/juancruz/Documents/ingenieria/analisis-diseno-02/sistema-mensajeria",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -157,10 +154,11 @@
       <recent name="org.grupouno.network" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="org.grupouno" />
       <recent name="org.grupouno.validation" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.ServerApp">
     <configuration name="ClientApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.grupouno.ClientApp" />
       <module name="client" />
@@ -174,12 +172,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DirectoryScreen" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.grupouno.view.DirectoryScreen" />
-      <module name="client" />
+    <configuration name="Monitor" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.grupouno.Monitor" />
+      <module name="monitor" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.grupouno.view.*" />
+          <option name="PATTERN" value="org.grupouno.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -201,8 +199,18 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="dasd | GET request to example server" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/client/src/main/resources/dasd.http" executionIdentifier="GET request to example server" runType="Run single request">
-      <method v="2" />
+    <configuration name="ServerApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.grupouno.ServerApp" />
+      <module name="server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.grupouno.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
       <deployment type="dockerfile">
@@ -212,11 +220,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.ServerApp" />
+        <item itemvalue="Application.Monitor" />
         <item itemvalue="Application.ClientApp" />
         <item itemvalue="Application.P" />
         <item itemvalue="Application.Prueba" />
-        <item itemvalue="HTTP Request.dasd | GET request to example server" />
-        <item itemvalue="Application.DirectoryScreen" />
       </list>
     </recent_temporary>
   </component>
@@ -248,6 +256,7 @@
       <workItem from="1745095970626" duration="42375000" />
       <workItem from="1745613817935" duration="73000" />
       <workItem from="1745613899318" duration="1431000" />
+      <workItem from="1746477353812" duration="3325000" />
     </task>
     <servers />
   </component>
