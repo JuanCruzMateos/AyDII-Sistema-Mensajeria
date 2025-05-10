@@ -12,4 +12,6 @@ public interface IChatClient {
     void disconnect(String nickname);
 
     void close();
+
+    void tryReconnectToBackup();
 }

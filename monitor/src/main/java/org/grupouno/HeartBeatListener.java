@@ -2,8 +2,11 @@ package org.grupouno;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.util.logging.Logger;
 
 public class HeartBeatListener extends Thread {
+    private static final Logger logger = Logger.getLogger(HeartBeatListener.class.getName());
     private final Monitor monitor;
     private final int port;
 
@@ -21,10 +24,12 @@ public class HeartBeatListener extends Thread {
                 socket.receive(packet); // Receive heartbeat message from a node
 
                 String nodeId = new String(packet.getData(), 0, packet.getLength());
-                System.out.println("Received heartbeat from: " + nodeId); //TODO replace with Logger
+                InetAddress senderAddress = packet.getAddress(); // Obtener IP del nodo emisor
+                String ip = senderAddress.getHostAddress();
+                logger.info("Received heartbeat from: " + nodeId);
 
                 // Register the heartbeat with the Monitor
-                monitor.registerHeartbeat(nodeId);
+                monitor.registerHeartbeat(nodeId, ip);
             }
         } catch (Exception e) {
             e.printStackTrace();
