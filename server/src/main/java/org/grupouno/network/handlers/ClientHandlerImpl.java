@@ -46,6 +46,7 @@ public class ClientHandlerImpl implements Runnable, IClientHandler {
                 switch (message.type()) {
                     case GET_DIRECTORY -> this.getDirectoryContacts(message);
                     case MESSAGE -> this.forwardMessage(message);
+                    default -> this.logger.warning("Unhandled message type: " + message.type());
                 }
                 message = (Message) in.readObject();
                 this.logger.info("Received message from " + message.senderNickname() + ": " + message.type());
