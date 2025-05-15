@@ -29,13 +29,8 @@ public class ChatServerImpl implements IChatServer {
     }
 
     @Override
-    public void startServer() {
-        InetAddress localHost;
-        try {
-            localHost = InetAddress.getByName(ConfigService.getConfig("SERVER_IP"));
-        } catch (UnknownHostException e) {
-            throw new RuntimeException(e);
-        }
+    public void startServer() throws UnknownHostException {
+        InetAddress localHost = InetAddress.getByName(ConfigService.getConfig("SERVER_IP"));
         logger.info("Starting server on port " + serverPort);
         try (ServerSocket serverSocket = new ServerSocket(serverPort, 50, localHost)) {
 //            logger.info("Server started on port " + serverSocket.getLocalPort());

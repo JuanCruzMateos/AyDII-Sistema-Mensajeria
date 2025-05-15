@@ -27,20 +27,20 @@ Run Server:
 
 ```bash
 # Linux / MacOs
-./run-server.sh
+./run.sh server
 
 # Windows (PowerShell)
-./run-server.ps1
+./run.ps1 server
 ```
 
 Run Client:
 
 ```bash
 # Linux / MacOs
-./run-client.sh
+./run.sh client
 
 # Windows (PowerShell)
-./run-client.ps1
+./run.ps1 client
 ```
 
 ### Features

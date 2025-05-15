@@ -7,6 +7,7 @@ import org.grupouno.model.directory.Directory;
 import org.grupouno.network.server.ChatServerImpl;
 import org.grupouno.validation.NetworkValidator;
 
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.logging.Logger;
@@ -14,7 +15,7 @@ import java.util.logging.Logger;
 
 public class ServerApp {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnknownHostException {
         LoggingConfigLoader.loadConfig();
         Logger logger = Logger.getLogger(ServerApp.class.getName());
         logger.info("Starting ChatServerImpl Application V" + ConfigService.getConfig("VERSION"));

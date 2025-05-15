@@ -41,7 +41,7 @@ public class ChatController implements ActionListener {
     private ChatController() {
     }
 
-    public static ChatController getInstance() {
+    public synchronized static ChatController getInstance() {
         if (instance == null) {
             instance = new ChatController();
         }
@@ -51,7 +51,11 @@ public class ChatController implements ActionListener {
     public void startChatSession(String nickname, String ip, int port) throws IOException {
 //        System.out.println(ConfigService.getConfig("SERVER_IP"));
 //        System.out.println(ConfigService.getConfig("SERVER_PORT"));
-        this.chatClient = new ChatClientImpl(new Socket(InetAddress.getByName(ConfigService.getConfig("SERVER_IP")), Integer.parseInt(ConfigService.getConfig("SERVER_PORT")), InetAddress.getByName(ip), port), this);
+        this.chatClient = new ChatClientImpl(new Socket(InetAddress.getByName(ConfigService.getConfig("SERVER_IP")),
+                Integer.parseInt(ConfigService.getConfig("SERVER_PORT")),
+                InetAddress.getByName(ip),
+                port),
+                this);
         logger.info("Starting chat session with nickname: " + nickname);
         this.chatSessionScreen = new ChatSessionScreen(nickname, ip, String.valueOf(port));
         this.IChatSession = ChatSessionImpl.getInstance();
