@@ -13,21 +13,26 @@ log() {
   echo -e "[${TIMESTAMP}] ${COLOR}${MESSAGE}${NC}"
 }
 
-if [[ $# -ne 1 ]]; then
-    log "$RED" "Usage: $0 <server|client|monitor|broker>"
-    exit 1
-elif [[ $1 != "server" && $1 != "client" && $1 != "monitor" && $1 != "broker" ]]; then
-    log "$RED" "Invalid argument. Please specify 'server', 'client', 'monitor' or 'broker'."
+if [[ "$#" -gt 3 || ( "$1" != "server" && "$1" != "client" && "$1" != "monitor" && "$1" != "broker" ) ]]; then
+    log "$RED" "Usage: $0 <server|client|monitor|broker> [server_number: one|two|three]"
     exit 1
 else
-    log "$CYAN" "Running $1 Application..."
-    java -jar ./"$1"/target/"$1"-3.0.0.jar
-    EXIT_CODE=$?
+  if [[ "$1" == "server" ]]; then
+      if [[ "$#" -ne 2 || ( "$2" != "one" && "$2" != "two" && "$2" != "three" ) ]]; then
+          log "$RED" "Usage: $0 server <one|two|three>"
+          exit 1
+      fi
+      log "$CYAN" "Running server instance number $2 ..."
+      java -jar ./"$1"/target/"$1"-3.0.0.jar "$2"
+  else
+      log "$CYAN" "Running $1 Application..."
+      java -jar ./"$1"/target/"$1"-3.0.0.jar
+  fi
 
-    if [[ $EXIT_CODE -eq 0 ]]; then
+  EXIT_CODE=$?
+  if [[ "$EXIT_CODE" -eq 0 ]]; then
       log "$GREEN" "Application finished successfully with exit code $EXIT_CODE."
-    else
+  else
       log "$RED" "Application exited with error code $EXIT_CODE."
-    fi
+  fi
 fi
-

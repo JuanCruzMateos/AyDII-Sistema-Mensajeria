@@ -1,7 +1,5 @@
 package org.grupouno.monitor;
 
-import org.grupouno.config.ConfigService;
-
 import java.net.SocketAddress;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
@@ -14,15 +12,15 @@ public class Monitor implements Runnable, AutoCloseable {
     private final ConcurrentHashMap<SocketAddress, Long> heartbeats;
     private final HeartbeatServer heartbeatServer;
     private final AddressServer addressServer;
-    private final Long heartbeatInterval;
+    private final Long heartbeatTolerance;
     private final ScheduledExecutorService scheduler;
     private SocketAddress primaryServerAddress;
 
-    public Monitor(String monitorServerAddrress, int monitorServerPort, String addressServerAddress, int addressServerPort) {
+    public Monitor(String monitorServerAddrress, int monitorServerPort, String addressServerAddress, int addressServerPort, Long heartbeatTolerance) {
         this.heartbeats = new ConcurrentHashMap<>();
         this.heartbeatServer = new HeartbeatServer(monitorServerAddrress, monitorServerPort, this.heartbeats);
         this.addressServer = new AddressServer(addressServerAddress, addressServerPort, this.primaryServerAddress);
-        this.heartbeatInterval = Long.valueOf(ConfigService.getConfig("monitor.heartbeat.interval"));
+        this.heartbeatTolerance = heartbeatTolerance;
         this.scheduler = Executors.newScheduledThreadPool(1);
     }
 
@@ -51,7 +49,7 @@ public class Monitor implements Runnable, AutoCloseable {
         } else {
             Long currentTime = System.currentTimeMillis();
             for (SocketAddress address : this.heartbeats.keySet()) {
-                if (currentTime - this.heartbeats.get(address) > this.heartbeatInterval) {
+                if (currentTime - this.heartbeats.get(address) > this.heartbeatTolerance) {
                     logger.warning("Server " + address + " is not responding.");
                     this.heartbeats.remove(address);
                 }
@@ -76,7 +74,7 @@ public class Monitor implements Runnable, AutoCloseable {
 //        addressServerThread.setDaemon(true);
         addressServerThread.start();
         logger.info("Starting failure detection...");
-        this.scheduler.scheduleAtFixedRate(this::checkForFailure, 0, heartbeatInterval, TimeUnit.MILLISECONDS);
+        this.scheduler.scheduleAtFixedRate(this::checkForFailure, 0, heartbeatTolerance, TimeUnit.MILLISECONDS);
     }
 
     @Override

@@ -8,8 +8,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
 /**
- * HeartbeatServer is responsible for accepting incoming connections from clients
- * and updating the heartbeat timestamps in the heartbeats map.
+ * HeartbeatServer is responsible for accepting incoming connections from servers
+ * and listening for heartbeat messages.<br><br>
+ * It updates the heartbeats map with the
+ * timestamp of the last heartbeat received from each server.
  */
 public class HeartbeatServer implements Runnable {
     private final Logger logger = Logger.getLogger(HeartbeatServer.class.getName());
@@ -26,7 +28,7 @@ public class HeartbeatServer implements Runnable {
     private void handleConnection(Socket socket) {
         SocketAddress address = socket.getRemoteSocketAddress();
         logger.info("Accepted connection from: " + address);
-        byte[] buffer = new byte[256];
+        byte[] buffer = new byte[64];
 
         try {
             int bytesRead;

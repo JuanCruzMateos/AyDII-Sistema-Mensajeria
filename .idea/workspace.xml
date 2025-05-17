@@ -5,16 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5486df74-5d68-4513-bf6f-42320c48c0d3" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/monitor/AddressServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/monitor/AddressServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/MonitorApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/MonitorApp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/monitor/HeartbeatServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/monitor/HeartbeatServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/monitor/Monitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/monitor/Monitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/monitor/src/main/resources/config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/monitor/src/main/resources/config.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/run.sh" beforeDir="false" afterPath="$PROJECT_DIR$/run.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/org/grupouno/ServerApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/org/grupouno/ServerApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/hearthbeat/Heartbeat.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/hearthbeat/Heartbeat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/server/ChatServerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/server/ChatServerImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/server/IChatServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/server/IChatServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/resources/config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/resources/config.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -297,7 +295,7 @@
       <workItem from="1747267575834" duration="22930000" />
       <workItem from="1747454337969" duration="14000" />
       <workItem from="1747454355320" duration="3000" />
-      <workItem from="1747454392289" duration="7495000" />
+      <workItem from="1747454392289" duration="14010000" />
     </task>
     <servers />
   </component>

@@ -15,7 +15,8 @@ public class MonitorApp {
                 ConfigService.getConfig("monitor.heartbeat.server.host"),
                 Integer.parseInt(ConfigService.getConfig("monitor.heartbeat.server.port")),
                 ConfigService.getConfig("monitor.address.server.host"),
-                Integer.parseInt(ConfigService.getConfig("monitor.address.server.port"))
+                Integer.parseInt(ConfigService.getConfig("monitor.address.server.port")),
+                Long.valueOf(ConfigService.getConfig("monitor.heartbeat.tolerance"))
         )).start();
     }
 }
