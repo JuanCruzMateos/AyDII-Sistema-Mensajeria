@@ -7,10 +7,10 @@
         <version>3.0.0</version>
     </parent>
 
-    <artifactId>client</artifactId>
+    <artifactId>monitor</artifactId>
     <packaging>jar</packaging>
 
-    <name>client</name>
+    <name>monitor</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -18,10 +18,10 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.grupouno</groupId>
-            <artifactId>model</artifactId>
-            <version>3.0.0</version>
-            <scope>compile</scope>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.grupouno</groupId>
@@ -56,8 +56,8 @@
                             <transformers>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>org.grupouno.ClientApp
-                                    </mainClass> <!-- Change this to your actual main class -->
+                                    <mainClass>org.grupouno.MonitorApp
+                                    </mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

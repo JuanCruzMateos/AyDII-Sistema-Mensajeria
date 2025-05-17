@@ -21,7 +21,7 @@ elif [[ "$1" != "server" ]] && [[ "$1" != "client" ]]; then
     exit 1
 else
     log "$CYAN" "Running $1 Application..."
-    java -jar ./"$1"/target/"$1"-2.0.0.jar
+    java -jar ./"$1"/target/"$1"-3.0.0.jar
     EXIT_CODE=$?
 
     if [[ $EXIT_CODE -eq 0 ]]; then

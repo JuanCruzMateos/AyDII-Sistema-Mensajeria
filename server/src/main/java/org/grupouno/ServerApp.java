@@ -18,8 +18,8 @@ public class ServerApp {
     public static void main(String[] args) throws UnknownHostException {
         LoggingConfigLoader.loadConfig();
         Logger logger = Logger.getLogger(ServerApp.class.getName());
-        logger.info("Starting ChatServerImpl Application V" + ConfigService.getConfig("VERSION"));
-        int serverPort = Integer.parseInt(Objects.requireNonNull(ConfigService.getConfig("SERVER_PORT")));
+        logger.info("Starting ChatServerImpl Application V" + ConfigService.getConfig("version"));
+        int serverPort = Integer.parseInt(Objects.requireNonNull(ConfigService.getConfig("server.port")));
         if (NetworkValidator.isValidPort(serverPort) && NetworkValidator.isPortAvailable(serverPort)) {
             ChatServerImpl chatServerImpl = new ChatServerImpl(serverPort, new Directory(), new ConversationService(), new HashMap<>());
             chatServerImpl.startServer();
