@@ -45,25 +45,24 @@ public class Monitor implements Runnable, AutoCloseable {
         }
     }
 
-    public void startFailureDetection() {
-        this.scheduler.scheduleAtFixedRate(() -> {
-            synchronized (this.heartbeats) {
-                if (this.heartbeats.isEmpty()) {
-                    logger.warning("No heartbeats received. No servers are available. Waiting for heartbeats...");
-                } else {
-                    Long currentTime = System.currentTimeMillis();
-                    for (SocketAddress address : this.heartbeats.keySet()) {
-                        if (currentTime - this.heartbeats.get(address) > this.heartbeatInterval) {
-                            logger.warning("Server " + address + " is not responding.");
-                            this.heartbeats.remove(address);
-                        }
-                    }
-                    this.promoteToPrimaryServer();
+    public synchronized void checkForFailure() {
+        if (this.heartbeats.isEmpty()) {
+            logger.warning("No heartbeats received. No servers are available. Waiting for heartbeats...");
+        } else {
+            Long currentTime = System.currentTimeMillis();
+            for (SocketAddress address : this.heartbeats.keySet()) {
+                if (currentTime - this.heartbeats.get(address) > this.heartbeatInterval) {
+                    logger.warning("Server " + address + " is not responding.");
+                    this.heartbeats.remove(address);
                 }
             }
-        }, 0, heartbeatInterval, TimeUnit.MILLISECONDS);
-        // TODO: Add shutdown hook to stop the scheduler
-        // scheduler.shutdown();
+            if (this.primaryServerAddress == null || !this.heartbeats.containsKey(this.primaryServerAddress)) {
+                logger.info("Promoting a new primary server...");
+                promoteToPrimaryServer();
+            } else {
+                logger.info("Primary server is still alive: " + this.primaryServerAddress);
+            }
+        }
     }
 
     @Override
@@ -77,11 +76,12 @@ public class Monitor implements Runnable, AutoCloseable {
 //        addressServerThread.setDaemon(true);
         addressServerThread.start();
         logger.info("Starting failure detection...");
-        this.startFailureDetection();
+        this.scheduler.scheduleAtFixedRate(this::checkForFailure, 0, heartbeatInterval, TimeUnit.MILLISECONDS);
     }
 
     @Override
     public void close() {
+        // TODO : Release resources and shutdown the monitor
         logger.info("Shutting down monitor...");
         scheduler.shutdown();
         try {

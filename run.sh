@@ -14,10 +14,10 @@ log() {
 }
 
 if [[ $# -ne 1 ]]; then
-    log "$RED" "Usage: $0 <server|client>"
+    log "$RED" "Usage: $0 <server|client|monitor|broker>"
     exit 1
-elif [[ "$1" != "server" ]] && [[ "$1" != "client" ]]; then
-    log "$RED" "Invalid argument. Please specify 'server' or 'client'."
+elif [[ $1 != "server" && $1 != "client" && $1 != "monitor" && $1 != "broker" ]]; then
+    log "$RED" "Invalid argument. Please specify 'server', 'client', 'monitor' or 'broker'."
     exit 1
 else
     log "$CYAN" "Running $1 Application..."

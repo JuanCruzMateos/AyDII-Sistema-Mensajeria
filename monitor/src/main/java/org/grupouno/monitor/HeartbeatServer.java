@@ -23,21 +23,38 @@ public class HeartbeatServer implements Runnable {
         this.heartbeats = heartbeats;
     }
 
+    private void handleConnection(Socket socket) {
+        SocketAddress address = socket.getRemoteSocketAddress();
+        logger.info("Accepted connection from: " + address);
+        byte[] buffer = new byte[256];
+
+        try {
+            int bytesRead;
+            while ((bytesRead = socket.getInputStream().read(buffer)) != -1) {
+                String message = new String(buffer, 0, bytesRead);
+                long timestamp = System.currentTimeMillis();
+                logger.info("Received message: " + message + " from " + address);
+
+                String logMessage = heartbeats.containsKey(address) ? "Heartbeat received from server: " : "New server detected: ";
+                logger.info(logMessage + address);
+                heartbeats.put(address, timestamp);
+            }
+        } catch (Exception e) {
+            logger.warning("Error reading from socket: " + e.getMessage());
+        } finally {
+            logger.info((socket.isClosed() ? "Socket closed: " : "Socket not closed properly: ") + address);
+        }
+    }
+
+
     @Override
     public void run() {
         try (ServerSocket serverSocket = new ServerSocket(monitorPort, 50, InetAddress.getByName(monitorAddress))) {
+            serverSocket.setReuseAddress(Boolean.TRUE);
             logger.info("HeartbeatServer started on " + monitorAddress + ":" + monitorPort);
             while (true) {
                 Socket socket = serverSocket.accept();
-                Long currentTime = System.currentTimeMillis();
-                SocketAddress address = socket.getRemoteSocketAddress();
-                logger.info("Accepted connection from client: " + address);
-                if (!this.heartbeats.containsKey(address)) {
-                    logger.info("New client detected: " + address);
-                } else {
-                    logger.info("Heartbeat received from client: " + address);
-                }
-                this.heartbeats.put(address, currentTime);
+                new Thread(() -> this.handleConnection(socket)).start();
             }
         } catch (Exception e) {
             logger.warning("Error in monitor: " + e.getMessage());

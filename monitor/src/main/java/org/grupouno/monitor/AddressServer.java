@@ -23,6 +23,7 @@ public class AddressServer implements Runnable {
     @Override
     public void run() {
         try (ServerSocket serverSocket = new ServerSocket(addressServerPort, 50, InetAddress.getByName(addressServerAddress))) {
+            serverSocket.setReuseAddress(Boolean.TRUE);
             logger.info("HeartbeatServer started on " + addressServerAddress + ":" + addressServerPort);
             while (true) {
                 Socket socket = serverSocket.accept();
