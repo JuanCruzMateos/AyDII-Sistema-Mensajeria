@@ -1,6 +1,7 @@
 package org.grupouno.network.hearthbeat;
 
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.logging.Logger;
 
@@ -22,8 +23,11 @@ public class Heartbeat implements Runnable {
 
     @Override
     public void run() {
-        try (Socket socket = new Socket(InetAddress.getByName(monitorAddress), monitorPort, InetAddress.getByName(serverAddress), serverPort)) {
-            socket.setReuseAddress(Boolean.TRUE);
+        try (Socket socket = new Socket()) {
+            socket.setReuseAddress(true); // set reuse before bind and connecting
+            socket.bind(new InetSocketAddress(InetAddress.getByName(serverAddress), serverPort)); // Explicitly bind
+            socket.connect(new InetSocketAddress(InetAddress.getByName(monitorAddress), monitorPort)); // Connect to monitor
+
             while (true) {
                 socket.getOutputStream().write("HEARTBEAT".getBytes());
                 socket.getOutputStream().flush();
@@ -31,6 +35,7 @@ public class Heartbeat implements Runnable {
             }
         } catch (Exception e) {
             logger.warning("Error in heartbeat: " + e.getMessage());
+            // TODO: Fix Address already in use
         }
     }
 }
