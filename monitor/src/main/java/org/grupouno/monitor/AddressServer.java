@@ -1,6 +1,6 @@
 package org.grupouno.monitor;
 
-import java.io.OutputStream;
+import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -11,10 +11,9 @@ public class AddressServer implements Runnable {
     private final Logger logger = Logger.getLogger(AddressServer.class.getName());
     private final int addressServerPort;
     private final String addressServerAddress;
-    private final SocketAddress primaryServerAddress;
+    private final PrimaryServerAddress primaryServerAddress;
 
-
-    public AddressServer(String addressServerAddress, int addressServerPort, SocketAddress primaryServerAddress) {
+    public AddressServer(String addressServerAddress, int addressServerPort, PrimaryServerAddress primaryServerAddress) {
         this.addressServerAddress = addressServerAddress;
         this.addressServerPort = addressServerPort;
         this.primaryServerAddress = primaryServerAddress;
@@ -28,15 +27,17 @@ public class AddressServer implements Runnable {
             while (true) {
                 Socket socket = serverSocket.accept();
                 logger.info("New connection from " + socket.getRemoteSocketAddress());
-                OutputStream out = socket.getOutputStream();
-                if (this.primaryServerAddress != null) {
-                    logger.info("Sending primary server address: " + this.primaryServerAddress);
-                    out.write(this.primaryServerAddress.toString().getBytes());
-                } else {
-                    logger.warning("Primary server address is not set.");
-                    out.write("null".getBytes());
+                ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+                synchronized (this.primaryServerAddress) {
+                    SocketAddress address = this.primaryServerAddress.getAddress();
+                    if (address != null) {
+                        logger.info("Sending primary server address: " + address);
+                    } else {
+                        logger.warning("Primary server address is not set.");
+                    }
+                    out.writeObject(address);
+                    out.flush();
                 }
-                out.flush();
             }
         } catch (Exception e) {
             logger.warning("Error in monitor: " + e.getMessage());

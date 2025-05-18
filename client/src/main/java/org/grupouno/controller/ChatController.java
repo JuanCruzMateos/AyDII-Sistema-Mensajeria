@@ -17,8 +17,6 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.Socket;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Set;
@@ -49,13 +47,7 @@ public class ChatController implements ActionListener {
     }
 
     public void startChatSession(String nickname, String ip, int port) throws IOException {
-//        System.out.println(ConfigService.getConfig("SERVER_IP"));
-//        System.out.println(ConfigService.getConfig("SERVER_PORT"));
-        this.chatClient = new ChatClientImpl(new Socket(InetAddress.getByName(ConfigService.getConfig("SERVER_IP")),
-                Integer.parseInt(ConfigService.getConfig("SERVER_PORT")),
-                InetAddress.getByName(ip),
-                port),
-                this);
+        this.chatClient = new ChatClientImpl(nickname, ip, port, ConfigService.getConfig("monitor.address.server.host"), Integer.parseInt(ConfigService.getConfig("monitor.address.server.port")), this);
         logger.info("Starting chat session with nickname: " + nickname);
         this.chatSessionScreen = new ChatSessionScreen(nickname, ip, String.valueOf(port));
         this.IChatSession = ChatSessionImpl.getInstance();
@@ -64,7 +56,7 @@ public class ChatController implements ActionListener {
         this.IChatSession.setPort(port);
         this.IChatSession.initAgenda();
         this.IChatSession.initConversationService();
-        this.chatClient.registerWithServer(nickname, ip, port);
+//        this.chatClient.registerWithServer(nickname, ip, port);
         new Thread((Runnable) this.chatClient).start();
         this.chatSessionScreen.setVisible(true);
     }

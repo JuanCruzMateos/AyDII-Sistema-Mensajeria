@@ -64,7 +64,7 @@ public class SyncService implements Runnable {
     @Override
     public void run() {
         try {
-            logger.info("Starting sync service on " + this.serverAddress + ":" + this.syncPort + " to " + this.brokerAddress + ":" + this.brokerPort);
+            logger.info("Starting Sync Service on " + this.serverAddress + ":" + this.syncPort + " to " + this.brokerAddress + ":" + this.brokerPort);
             Socket socket = new Socket();
             socket.setReuseAddress(Boolean.TRUE);
 //            socket.setSoTimeout(10000);

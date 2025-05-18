@@ -3,10 +3,7 @@ package org.grupouno.broker;
 import org.grupouno.model.connection.ConnectionManager;
 
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.SocketAddress;
+import java.net.*;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
@@ -25,7 +22,10 @@ public class MessageBrokerServerImpl implements Runnable {
     @Override
     public void run() {
         logger.info("Starting broker server on " + this.brokerAddress + ":" + this.brokerPort);
-        try (ServerSocket serverSocket = new ServerSocket(this.brokerPort, 50, InetAddress.getByName(this.brokerAddress))) {
+//        try (ServerSocket serverSocket = new ServerSocket(this.brokerPort, 50, InetAddress.getByName(this.brokerAddress))) {
+        try (ServerSocket serverSocket = new ServerSocket()) {
+            serverSocket.setReuseAddress(Boolean.TRUE);
+            serverSocket.bind(new InetSocketAddress(InetAddress.getByName(this.brokerAddress), this.brokerPort));
             logger.info("Waiting for connections... ");
             while (true) {
                 try {

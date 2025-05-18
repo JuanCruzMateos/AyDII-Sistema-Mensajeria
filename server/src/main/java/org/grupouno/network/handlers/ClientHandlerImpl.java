@@ -151,16 +151,17 @@ public class ClientHandlerImpl implements Runnable, IClientHandler {
 
     @Override
     public synchronized void forwardMessage(Message message) {
+        this.syncService.publishEvent(message, Topic.NEW_MESSAGE);
         if (!this.connectedClients.containsKey(message.receiverNickname())) {
             this.logger.warning("Client " + message.receiverNickname() + " not connected. Adding message to pending messages.");
             this.addMessageToPendingMessages(message);
-            this.syncService.publishEvent(message, Topic.NEW_MESSAGE);
         } else {
             try {
                 ObjectOutputStream out = this.connectedClients.get(message.receiverNickname()).objectOutputStream();
                 out.writeObject(message);
                 out.flush();
                 this.logger.info("Message forwarded to " + message.receiverNickname());
+                this.syncService.publishEvent(message, Topic.REMOVE_MESSAGE);
             } catch (IOException e) {
                 this.logger.warning("Error forwarding message to " + message.receiverNickname() + ": " + e.getMessage());
             }

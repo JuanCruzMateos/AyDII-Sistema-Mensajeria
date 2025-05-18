@@ -48,14 +48,14 @@ public class ConnectionHandler implements Runnable {
         try {
             this.connectedClients.put(this.socket.getRemoteSocketAddress(),
                     new ConnectionManager(this.socket, new ObjectOutputStream(this.socket.getOutputStream()), new ObjectInputStream(this.socket.getInputStream())));
-            ObjectInputStream in = new ObjectInputStream(this.socket.getInputStream());
             while (true) {
-                SyncProtocolMessage message = (SyncProtocolMessage) in.readObject();
+                SyncProtocolMessage message = (SyncProtocolMessage) this.connectedClients.get(this.socket.getRemoteSocketAddress()).objectInputStream().readObject();
                 logger.info("Received message: " + message.topic() + " from " + this.socket.getRemoteSocketAddress());
                 this.broadcastMessage(message);
             }
         } catch (IOException e) {
             logger.warning("Error creating output stream: " + e.getMessage());
+            e.printStackTrace();
         } catch (ClassNotFoundException e) {
             logger.warning("Error reading message: " + e.getMessage());
         }

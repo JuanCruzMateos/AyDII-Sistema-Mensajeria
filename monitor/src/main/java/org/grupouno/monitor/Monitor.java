@@ -1,6 +1,11 @@
 package org.grupouno.monitor;
 
+import org.grupouno.config.ConfigService;
+
+import java.net.InetSocketAddress;
 import java.net.SocketAddress;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -14,10 +19,19 @@ public class Monitor implements Runnable, AutoCloseable {
     private final AddressServer addressServer;
     private final Long heartbeatTolerance;
     private final ScheduledExecutorService scheduler;
-    private SocketAddress primaryServerAddress;
+    private final PrimaryServerAddress primaryServerAddress;
+    private final HashMap<InetSocketAddress, InetSocketAddress> serverPortMap;
+
+    {
+        this.serverPortMap = new HashMap<>();
+        this.serverPortMap.put(new InetSocketAddress(ConfigService.getConfig("server.one.local.host"), Integer.parseInt(ConfigService.getConfig("server.one.heartbeat.port"))), new InetSocketAddress(ConfigService.getConfig("server.one.local.host"), Integer.parseInt(ConfigService.getConfig("server.one.client.port"))));
+        this.serverPortMap.put(new InetSocketAddress(ConfigService.getConfig("server.two.local.host"), Integer.parseInt(ConfigService.getConfig("server.two.heartbeat.port"))), new InetSocketAddress(ConfigService.getConfig("server.two.local.host"), Integer.parseInt(ConfigService.getConfig("server.two.client.port"))));
+        this.serverPortMap.put(new InetSocketAddress(ConfigService.getConfig("server.three.local.host"), Integer.parseInt(ConfigService.getConfig("server.three.heartbeat.port"))), new InetSocketAddress(ConfigService.getConfig("server.three.local.host"), Integer.parseInt(ConfigService.getConfig("server.three.client.port"))));
+    }
 
     public Monitor(String monitorServerAddrress, int monitorServerPort, String addressServerAddress, int addressServerPort, Long heartbeatTolerance) {
         this.heartbeats = new ConcurrentHashMap<>();
+        this.primaryServerAddress = new PrimaryServerAddress();
         this.heartbeatServer = new HeartbeatServer(monitorServerAddrress, monitorServerPort, this.heartbeats);
         this.addressServer = new AddressServer(addressServerAddress, addressServerPort, this.primaryServerAddress);
         this.heartbeatTolerance = heartbeatTolerance;
@@ -35,10 +49,11 @@ public class Monitor implements Runnable, AutoCloseable {
             }
         }
         if (newPrimary != null) {
-            this.primaryServerAddress = newPrimary;
-            logger.info("Promoted " + newPrimary + " to primary server.");
+            this.primaryServerAddress.setAddress(this.serverPortMap.get(newPrimary));
+//            logger.info("Promoted " + newPrimary + " to primary server.");
+            logger.info("Promoted " + this.primaryServerAddress.getAddress() + " to primary server.");
         } else {
-            this.primaryServerAddress = null;
+            this.primaryServerAddress.setAddress(null);
             logger.warning("No suitable server found to promote to primary.");
         }
     }
@@ -54,11 +69,18 @@ public class Monitor implements Runnable, AutoCloseable {
                     this.heartbeats.remove(address);
                 }
             }
-            if (this.primaryServerAddress == null || !this.heartbeats.containsKey(this.primaryServerAddress)) {
+            if (this.primaryServerAddress.getAddress() == null ||
+                    !this.heartbeats.containsKey(
+                            this.serverPortMap.entrySet().stream()
+                                    .filter(entry -> entry.getValue().equals(this.primaryServerAddress.getAddress()))
+                                    .map(Map.Entry::getKey)
+                                    .findFirst()
+                                    .orElse(null)
+                    )) {
                 logger.info("Promoting a new primary server...");
-                promoteToPrimaryServer();
+                this.promoteToPrimaryServer();
             } else {
-                logger.info("Primary server is still alive: " + this.primaryServerAddress);
+                logger.info("Primary server is still alive: " + this.primaryServerAddress.getAddress());
             }
         }
     }

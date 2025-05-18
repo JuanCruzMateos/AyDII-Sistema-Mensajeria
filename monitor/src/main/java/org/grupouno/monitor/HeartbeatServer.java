@@ -37,8 +37,9 @@ public class HeartbeatServer implements Runnable {
                 long timestamp = System.currentTimeMillis();
                 logger.info("Received message: " + message + " from " + address);
 
-                String logMessage = heartbeats.containsKey(address) ? "Heartbeat received from server: " : "New server detected: ";
-                logger.info(logMessage + address);
+                if (!heartbeats.containsKey(address)) {
+                    logger.info("New server detected " + address);
+                }
                 heartbeats.put(address, timestamp);
             }
         } catch (Exception e) {
