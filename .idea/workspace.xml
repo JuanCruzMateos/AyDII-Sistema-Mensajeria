@@ -7,14 +7,6 @@
     <list default="true" id="5486df74-5d68-4513-bf6f-42320c48c0d3" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/network/ChatClientImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/network/ChatClientImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/network/IChatClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/network/IChatClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/HeartBeatListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/HeartBeatListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/Monitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/Monitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/PrimaryQueryResponder.java" beforeDir="false" afterPath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/PrimaryQueryResponder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/server/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/org/grupouno/HeartBeatSender.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/org/grupouno/HeartBeatSender.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/org/grupouno/ServerApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/org/grupouno/ServerApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/server/ChatServerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/server/ChatServerImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -265,7 +257,7 @@
       <workItem from="1745613817935" duration="73000" />
       <workItem from="1745613899318" duration="1431000" />
       <workItem from="1746477353812" duration="3325000" />
-      <workItem from="1747587248690" duration="9108000" />
+      <workItem from="1747587248690" duration="9765000" />
     </task>
     <servers />
   </component>

@@ -139,24 +139,40 @@ public class ChatClientImpl implements IChatClient, Runnable {
             datagramSocket.setSoTimeout(2000);
             datagramSocket.receive(receivePacket);
 
-            String primaryIp = new String(receivePacket.getData(), 0, receivePacket.getLength());
-            logger.info("Nuevo primario recibido: " + primaryIp);
+            String primaryIpPort = new String(receivePacket.getData(), 0, receivePacket.getLength()).trim();
 
-            if (!primaryIp.equals("NONE")) {
-                this.close(); // Cerramos conexión previa
-
-                InetAddress userAddress = InetAddress.getByName(currentUser.ip());
-                int newPort = socket.getPort() + 1; // Asumimos que el nuevo primario está en puerto+1
-                this.socket = new Socket(primaryIp, newPort, userAddress, currentUser.port());
-                this.outputStream = new ObjectOutputStream(socket.getOutputStream());
-                this.outputStream.flush();
-                this.inputStream = new ObjectInputStream(socket.getInputStream());
-
-                registerWithServer(currentUser.nickname(), currentUser.ip(), currentUser.port());
-                return true;
-            } else {
+            if (primaryIpPort.equalsIgnoreCase("NONE") || primaryIpPort.isEmpty()) {
                 logger.warning("No hay primario disponible.");
+                return false;
             }
+
+            // Parsear IP y puerto
+            String[] parts = primaryIpPort.split(":");
+            if (parts.length != 2) {
+                logger.warning("Formato inválido del primario recibido: " + primaryIpPort);
+                return false;
+            }
+            String primaryIp = parts[0];
+            int primaryPort;
+            try {
+                primaryPort = Integer.parseInt(parts[1]) + 1;
+            } catch (NumberFormatException e) {
+                logger.warning("Puerto inválido del primario recibido: " + parts[1]);
+                return false;
+            }
+
+            logger.info("Nuevo primario recibido: " + primaryIp + ":" + primaryPort);
+            this.close(); // Cerramos conexiones previas
+
+            InetAddress userAddress = InetAddress.getByName(currentUser.ip());
+            this.socket = new Socket(primaryIp, primaryPort, userAddress, currentUser.port());
+            this.outputStream = new ObjectOutputStream(socket.getOutputStream());
+            this.outputStream.flush();
+            this.inputStream = new ObjectInputStream(socket.getInputStream());
+
+            registerWithServer(currentUser.nickname(), currentUser.ip(), currentUser.port());
+            return true;
+
         } catch (Exception e) {
             logger.warning("Fallo al reconectar: " + e.getMessage());
         } finally {
