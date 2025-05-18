@@ -3,35 +3,37 @@ package org.grupouno;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class HeartBeatSender extends Thread {
     private static final Logger logger = Logger.getLogger(HeartBeatSender.class.getName());
     private final String nodeId;
-    private final String address;
-    private final int port;
+    private final String monitorIp;
+    private final int monitorPort;
+    private final int serverTcpPort; // <-- el puerto real del servidor
 
-    public HeartBeatSender(String nodeId, String address, int port) {
+    public HeartBeatSender(String nodeId, String monitorIp, int monitorPort, int serverTcpPort) {
         this.nodeId = nodeId;
-        this.address = address;
-        this.port = port;
+        this.monitorIp = monitorIp;
+        this.monitorPort = monitorPort;
+        this.serverTcpPort = serverTcpPort;
     }
 
     @Override
     public void run() {
         try (DatagramSocket socket = new DatagramSocket()) {
-            InetAddress inetAddress = InetAddress.getByName(address);
-            byte[] buffer = nodeId.getBytes();
-            DatagramPacket packet = new DatagramPacket(buffer, buffer.length, inetAddress, port); // Create UDP package
+            InetAddress inetAddress = InetAddress.getByName(monitorIp);
 
             while (true) {
-                socket.send(packet); // Heartbeat sent
-                logger.info("Heartbeat sent to " + address + ":" + port);
-                Thread.sleep(2000); // 2 sec
+                String message = nodeId + ":" + serverTcpPort;
+                byte[] buffer = message.getBytes();
+
+                DatagramPacket packet = new DatagramPacket(buffer, buffer.length, inetAddress, monitorPort);
+                socket.send(packet);
+                Thread.sleep(2000);
             }
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Error in HeartBeatSender: ", e);
+            e.printStackTrace();
         }
     }
 }

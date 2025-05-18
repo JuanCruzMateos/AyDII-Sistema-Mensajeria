@@ -2,7 +2,6 @@ package org.grupouno;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetAddress;
 import java.util.logging.Logger;
 
 public class HeartBeatListener extends Thread {
@@ -17,19 +16,28 @@ public class HeartBeatListener extends Thread {
 
     @Override
     public void run() {
-        try (DatagramSocket socket = new DatagramSocket(port)) {    //Works with UDP socket
+        try (DatagramSocket socket = new DatagramSocket(port)) {
             byte[] buffer = new byte[256];
+
             while (true) {
                 DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
-                socket.receive(packet); // Receive heartbeat message from a node
+                socket.receive(packet);
 
-                String nodeId = new String(packet.getData(), 0, packet.getLength());
-                InetAddress senderAddress = packet.getAddress(); // Obtener IP del nodo emisor
-                String ip = senderAddress.getHostAddress();
-                logger.info("Received heartbeat from: " + nodeId);
+                String received = new String(packet.getData(), 0, packet.getLength()).trim();
+                String[] parts = received.split(":");
 
-                // Register the heartbeat with the Monitor
-                monitor.registerHeartbeat(nodeId, ip);
+                if (parts.length != 2) {
+                    logger.warning("Formato inválido de heartbeat: " + received);
+                    continue;
+                }
+
+                String nodeId = parts[0];
+                String serverPort = parts[1];
+
+                String ip = packet.getAddress().getHostAddress();
+                logger.info("Received heartbeat from: " + nodeId + " at " + ip + ":" + serverPort);
+
+                monitor.registerHeartbeat(nodeId, ip + ":" + serverPort);
             }
         } catch (Exception e) {
             e.printStackTrace();

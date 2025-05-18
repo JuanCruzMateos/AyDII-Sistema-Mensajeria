@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 public class ServerApp {
     private static final Logger logger = Logger.getLogger(ServerApp.class.getName());
     private static final String VERSION = "2.0.0";
-    private static final int SERVER_PORT = 50480;
+    private static int SERVER_PORT = 50480;
 
     static {
         System.setProperty("java.util.logging.SimpleFormatter.format",
@@ -22,9 +22,13 @@ public class ServerApp {
     public static void main(String[] args) {
         logger.info("Starting ChatServerImpl Application V" + VERSION);
 
-        if (ConnectionValidator.isValidPort(SERVER_PORT) && ConnectionValidator.isPortAvailable(SERVER_PORT)) {
+        while (!ConnectionValidator.isPortAvailable(SERVER_PORT)) {
+            SERVER_PORT++;
+        }
+        if (ConnectionValidator.isValidPort(SERVER_PORT)) {
             ChatServerImpl chatServerImpl = new ChatServerImpl(SERVER_PORT, new Directory(), new ConversationService(new HashMap<>()), new HashMap<>());
             chatServerImpl.startServer();
+
         } else {
             logger.severe("Port " + SERVER_PORT + " is invalid or already in use. Please choose another port.");
             System.exit(1);

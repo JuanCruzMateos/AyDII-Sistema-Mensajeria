@@ -24,7 +24,7 @@ public class PrimaryQueryResponder extends Thread {
                 String message = new String(request.getData(), 0, request.getLength());
                 logger.info("Quey received: " + message);
                 if (message.equals("GET_PRIMARY")) {
-                    String primaryIp = monitor.getPrimaryIp();
+                    String primaryIp = monitor.getPrimaryAddress();
                     byte[] responseData = primaryIp.getBytes();
                     DatagramPacket response = new DatagramPacket(
                             responseData,

@@ -33,11 +33,11 @@ public class ChatServerImpl implements IChatServer {
         InetAddress localHost = null;
         String monitorAddress = "127.0.0.1"; // monitor IP direction
         int monitorPort = 9999;  // monitor listening port
-        String nodeId = "node1";    // Server Id
+        String nodeId = "node_" + this.serverPort;    // Server Id
 
         try {
             localHost = InetAddress.getByName("127.0.0.1");
-            new HeartBeatSender(nodeId, monitorAddress, monitorPort).start();
+            new HeartBeatSender(nodeId, monitorAddress, monitorPort, serverPort).start();
         } catch (UnknownHostException e) {
             throw new RuntimeException(e);
         }

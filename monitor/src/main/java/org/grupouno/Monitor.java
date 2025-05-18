@@ -31,9 +31,9 @@ public class Monitor {
             nodeInfoMap.put(nodeId, info);
         } else {
             info.setLastHeartbeat(System.currentTimeMillis());
+            // No cambiar ipAddress aquí, a menos que permitas IP dinámica
         }
 
-        // Si no hay primario, el primero que se registre lo es
         if (currentPrimary == null) {
             promoteToPrimary(nodeId);
         }
@@ -47,13 +47,14 @@ public class Monitor {
             long diff = now - info.getLastHeartbeat();
 
             if (diff > TIMEOUT) {
-                logger.warning("INACTIVO: " + nodeId + (info.isPrimary() ? " (PRIMARIO)" : ""));
+                logger.warning("INACTIVO: " + nodeId + " con ip: " + info.getIpAddress() + (info.isPrimary() ? " (PRIMARIO)" : ""));
                 // Si el nodo caído era el primario, promover a otro
                 if (info.isPrimary()) {
+                    info.setPrimary(false);
                     promoteBackup();
                 }
             } else {
-                logger.info("Activo: " + nodeId + (info.isPrimary() ? " (PRIMARIO)" : " (Backup)"));
+                logger.info("Activo: " + nodeId + " con ip: " + info.getIpAddress() + (info.isPrimary() ? " (PRIMARIO)" : " (Backup)"));
             }
         }
     }
@@ -82,9 +83,9 @@ public class Monitor {
         currentPrimary = null;
     }
 
-    public synchronized String getPrimaryIp() {
+    public synchronized String getPrimaryAddress() {
         if (currentPrimary != null && nodeInfoMap.containsKey(currentPrimary)) {
-            return nodeInfoMap.get(currentPrimary).getIpAddress();
+            return nodeInfoMap.get(currentPrimary).getIpAddress(); // Ej: 127.0.0.1:50600
         }
         return "NONE";
     }

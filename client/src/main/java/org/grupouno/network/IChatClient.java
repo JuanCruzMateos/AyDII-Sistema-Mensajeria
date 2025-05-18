@@ -13,5 +13,5 @@ public interface IChatClient {
 
     void close();
 
-    void tryReconnectToBackup();
+    boolean tryReconnectToBackup();
 }

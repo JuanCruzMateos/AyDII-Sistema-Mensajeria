@@ -34,25 +34,31 @@ public class ChatClientImpl implements IChatClient, Runnable {
 
     @Override
     public void run() {
-        try {
-            while (true) {
+        while (true) {
+            try {
                 Message message = (Message) inputStream.readObject();
                 logger.info("Received message: " + message.type());
-                // REGISTER, DISCONNECT, GET_DIRECTORY are the requests send to the server
                 switch (message.type()) {
                     case MESSAGE -> this.chatController.receiveMessage(message);
                     case DIRECTORY -> this.chatController.updateDirectory(message);
                     case ERROR -> logger.warning("Error receiving message: " + message.type());
                     case MESSAGE_ACK, DISCONNECT_ACK, REGISTER_ACK -> {
-                        // none of these messages should be handled by the client
+                        // no se manejan aquí
                     }
                 }
+            } catch (IOException | ClassNotFoundException e) {
+                logger.warning("Error receiving message: " + e.getMessage());
+
+                boolean reconectado = tryReconnectToBackup();
+                if (!reconectado) {
+                    logger.warning("No se pudo reconectar. Cerrando cliente.");
+                    this.close();
+                    break; // salimos del while -> termina el hilo
+                } else {
+                    logger.info("Reconexión exitosa. Continuando...");
+                    // sigue en el while
+                }
             }
-        } catch (IOException | ClassNotFoundException e) {
-            logger.warning("Error receiving message: " + e.getMessage());
-            tryReconnectToBackup();
-        } finally {
-            this.close();
         }
     }
 
@@ -118,12 +124,11 @@ public class ChatClientImpl implements IChatClient, Runnable {
     }
 
     @Override
-    public void tryReconnectToBackup() {
+    public boolean tryReconnectToBackup() {
         logger.info("Intentando reconectarse al backup...");
-
         DatagramSocket datagramSocket = null;
         try {
-            datagramSocket = new DatagramSocket(); // Solo para UDP
+            datagramSocket = new DatagramSocket();
             InetAddress monitorAddress = InetAddress.getByName("127.0.0.1");
             byte[] sendData = "GET_PRIMARY".getBytes();
             DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, monitorAddress, 9998);
@@ -131,23 +136,24 @@ public class ChatClientImpl implements IChatClient, Runnable {
 
             byte[] receiveBuffer = new byte[1024];
             DatagramPacket receivePacket = new DatagramPacket(receiveBuffer, receiveBuffer.length);
-            datagramSocket.setSoTimeout(2000); // 2 segundos
+            datagramSocket.setSoTimeout(2000);
             datagramSocket.receive(receivePacket);
 
             String primaryIp = new String(receivePacket.getData(), 0, receivePacket.getLength());
             logger.info("Nuevo primario recibido: " + primaryIp);
 
             if (!primaryIp.equals("NONE")) {
-                this.close(); // Cierre conexión anterior
+                this.close(); // Cerramos conexión previa
 
-                // Nueva conexión TCP
                 InetAddress userAddress = InetAddress.getByName(currentUser.ip());
-                this.socket = new Socket(primaryIp, 50480, userAddress, currentUser.port());
+                int newPort = socket.getPort() + 1; // Asumimos que el nuevo primario está en puerto+1
+                this.socket = new Socket(primaryIp, newPort, userAddress, currentUser.port());
                 this.outputStream = new ObjectOutputStream(socket.getOutputStream());
                 this.outputStream.flush();
                 this.inputStream = new ObjectInputStream(socket.getInputStream());
 
                 registerWithServer(currentUser.nickname(), currentUser.ip(), currentUser.port());
+                return true;
             } else {
                 logger.warning("No hay primario disponible.");
             }
@@ -158,6 +164,7 @@ public class ChatClientImpl implements IChatClient, Runnable {
                 datagramSocket.close();
             }
         }
+        return false;
     }
 
 }
