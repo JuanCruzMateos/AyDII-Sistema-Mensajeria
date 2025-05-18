@@ -1,6 +1,7 @@
 package org.grupouno.model.conversation;
 
 import java.util.HashMap;
+import java.util.Optional;
 
 /**
  * Manages conversations and their associated messages.
@@ -18,8 +19,8 @@ public class ConversationService implements IConversationService {
     }
 
     @Override
-    public synchronized IConversation getConversationByContactNickname(String receiverNickname) {
-        return this.conversations.get(receiverNickname);
+    public synchronized Optional<IConversation> getConversationByContactNickname(String receiverNickname) {
+        return Optional.ofNullable(this.conversations.get(receiverNickname));
     }
 
     @Override
@@ -30,6 +31,11 @@ public class ConversationService implements IConversationService {
     @Override
     public synchronized void addMessage(Message message, String contactNickname) {
         this.conversations.get(contactNickname).addMessage(message);
+    }
+
+    @Override
+    public synchronized Iterable<IConversation> getAllConversations() {
+        return this.conversations.values();
     }
 
 }

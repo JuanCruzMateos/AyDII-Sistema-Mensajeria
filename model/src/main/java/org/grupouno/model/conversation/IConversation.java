@@ -6,9 +6,13 @@ import java.util.List;
 public interface IConversation {
     void addMessage(Message message);
 
+    void removeMessage(Message message);
+
     List<Message> getMessages();
 
     boolean isEmpty();
 
     Iterator<Message> iterator();
+
+    boolean existsMessage(Message message);
 }

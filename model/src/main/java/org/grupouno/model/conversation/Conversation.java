@@ -21,6 +21,11 @@ public class Conversation implements IConversation {
     }
 
     @Override
+    public void removeMessage(Message message) {
+        this.messages.remove(message);
+    }
+
+    @Override
     public List<Message> getMessages() {
         return messages;
     }
@@ -33,6 +38,11 @@ public class Conversation implements IConversation {
     @Override
     public Iterator<Message> iterator() {
         return this.messages.iterator();
+    }
+
+    @Override
+    public boolean existsMessage(Message message) {
+        return this.messages.contains(message);
     }
 
     @Override

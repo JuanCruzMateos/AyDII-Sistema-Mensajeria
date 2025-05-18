@@ -85,12 +85,17 @@ public class ChatSessionImpl implements IChatSession {
 
     @Override
     public synchronized String getMessagesByContact(String contactNickname) {
-        IConversation IConversation = this.conversationService.getConversationByContactNickname(contactNickname);
-        if (IConversation == null) {
+        Optional<IConversation> IConversation = this.conversationService.getConversationByContactNickname(contactNickname);
+        if (IConversation.isEmpty()) {
             logger.info("Conversation not found, starting new conversation.");
             this.conversationService.startNewConversation(contactNickname);
         }
-        IConversation c = this.conversationService.getConversationByContactNickname(contactNickname);
+        Optional<IConversation> res = this.conversationService.getConversationByContactNickname(contactNickname);
+        if (res.isEmpty()) {
+            logger.warning("Conversation not found");
+            return "";
+        }
+        IConversation c = res.get();
         return c.getMessages().stream()
                 .map(Message::getFormattedMessage)
                 .reduce("", (acc, message) -> acc + message + "\n");

@@ -1,12 +1,14 @@
 package org.grupouno.network.handlers;
 
+import org.grupouno.model.connection.ConnectionManager;
 import org.grupouno.model.conversation.IConversation;
 import org.grupouno.model.conversation.IConversationService;
 import org.grupouno.model.conversation.Message;
 import org.grupouno.model.conversation.MessageType;
 import org.grupouno.model.directory.IDirectory;
 import org.grupouno.model.directory.User;
-import org.grupouno.network.connections.ConnectionManager;
+import org.grupouno.model.protocols.Topic;
+import org.grupouno.network.sync.SyncService;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -15,6 +17,7 @@ import java.net.Socket;
 import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -25,13 +28,15 @@ public class ClientHandlerImpl implements Runnable, IClientHandler {
     private final IDirectory directory;
     private final IConversationService pendingMessages;
     private final Map<String, ConnectionManager> connectedClients;
+    private final SyncService syncService;
 
 
-    public ClientHandlerImpl(Socket socket, IDirectory directory, IConversationService pendingMessages, Map<String, ConnectionManager> connectedClients) throws IOException {
+    public ClientHandlerImpl(Socket socket, IDirectory directory, IConversationService pendingMessages, Map<String, ConnectionManager> connectedClients, SyncService syncService) throws IOException {
         this.connection = new ConnectionManager(socket, new ObjectOutputStream(socket.getOutputStream()), new ObjectInputStream(socket.getInputStream()));
         this.directory = directory;
         this.pendingMessages = pendingMessages;
         this.connectedClients = connectedClients;
+        this.syncService = syncService;
     }
 
     @Override
@@ -50,8 +55,10 @@ public class ClientHandlerImpl implements Runnable, IClientHandler {
                 }
                 message = (Message) in.readObject();
                 this.logger.info("Received message from " + message.senderNickname() + ": " + message.type());
+                // sync.
             }
             this.removeConnection(message.senderNickname());
+            // sync.
         } catch (IOException | ClassNotFoundException e) {
             this.logger.warning("Error handling client: " + e.getMessage());
         }
@@ -68,6 +75,7 @@ public class ClientHandlerImpl implements Runnable, IClientHandler {
         } else {
             this.connectedClients.put(message.senderNickname(), this.connection);
             this.directory.addContact(new User(message.senderNickname(), message.senderIP(), message.senderPort()));
+            this.syncService.publishEvent(message, Topic.USER_CONNECT);
             this.logger.info("New connection registered: " + message.senderNickname());
             this.serverResponse(message.senderNickname(), "Connection successful", MessageType.REGISTER_ACK);
         }
@@ -91,6 +99,7 @@ public class ClientHandlerImpl implements Runnable, IClientHandler {
         }
         this.directory.removeContact(nickname);
         if (!this.connectedClients.containsKey(nickname) && this.directory.getContactByNickname(nickname).isEmpty()) {
+            this.syncService.publishEvent(new Message(nickname, null, 0, null, null, 0, null, null, null), Topic.USER_DISCONNECT);
             this.logger.info("Contact removed from directory: " + nickname);
         } else {
             this.logger.warning("Failed to remove contact from directory for " + nickname);
@@ -101,7 +110,8 @@ public class ClientHandlerImpl implements Runnable, IClientHandler {
 
     @Override
     public synchronized void sendPendingMessages(String nickname) {
-        IConversation pendingMessages = this.pendingMessages.getConversationByContactNickname(nickname);
+        Optional<IConversation> res = this.pendingMessages.getConversationByContactNickname(nickname);
+        IConversation pendingMessages = res.orElse(null);
         ConnectionManager clientConnection = this.connectedClients.get(nickname);
         if (clientConnection != null && pendingMessages != null && !pendingMessages.isEmpty()) {
             ObjectOutputStream out = clientConnection.objectOutputStream();
@@ -114,6 +124,7 @@ public class ClientHandlerImpl implements Runnable, IClientHandler {
                     out.flush();
                     this.serverResponse(message.senderNickname(), "Message received", MessageType.MESSAGE_ACK);
                     messageIterator.remove();
+                    this.syncService.publishEvent(message, Topic.REMOVE_MESSAGE);
                 } catch (IOException e) {
                     this.logger.warning("Error sending pending messages to " + nickname + ": " + e.getMessage());
                 }
@@ -143,6 +154,7 @@ public class ClientHandlerImpl implements Runnable, IClientHandler {
         if (!this.connectedClients.containsKey(message.receiverNickname())) {
             this.logger.warning("Client " + message.receiverNickname() + " not connected. Adding message to pending messages.");
             this.addMessageToPendingMessages(message);
+            this.syncService.publishEvent(message, Topic.NEW_MESSAGE);
         } else {
             try {
                 ObjectOutputStream out = this.connectedClients.get(message.receiverNickname()).objectOutputStream();

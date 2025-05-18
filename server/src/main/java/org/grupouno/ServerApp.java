@@ -6,6 +6,7 @@ import org.grupouno.model.conversation.ConversationService;
 import org.grupouno.model.directory.Directory;
 import org.grupouno.network.hearthbeat.Heartbeat;
 import org.grupouno.network.server.ChatServerImpl;
+import org.grupouno.network.sync.SyncService;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -25,6 +26,8 @@ public class ServerApp {
             int serverClientPort = Integer.parseInt(ConfigService.getConfig("server." + serverNumber + ".client.port"));
             int serverHeartbeatPort = Integer.parseInt(Objects.requireNonNull(ConfigService.getConfig("server." + serverNumber + ".heartbeat.port")));
             int serverBrokerPort = Integer.parseInt(Objects.requireNonNull(ConfigService.getConfig("server." + serverNumber + ".broker.port")));
+            String brokerServerAddress = ConfigService.getConfig("broker.server.host");
+            int brokerServerPort = Integer.parseInt(Objects.requireNonNull(ConfigService.getConfig("broker.server.port")));
             String heartbeatServerAddress = ConfigService.getConfig("monitor.heartbeat.server.host");
             int heartbeatServerPort = Integer.parseInt(Objects.requireNonNull(ConfigService.getConfig("monitor.heartbeat.server.port")));
             long serverHeartbeatRate = Long.parseLong(Objects.requireNonNull(ConfigService.getConfig("server.heartbeat.rate")));
@@ -38,12 +41,16 @@ public class ServerApp {
             logger.info("Heartbeat Server Address: " + heartbeatServerAddress);
             logger.info("Heartbeat Server Port: " + heartbeatServerPort);
             logger.info("Server Heartbeat Rate: " + serverHeartbeatRate + "ms");
+            logger.info("Broker Server Address: " + brokerServerAddress);
+            logger.info("Broker Server Port: " + brokerServerPort);
 
+            Directory directory = new Directory();
+            ConversationService conversationService = new ConversationService();
             ChatServerImpl chatServerImpl = new ChatServerImpl(
                     serverAddress,
                     serverClientPort,
-                    new Directory(),
-                    new ConversationService(),
+                    directory,
+                    conversationService,
                     new HashMap<>(), // Todo
                     new Heartbeat(
                             heartbeatServerAddress,
@@ -51,6 +58,14 @@ public class ServerApp {
                             serverAddress,
                             serverHeartbeatPort,
                             serverHeartbeatRate
+                    ),
+                    new SyncService(
+                            serverAddress,
+                            serverBrokerPort,
+                            brokerServerAddress,
+                            brokerServerPort,
+                            directory,
+                            conversationService
                     ));
             chatServerImpl.startServer();
         } else {

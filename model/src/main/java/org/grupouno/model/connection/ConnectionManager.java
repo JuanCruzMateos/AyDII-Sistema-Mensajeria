@@ -1,4 +1,4 @@
-package org.grupouno.network.connections;
+package org.grupouno.model.connection;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;

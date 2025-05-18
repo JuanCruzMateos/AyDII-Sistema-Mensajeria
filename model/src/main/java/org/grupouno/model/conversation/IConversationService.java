@@ -1,11 +1,15 @@
 package org.grupouno.model.conversation;
 
+import java.util.Optional;
+
 public interface IConversationService {
     boolean existsConversationWith(String contactNickname);
 
-    IConversation getConversationByContactNickname(String receiverNickname);
+    Optional<IConversation> getConversationByContactNickname(String receiverNickname);
 
     void startNewConversation(String contactNickname);
 
     void addMessage(Message message, String contactNickname);
+
+    Iterable<IConversation> getAllConversations();
 }

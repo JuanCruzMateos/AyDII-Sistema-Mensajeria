@@ -12,9 +12,9 @@
         <module>server</module>
         <module>client</module>
         <module>model</module>
-        <module>utils</module>
         <module>monitor</module>
-        <module>pubsub</module>
+        <module>broker</module>
+        <module>utils</module>
     </modules>
 
     <properties>
