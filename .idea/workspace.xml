@@ -5,23 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5486df74-5d68-4513-bf6f-42320c48c0d3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/monitor/PrimaryServerAddress.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/broker/src/main/java/org/grupouno/broker/ConnectionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/broker/src/main/java/org/grupouno/broker/ConnectionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/broker/src/main/java/org/grupouno/broker/MessageBrokerServerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/broker/src/main/java/org/grupouno/broker/MessageBrokerServerImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/broker/src/main/resources/config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/broker/src/main/resources/config.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/ClientApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/ClientApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/controller/ChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/controller/ChatController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/exceptions/ConnectionRefusedException.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/network/ChatClientImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/network/ChatClientImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/resources/config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/resources/config.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/monitor/AddressServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/monitor/AddressServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/monitor/HeartbeatServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/monitor/HeartbeatServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/monitor/Monitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/monitor/Monitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/monitor/src/main/resources/config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/monitor/src/main/resources/config.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/handlers/ClientHandlerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/handlers/ClientHandlerImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/sync/SyncService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/sync/SyncService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/resources/config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/resources/config.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -310,7 +296,7 @@
       <workItem from="1747506046362" duration="30240000" />
       <workItem from="1747600016861" duration="21000" />
       <workItem from="1747600480317" duration="59000" />
-      <workItem from="1747600559014" duration="10631000" />
+      <workItem from="1747600559014" duration="12679000" />
     </task>
     <servers />
   </component>

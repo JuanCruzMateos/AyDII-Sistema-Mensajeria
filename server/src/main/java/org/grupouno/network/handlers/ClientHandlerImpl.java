@@ -51,14 +51,17 @@ public class ClientHandlerImpl implements Runnable, IClientHandler {
                 switch (message.type()) {
                     case GET_DIRECTORY -> this.getDirectoryContacts(message);
                     case MESSAGE -> this.forwardMessage(message);
-                    default -> this.logger.warning("Unhandled message type: " + message.type());
+                    default -> {
+                        this.logger.warning("Unhandled message type: " + message.type());
+                        logger.info(String.valueOf(message));
+                    }
                 }
                 message = (Message) in.readObject();
                 this.logger.info("Received message from " + message.senderNickname() + ": " + message.type());
-                // sync.
+                this.syncService.publishEvent(message, Topic.NEW_MESSAGE);
             }
             this.removeConnection(message.senderNickname());
-            // sync.
+            this.syncService.publishEvent(message, Topic.USER_DISCONNECT);
         } catch (IOException | ClassNotFoundException e) {
             this.logger.warning("Error handling client: " + e.getMessage());
         }

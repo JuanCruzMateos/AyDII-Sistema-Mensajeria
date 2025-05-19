@@ -47,7 +47,7 @@ public class ChatClientImpl implements IChatClient, Runnable {
                 this.monitorOutputStream.writeObject("primary.server");
                 this.monitorOutputStream.flush();
                 primaryServer = (SocketAddress) this.monitorInputStream.readObject();
-                this.logger.info("Primary server address: " + primaryServer);
+                this.logger.info("Primary server address from monitor: " + primaryServer);
                 if (primaryServer == null) {
                     retries++;
                     Thread.sleep(delay * (long) Math.pow(2, retries - 1));
@@ -68,12 +68,13 @@ public class ChatClientImpl implements IChatClient, Runnable {
             this.monitorSocket.connect(new java.net.InetSocketAddress(monitorAddress, monitorPort));
             this.monitorInputStream = new ObjectInputStream(this.monitorSocket.getInputStream());
             this.monitorOutputStream = new ObjectOutputStream(this.monitorSocket.getOutputStream());
+            logger.info("Connected to monitor at " + monitorAddress + ":" + monitorPort);
         } catch (IOException e) {
             logger.warning("Error creating socket connection to monitor: " + e.getMessage());
         }
     }
 
-    public void connectToServer(SocketAddress primaryServer) {
+    public boolean connectToServer(SocketAddress primaryServer) {
         this.serverSocket = new Socket();
         try {
             this.serverSocket.setReuseAddress(true);
@@ -82,8 +83,10 @@ public class ChatClientImpl implements IChatClient, Runnable {
             this.serverInputStream = new ObjectInputStream(serverSocket.getInputStream());
             this.serverOutputStream = new ObjectOutputStream(serverSocket.getOutputStream());
             logger.info("Connected to primary server: " + primaryServer);
+            return true;
         } catch (IOException e) {
             logger.warning("Error connecting to primary server: " + e.getMessage());
+            return false;
         }
     }
 
@@ -93,28 +96,35 @@ public class ChatClientImpl implements IChatClient, Runnable {
         logger.info("Starting client thread");
         logger.info("Connecting to monitor at " + this.monitorAddress + ":" + this.monitorPort);
         logger.info("Local address: " + this.localAddress + ":" + this.localPort);
-        
+
         this.connectToMonitor(this.localAddress, this.localPort, this.monitorAddress, this.monitorPort);
         this.fetchPrimaryServerFromMonitor(1000);
         this.connectToServer(this.primaryServer);
         this.registerWithServer(this.clientName, this.localAddress, this.localPort);
-        try {
-            Message message = (Message) this.serverInputStream.readObject();
-            while (message.type() != MessageType.DISCONNECT_ACK) {
-                logger.info("Received message: " + message.type());
-                this.handleMessage(message);
-                message = (Message) this.serverInputStream.readObject();
+
+        while (true) {
+            try {
+                Message message = (Message) this.serverInputStream.readObject();
+                while (message.type() != MessageType.DISCONNECT_ACK) {
+                    logger.info("Received message: " + message.type());
+                    this.handleMessage(message);
+                    message = (Message) this.serverInputStream.readObject();
+                }
+            } catch (IOException | ClassNotFoundException e) {
+                logger.warning("Error receiving message: " + e.getMessage());
+                logger.info("Reconnecting to server...");
+                this.fetchPrimaryServerFromMonitor(1000);
+                boolean b1 = this.connectToServer(this.primaryServer);
+                if (!b1) {
+                    logger.warning("Failed to reconnect to server");
+                    break;
+                }
             }
-        } catch (IOException | ClassNotFoundException e) {
-            logger.warning("Error receiving message: " + e.getMessage());
-            logger.info("Reconnecting to server...");
-            this.fetchPrimaryServerFromMonitor(1000);
-            this.connectToServer(this.primaryServer);
-        } finally {
-            logger.info("Received DISCONNECT_ACK, stopping client thread");
-            this.close();
         }
+//        logger.info("Received DISCONNECT_ACK, stopping client thread");
+        this.close();
     }
+
 
     private void handleMessage(Message message) {
         switch (message.type()) {
