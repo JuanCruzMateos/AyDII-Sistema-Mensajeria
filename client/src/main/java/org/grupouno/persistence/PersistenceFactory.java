@@ -1,6 +1,7 @@
 package org.grupouno.persistence;
 
 import java.io.File;
+import java.io.IOException;
 
 public class PersistenceFactory {
 
@@ -10,7 +11,7 @@ public class PersistenceFactory {
     public static final String path = "/saves/";
 
 
-    public ISessionPersistence getPersistence(String username) {
+    public ISessionPersistence getPersistence(String username) throws IOException {
         String filePath = path + username;
         if (new File(filePath + ".xml").isFile())
             return new XMLSessionPersistence(filePath + ".xml");
@@ -21,7 +22,7 @@ public class PersistenceFactory {
         return null;
     }
 
-    public ISessionPersistence getPersistence(String username, int type) {
+    public ISessionPersistence getPersistence(String username, int type) throws IOException {
         String filePath = path + username;
         ISessionPersistence ans = switch (type) {
             case XML_PERSISTENCE -> new XMLSessionPersistence(filePath + ".xml");

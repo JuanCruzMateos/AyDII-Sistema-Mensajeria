@@ -4,12 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5486df74-5d68-4513-bf6f-42320c48c0d3" name="Changes" comment="Pero por qué c***** no te subiste?!">
-      <change afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/persistence/FileSessionPersistence.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/persistence/PersistenceFactory.java" afterDir="false" />
+    <list default="true" id="5486df74-5d68-4513-bf6f-42320c48c0d3" name="Changes" comment="Poco a poco toma forma la persistencia.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/persistence/ISessionPersistence.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/persistence/ISessionPersistence.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/persistence/FileSessionPersistence.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/persistence/FileSessionPersistence.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/persistence/JSONSessionPersistence.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/persistence/JSONSessionPersistence.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/persistence/PersistenceFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/persistence/PersistenceFactory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/persistence/TXTSessionPersistence.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/persistence/TXTSessionPersistence.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/persistence/XMLSessionPersistence.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/persistence/XMLSessionPersistence.java" afterDir="false" />
     </list>
@@ -310,7 +309,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747777293019</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Poco a poco toma forma la persistencia.">
+      <option name="closed" value="true" />
+      <created>1747781415325</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1747781415325</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -333,7 +340,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added persistence folder" />
     <MESSAGE value="Pero por qué c***** no te subiste?!" />
-    <option name="LAST_COMMIT_MESSAGE" value="Pero por qué c***** no te subiste?!" />
+    <MESSAGE value="Poco a poco toma forma la persistencia." />
+    <option name="LAST_COMMIT_MESSAGE" value="Poco a poco toma forma la persistencia." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

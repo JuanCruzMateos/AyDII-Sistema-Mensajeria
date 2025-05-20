@@ -1,8 +1,10 @@
 package org.grupouno.persistence;
 
+import java.io.IOException;
+
 public class JSONSessionPersistence extends FileSessionPersistence {
 
-    public JSONSessionPersistence(String pathName) {
+    public JSONSessionPersistence(String pathName) throws IOException {
         super(pathName);
     }
 
