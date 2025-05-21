@@ -53,7 +53,7 @@ public class HeartbeatServer implements Runnable {
     @Override
     public void run() {
         try (ServerSocket serverSocket = new ServerSocket(monitorPort, 50, InetAddress.getByName(monitorAddress))) {
-            serverSocket.setReuseAddress(Boolean.TRUE);
+            serverSocket.setReuseAddress(true);
             logger.info("HeartbeatServer started on " + monitorAddress + ":" + monitorPort);
             while (true) {
                 Socket socket = serverSocket.accept();

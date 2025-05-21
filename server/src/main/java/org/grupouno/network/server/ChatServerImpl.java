@@ -44,7 +44,7 @@ public class ChatServerImpl implements IChatServer {
         Thread syncThread = new Thread(syncService);
         syncThread.start();
 
-        logger.info("Starting server on port " + serverPort);
+        logger.info("Starting client service on port " + serverPort);
         try (ServerSocket serverSocket = new ServerSocket(serverPort, 50, InetAddress.getByName(this.serverAddress))) {
             logger.info("Waiting for connections... ");
             while (true) {

@@ -14,24 +14,23 @@ import java.util.logging.Logger;
 public class ConnectionHandler implements Runnable {
     private final Logger logger = Logger.getLogger(ConnectionHandler.class.getName());
     private final Socket socket;
-    private final HashMap<SocketAddress, ConnectionManager> connectedClients;
+    private final HashMap<SocketAddress, ConnectionManager> connectedServers;
 
-    public ConnectionHandler(Socket socket, HashMap<SocketAddress, ConnectionManager> connectedClients) {
+    public ConnectionHandler(Socket socket, HashMap<SocketAddress, ConnectionManager> connectedServers) {
         this.socket = socket;
-        this.connectedClients = connectedClients;
+        this.connectedServers = connectedServers;
     }
 
     private synchronized void broadcastMessage(SyncProtocolMessage message) {
-        for (SocketAddress address : this.connectedClients.keySet()) {
-            if (!address.equals(this.socket.getRemoteSocketAddress())) {
+        this.connectedServers.forEach((address, connectionManager) -> {
+            if (!address.equals(socket.getRemoteSocketAddress())) {
                 try {
-                    ConnectionManager socketManager = this.connectedClients.get(address);
-                    Socket socket = socketManager.socket();
-                    if (socket.isClosed()) {
-                        logger.warning("Socket " + socket.getRemoteSocketAddress() + " is closed. Removing from connected clients.");
-                        this.connectedClients.remove(address);
+                    Socket targetSocket = connectionManager.socket();
+                    if (targetSocket.isClosed()) {
+                        logger.warning("Socket " + targetSocket.getRemoteSocketAddress() + " is closed. Removing from connected clients.");
+                        this.connectedServers.remove(address);
                     } else {
-                        ObjectOutputStream out = socketManager.objectOutputStream();
+                        ObjectOutputStream out = connectionManager.objectOutputStream();
                         out.writeObject(message);
                         out.flush();
                         logger.info("Sent message: " + message.topic() + " to " + address);
@@ -40,22 +39,28 @@ public class ConnectionHandler implements Runnable {
                     logger.warning("Error sending message to " + address + ": " + e.getMessage());
                 }
             }
-        }
+        });
     }
 
     @Override
     public void run() {
         try {
-            this.connectedClients.put(this.socket.getRemoteSocketAddress(),
-                    new ConnectionManager(this.socket, new ObjectOutputStream(this.socket.getOutputStream()), new ObjectInputStream(this.socket.getInputStream())));
+            this.connectedServers.put(
+                    socket.getRemoteSocketAddress(),
+                    new ConnectionManager(
+                            socket,
+                            new ObjectOutputStream(socket.getOutputStream()),
+                            new ObjectInputStream(socket.getInputStream())));
+            ConnectionManager connectionManager = this.connectedServers.get(socket.getRemoteSocketAddress());
+            ObjectInputStream in = connectionManager.objectInputStream();
+
             while (true) {
-                SyncProtocolMessage message = (SyncProtocolMessage) this.connectedClients.get(this.socket.getRemoteSocketAddress()).objectInputStream().readObject();
-                logger.info("Received message: " + message.topic() + " from " + this.socket.getRemoteSocketAddress());
-                this.broadcastMessage(message);
+                SyncProtocolMessage message = (SyncProtocolMessage) in.readObject();
+                logger.info("Received message: " + message.topic() + " from " + socket.getRemoteSocketAddress());
+                broadcastMessage(message);
             }
         } catch (IOException e) {
             logger.warning("Error creating output stream: " + e.getMessage());
-            e.printStackTrace();
         } catch (ClassNotFoundException e) {
             logger.warning("Error reading message: " + e.getMessage());
         }

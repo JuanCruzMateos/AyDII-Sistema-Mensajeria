@@ -5,9 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5486df74-5d68-4513-bf6f-42320c48c0d3" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/monitor/AddressServerHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/broker/src/main/java/org/grupouno/broker/ConnectionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/broker/src/main/java/org/grupouno/broker/ConnectionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/broker/src/main/java/org/grupouno/broker/MessageBrokerServerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/broker/src/main/java/org/grupouno/broker/MessageBrokerServerImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/network/ChatClientImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/network/ChatClientImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/src/main/java/org/grupouno/model/connection/ConnectionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/org/grupouno/model/connection/ConnectionManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/src/main/java/org/grupouno/model/conversation/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/org/grupouno/model/conversation/Message.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/monitor/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/monitor/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/monitor/AddressServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/monitor/AddressServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/monitor/HeartbeatServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/monitor/HeartbeatServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/handlers/ClientHandlerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/handlers/ClientHandlerImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/server/ChatServerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/server/ChatServerImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,6 +109,7 @@
     &quot;JAR Application.sistema-mensajeria-1.0.0.jar.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.AgendaTest.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.ChatSessionTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ClientAppTest.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.ConversationServiceTest.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.ConversationTest.addMessageAppendsMessageToConversation.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.ConversationTest.executor&quot;: &quot;Run&quot;,
@@ -171,7 +181,7 @@
       <recent name="org.grupouno.validation" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.ClientApp">
+  <component name="RunManager" selected="JUnit.ClientAppTest">
     <configuration name="ClientApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.grupouno.ClientApp" />
       <module name="client" />
@@ -211,19 +221,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Prueba" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.grupouno.Prueba" />
-      <module name="utils" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.grupouno.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="ServerApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.grupouno.ServerApp" />
       <module name="server" />
@@ -237,6 +234,21 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="ClientAppTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="client" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.grupouno.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.grupouno" />
+      <option name="MAIN_CLASS_NAME" value="org.grupouno.ClientAppTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
       <deployment type="dockerfile">
         <settings />
@@ -245,6 +257,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.ClientAppTest" />
         <item itemvalue="Application.ClientApp" />
         <item itemvalue="Application.MonitorApp" />
         <item itemvalue="Application.MessageBrokerService" />
@@ -296,7 +309,8 @@
       <workItem from="1747506046362" duration="30240000" />
       <workItem from="1747600016861" duration="21000" />
       <workItem from="1747600480317" duration="59000" />
-      <workItem from="1747600559014" duration="12679000" />
+      <workItem from="1747600559014" duration="26342000" />
+      <workItem from="1747790616124" duration="4466000" />
     </task>
     <servers />
   </component>

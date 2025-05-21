@@ -15,9 +15,11 @@ public record Message(
         LocalDateTime timestamp,
         MessageType type
 ) implements Serializable {
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
     public String getFormattedMessage() {
-        return String.format("%s - [%s]:\n%s\n", senderNickname, timestamp.format(FORMATTER), content);
+        return String.format("%s - [%s]:\n%s\n",
+                senderNickname,
+                timestamp.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")),
+                content);
     }
 }

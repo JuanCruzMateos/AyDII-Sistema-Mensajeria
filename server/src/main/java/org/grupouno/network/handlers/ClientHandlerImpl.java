@@ -48,6 +48,8 @@ public class ClientHandlerImpl implements Runnable, IClientHandler {
             this.registerNewConnection(message);
             this.sendPendingMessages(message.senderNickname());
             while (message.type() != MessageType.DISCONNECT) {
+                message = (Message) in.readObject();
+                this.logger.info("Received message from " + message.senderNickname() + ": " + message.type());
                 switch (message.type()) {
                     case GET_DIRECTORY -> this.getDirectoryContacts(message);
                     case MESSAGE -> this.forwardMessage(message);
@@ -56,12 +58,8 @@ public class ClientHandlerImpl implements Runnable, IClientHandler {
                         logger.info(String.valueOf(message));
                     }
                 }
-                message = (Message) in.readObject();
-                this.logger.info("Received message from " + message.senderNickname() + ": " + message.type());
-                this.syncService.publishEvent(message, Topic.NEW_MESSAGE);
             }
             this.removeConnection(message.senderNickname());
-            this.syncService.publishEvent(message, Topic.USER_DISCONNECT);
         } catch (IOException | ClassNotFoundException e) {
             this.logger.warning("Error handling client: " + e.getMessage());
         }
@@ -86,7 +84,7 @@ public class ClientHandlerImpl implements Runnable, IClientHandler {
 
     @Override
     public synchronized void removeConnection(String nickname) throws IOException {
-        this.logger.info("Removing connection from " + nickname);
+        logger.info("Removing connection from " + nickname);
         this.serverResponse(nickname, "Disconnected", MessageType.DISCONNECT_ACK);
         ConnectionManager clientConnection = this.connectedClients.remove(nickname);
         if (clientConnection != null) {
@@ -97,18 +95,18 @@ public class ClientHandlerImpl implements Runnable, IClientHandler {
                 clientConnection.objectOutputStream().close();
                 clientConnection.objectInputStream().close();
             } catch (IOException e) {
-                this.logger.warning("Error closing resources for " + nickname + ": " + e.getMessage());
+                logger.warning("Error closing resources for " + nickname + ": " + e.getMessage());
             }
         }
         this.directory.removeContact(nickname);
         if (!this.connectedClients.containsKey(nickname) && this.directory.getContactByNickname(nickname).isEmpty()) {
             this.syncService.publishEvent(new Message(nickname, null, 0, null, null, 0, null, null, null), Topic.USER_DISCONNECT);
-            this.logger.info("Contact removed from directory: " + nickname);
+            logger.info("Contact removed from directory: " + nickname);
         } else {
-            this.logger.warning("Failed to remove contact from directory for " + nickname);
+            logger.warning("Failed to remove contact from directory for " + nickname);
             this.serverResponse(nickname, "Disconnect Failed", MessageType.ERROR);
         }
-        this.logger.info("Current connected clients: " + this.connectedClients.keySet());
+        logger.info("Current connected clients: " + this.connectedClients.keySet());
     }
 
     @Override

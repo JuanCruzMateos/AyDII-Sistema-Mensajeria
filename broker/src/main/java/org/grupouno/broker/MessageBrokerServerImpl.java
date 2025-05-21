@@ -11,27 +11,26 @@ public class MessageBrokerServerImpl implements Runnable {
     private final Logger logger = Logger.getLogger(MessageBrokerServerImpl.class.getName());
     private final String brokerAddress;
     private final int brokerPort;
-    private final HashMap<SocketAddress, ConnectionManager> connectedClients;
+    private final HashMap<SocketAddress, ConnectionManager> connectedServers;
 
     public MessageBrokerServerImpl(String brokerAddress, int brokerPort) {
         this.brokerAddress = brokerAddress;
         this.brokerPort = brokerPort;
-        this.connectedClients = new HashMap<>();
+        this.connectedServers = new HashMap<>();
     }
 
     @Override
     public void run() {
-        logger.info("Starting broker server on " + this.brokerAddress + ":" + this.brokerPort);
-//        try (ServerSocket serverSocket = new ServerSocket(this.brokerPort, 50, InetAddress.getByName(this.brokerAddress))) {
+        logger.info("Starting Message Broker Server on " + this.brokerAddress + ":" + this.brokerPort);
         try (ServerSocket serverSocket = new ServerSocket()) {
-            serverSocket.setReuseAddress(Boolean.TRUE);
+            serverSocket.setReuseAddress(true);
             serverSocket.bind(new InetSocketAddress(InetAddress.getByName(this.brokerAddress), this.brokerPort));
             logger.info("Waiting for connections... ");
             while (true) {
                 try {
                     Socket clientSocket = serverSocket.accept();
                     logger.info("Accepted connection from server " + clientSocket.getInetAddress() + ":" + clientSocket.getPort());
-                    new Thread(new ConnectionHandler(clientSocket, this.connectedClients)).start();
+                    new Thread(new ConnectionHandler(clientSocket, this.connectedServers)).start();
                 } catch (IOException e) {
                     logger.warning("Error accepting connection: " + e.getMessage());
                 }
