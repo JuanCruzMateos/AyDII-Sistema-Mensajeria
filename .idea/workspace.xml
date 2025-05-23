@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5486df74-5d68-4513-bf6f-42320c48c0d3" name="Changes" comment="Poco a poco toma forma la persistencia. bis">
+    <list default="true" id="5486df74-5d68-4513-bf6f-42320c48c0d3" name="Changes" comment="Arreglados detalles de parámetros.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/persistence/FileSessionPersistence.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/persistence/FileSessionPersistence.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/persistence/JSONSessionPersistence.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/persistence/JSONSessionPersistence.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/persistence/PersistenceFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/persistence/PersistenceFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/persistence/TXTSessionPersistence.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/persistence/TXTSessionPersistence.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/persistence/XMLSessionPersistence.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/persistence/XMLSessionPersistence.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/ChatSessionScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/ChatSessionScreen.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -325,7 +322,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747783287265</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Arreglados detalles de parámetros.">
+      <option name="closed" value="true" />
+      <created>1748023034215</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1748023034215</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -350,7 +355,8 @@
     <MESSAGE value="Pero por qué c***** no te subiste?!" />
     <MESSAGE value="Poco a poco toma forma la persistencia." />
     <MESSAGE value="Poco a poco toma forma la persistencia. bis" />
-    <option name="LAST_COMMIT_MESSAGE" value="Poco a poco toma forma la persistencia. bis" />
+    <MESSAGE value="Arreglados detalles de parámetros." />
+    <option name="LAST_COMMIT_MESSAGE" value="Arreglados detalles de parámetros." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

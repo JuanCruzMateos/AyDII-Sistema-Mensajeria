@@ -1,9 +1,12 @@
 package org.grupouno.view;
 
 import org.grupouno.controller.ChatController;
+import org.grupouno.persistence.ISessionPersistence;
+import org.grupouno.persistence.PersistenceFactory;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
     private final JList<String> conversationList;
@@ -13,7 +16,28 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
     private final String sessionUsername;
     private String currentConversationContact;
 
-    public ChatSessionScreen(String username, String ip, String port) {
+    public ChatSessionScreen(String username, String ip, String port) throws IOException {
+        /*
+         * En algún punto de por acá hay que hacer esto. Revisar bien dónde conviene que esté.
+         * Erik: Yo creo que tendría que estar acá, ya que este JFrame es el "padre" de todos los otros.
+         */
+        // Verifica si ya existe archivo de guardado para este usuario.
+        ISessionPersistence persistence = PersistenceFactory.getPersistence(username);
+        if (persistence == null) { // Si no existe, pregunto cuál quiere usar.
+            String[] options = new String[]{"XML", "JSON", "TXT"};
+            String ans = (String) JOptionPane.showInputDialog(this, "Elija el tipo de archivo de guardado:", "Formato de guardado", JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+            // Creo el nuevo archivo de guardado
+            int type = 0;
+            if (ans.equals(options[0]))
+                type = PersistenceFactory.XML_PERSISTENCE;
+            else if (ans.equals(options[1]))
+                type = PersistenceFactory.JSON_PERSISTENCE;
+            else if (ans.equals(options[2]))
+                type = PersistenceFactory.TXT_PERSISTENCE;
+
+            persistence = PersistenceFactory.getPersistence(username, type);
+        }
+
         setTitle("SMChat | Running as " + username + " on " + ip + ":" + port);
         setSize(500, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
