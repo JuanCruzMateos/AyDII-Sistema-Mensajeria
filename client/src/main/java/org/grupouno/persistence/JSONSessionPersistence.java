@@ -4,8 +4,8 @@ import java.io.IOException;
 
 public class JSONSessionPersistence extends FileSessionPersistence {
 
-    public JSONSessionPersistence(String pathName) throws IOException {
-        super(pathName);
+    public JSONSessionPersistence(String fileName) throws IOException {
+        super(fileName + ".json");
     }
 
     @Override

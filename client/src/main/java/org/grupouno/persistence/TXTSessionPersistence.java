@@ -4,8 +4,8 @@ import java.io.IOException;
 
 public class TXTSessionPersistence extends FileSessionPersistence {
 
-    public TXTSessionPersistence(String pathName) throws IOException {
-        super(pathName);
+    public TXTSessionPersistence(String fileName) throws IOException {
+        super(fileName + ".txt");
     }
 
     @Override

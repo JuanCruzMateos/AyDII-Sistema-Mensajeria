@@ -14,20 +14,20 @@ public class PersistenceFactory {
     public ISessionPersistence getPersistence(String username) throws IOException {
         String filePath = path + username;
         if (new File(filePath + ".xml").isFile())
-            return new XMLSessionPersistence(filePath + ".xml");
+            return new XMLSessionPersistence(filePath);
         else if (new File(filePath + ".json").isFile())
-            return new JSONSessionPersistence(filePath + ".json");
+            return new JSONSessionPersistence(filePath);
         else if (new File(filePath + ".txt").isFile())
-            return new TXTSessionPersistence(filePath + ".txt");
+            return new TXTSessionPersistence(filePath);
         return null;
     }
 
     public ISessionPersistence getPersistence(String username, int type) throws IOException {
         String filePath = path + username;
         ISessionPersistence ans = switch (type) {
-            case XML_PERSISTENCE -> new XMLSessionPersistence(filePath + ".xml");
-            case JSON_PERSISTENCE -> new JSONSessionPersistence(filePath + ".json");
-            case TXT_PERSISTENCE -> new TXTSessionPersistence(filePath + ".txt");
+            case XML_PERSISTENCE -> new XMLSessionPersistence(filePath);
+            case JSON_PERSISTENCE -> new JSONSessionPersistence(filePath);
+            case TXT_PERSISTENCE -> new TXTSessionPersistence(filePath);
             default -> null;
         };
         return ans;

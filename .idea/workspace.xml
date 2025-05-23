@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5486df74-5d68-4513-bf6f-42320c48c0d3" name="Changes" comment="Poco a poco toma forma la persistencia.">
+    <list default="true" id="5486df74-5d68-4513-bf6f-42320c48c0d3" name="Changes" comment="Poco a poco toma forma la persistencia. bis">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/persistence/FileSessionPersistence.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/persistence/FileSessionPersistence.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/persistence/JSONSessionPersistence.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/persistence/JSONSessionPersistence.java" afterDir="false" />
@@ -46,12 +46,12 @@
     &quot;assignee&quot;: &quot;JuanCruzMateos&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/JuanCruzMateos/AyDII-Sistema-Mensajeria.git",
-    "accountId": "da1b062f-26a7-4b1b-89b9-f9068be3ac90"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/JuanCruzMateos/AyDII-Sistema-Mensajeria.git&quot;,
+    &quot;accountId&quot;: &quot;da1b062f-26a7-4b1b-89b9-f9068be3ac90&quot;
   }
-}]]></component>
+}</component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
   &quot;isMigrated&quot;: true
@@ -317,7 +317,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747781415325</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Poco a poco toma forma la persistencia. bis">
+      <option name="closed" value="true" />
+      <created>1747783287265</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1747783287265</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -341,7 +349,8 @@
     <MESSAGE value="Added persistence folder" />
     <MESSAGE value="Pero por qué c***** no te subiste?!" />
     <MESSAGE value="Poco a poco toma forma la persistencia." />
-    <option name="LAST_COMMIT_MESSAGE" value="Poco a poco toma forma la persistencia." />
+    <MESSAGE value="Poco a poco toma forma la persistencia. bis" />
+    <option name="LAST_COMMIT_MESSAGE" value="Poco a poco toma forma la persistencia. bis" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
