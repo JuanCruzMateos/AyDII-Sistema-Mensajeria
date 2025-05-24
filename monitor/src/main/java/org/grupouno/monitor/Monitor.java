@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 public class Monitor implements Runnable, AutoCloseable {
-    private final Logger logger = Logger.getLogger(Monitor.class.getName());
+    private static final Logger logger = Logger.getLogger(Monitor.class.getName());
     private final ConcurrentHashMap<SocketAddress, Long> heartbeats;
     private final HeartbeatServer heartbeatServer;
     private final AddressServer addressServer;

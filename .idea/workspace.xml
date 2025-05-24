@@ -5,18 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5486df74-5d68-4513-bf6f-42320c48c0d3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/monitor/AddressServerHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/broker/src/main/java/org/grupouno/broker/ServerHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/sync/ISyncService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/broker/src/main/java/org/grupouno/broker/ConnectionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/broker/src/main/java/org/grupouno/broker/ConnectionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/broker/src/main/java/org/grupouno/broker/ConnectionHandler.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/broker/src/main/java/org/grupouno/broker/MessageBrokerServerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/broker/src/main/java/org/grupouno/broker/MessageBrokerServerImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/network/ChatClientImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/network/ChatClientImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/src/main/java/org/grupouno/model/connection/ConnectionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/org/grupouno/model/connection/ConnectionManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/src/main/java/org/grupouno/model/conversation/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/org/grupouno/model/conversation/Message.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/monitor/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/monitor/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/monitor/AddressServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/monitor/AddressServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/monitor/AddressServerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/monitor/AddressServerHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/monitor/HeartbeatServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/monitor/HeartbeatServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/monitor/Monitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/monitor/Monitor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/handlers/ClientHandlerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/handlers/ClientHandlerImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/handlers/IClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/handlers/IClientHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/hearthbeat/Heartbeat.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/hearthbeat/Heartbeat.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/server/ChatServerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/server/ChatServerImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/sync/SyncService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/sync/SyncService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,10 +30,10 @@
       <list>
         <option value="package-info" />
         <option value="HTTP Request" />
-        <option value="Interface" />
         <option value="Enum" />
         <option value="Record" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -173,6 +175,7 @@
       <recent name="$PROJECT_DIR$/client/src/main/java/org/grupouno" />
     </key>
     <key name="ExtractSuperBase.RECENT_KEYS">
+      <recent name="org.grupouno.network.sync" />
       <recent name="org.grupouno.model.session" />
       <recent name="org.grupouno.model.conversation" />
       <recent name="org.grupouno.network" />
@@ -310,7 +313,7 @@
       <workItem from="1747600016861" duration="21000" />
       <workItem from="1747600480317" duration="59000" />
       <workItem from="1747600559014" duration="26342000" />
-      <workItem from="1747790616124" duration="4466000" />
+      <workItem from="1747790616124" duration="21814000" />
     </task>
     <servers />
   </component>

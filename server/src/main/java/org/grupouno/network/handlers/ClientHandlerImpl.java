@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 
 
 public class ClientHandlerImpl implements Runnable, IClientHandler {
-    private final Logger logger = Logger.getLogger(ClientHandlerImpl.class.getName());
+    private static final Logger logger = Logger.getLogger(ClientHandlerImpl.class.getName());
     private final ConnectionManager connection;
     private final IDirectory directory;
     private final IConversationService pendingMessages;
@@ -44,24 +44,24 @@ public class ClientHandlerImpl implements Runnable, IClientHandler {
         try {
             ObjectInputStream in = this.connection.objectInputStream();
             Message message = (Message) in.readObject();
-            this.logger.info("Received message from " + message.senderNickname() + ": " + message.type());
+            logger.info("Received message from " + message.senderNickname() + ": " + message.type());
             this.registerNewConnection(message);
             this.sendPendingMessages(message.senderNickname());
-            while (message.type() != MessageType.DISCONNECT) {
-                message = (Message) in.readObject();
-                this.logger.info("Received message from " + message.senderNickname() + ": " + message.type());
+            while (message.type() != MessageType.DISCONNECT && this.connection.socket().isConnected() && !this.connection.socket().isClosed()) {
                 switch (message.type()) {
                     case GET_DIRECTORY -> this.getDirectoryContacts(message);
                     case MESSAGE -> this.forwardMessage(message);
-                    default -> {
-                        this.logger.warning("Unhandled message type: " + message.type());
-                        logger.info(String.valueOf(message));
+                    case REGISTER -> {
+                        // let it pass
                     }
+                    default -> logger.info("Unhandled message type: " + message.type());
                 }
+                message = (Message) in.readObject();
+                logger.info("Received message from " + message.senderNickname() + ": " + message.type());
             }
             this.removeConnection(message.senderNickname());
         } catch (IOException | ClassNotFoundException e) {
-            this.logger.warning("Error handling client: " + e.getMessage());
+            logger.warning("Error handling client: " + e.getMessage());
         }
     }
 
@@ -71,13 +71,15 @@ public class ClientHandlerImpl implements Runnable, IClientHandler {
                 message.receiverIP().equals(this.connection.socket().getLocalAddress().toString().substring(1)) &&
                 message.receiverPort() == this.connection.socket().getLocalPort();
         if (!isValid) {
-            this.logger.warning("Invalid connection attempt from " + message.senderNickname());
+            logger.warning("Invalid connection attempt from " + message.senderNickname());
             this.serverResponse(message.senderNickname(), "Invalid connection attempt", MessageType.ERROR);
         } else {
+            if (!this.directory.isContactInAgenda(message.senderNickname())) {
+                this.directory.addContact(new User(message.senderNickname(), message.senderIP(), message.senderPort()));
+            }
             this.connectedClients.put(message.senderNickname(), this.connection);
-            this.directory.addContact(new User(message.senderNickname(), message.senderIP(), message.senderPort()));
             this.syncService.publishEvent(message, Topic.USER_CONNECT);
-            this.logger.info("New connection registered: " + message.senderNickname());
+            logger.info("New connection registered: " + message.senderNickname());
             this.serverResponse(message.senderNickname(), "Connection successful", MessageType.REGISTER_ACK);
         }
     }
@@ -120,51 +122,52 @@ public class ClientHandlerImpl implements Runnable, IClientHandler {
             while (messageIterator.hasNext()) {
                 Message message = messageIterator.next();
                 try {
-                    this.logger.info("Sending pending message to " + nickname + ": " + message);
+                    logger.info("Sending pending message to " + nickname + ": " + message);
                     out.writeObject(message);
                     out.flush();
                     this.serverResponse(message.senderNickname(), "Message received", MessageType.MESSAGE_ACK);
                     messageIterator.remove();
                     this.syncService.publishEvent(message, Topic.REMOVE_MESSAGE);
                 } catch (IOException e) {
-                    this.logger.warning("Error sending pending messages to " + nickname + ": " + e.getMessage());
+                    logger.warning("Error sending pending messages to " + nickname + ": " + e.getMessage());
                 }
             }
             if (pendingMessages.isEmpty()) {
-                this.logger.info("All pending messages sent successfully to " + nickname);
+                logger.info("All pending messages sent successfully to " + nickname);
             } else {
-                this.logger.warning("Some pending messages could not be sent to " + nickname + ". Remain in server");
+                logger.warning("Some pending messages could not be sent to " + nickname + ". Remain in server");
             }
         } else {
-            this.logger.info("No pending messages for " + nickname);
+            logger.info("No pending messages for " + nickname);
         }
     }
 
     @Override
     public synchronized void addMessageToPendingMessages(Message message) {
         if (!this.pendingMessages.existsConversationWith(message.receiverNickname())) {
-            this.logger.info("Starting new conversation for " + message.receiverNickname());
+            logger.info("Starting new conversation for " + message.receiverNickname());
             this.pendingMessages.startNewConversation(message.receiverNickname());
         }
-        this.logger.info("Adding message to pending messages for " + message.receiverNickname());
+        logger.info("Adding message to pending messages for " + message.receiverNickname());
         this.pendingMessages.addMessage(message, message.receiverNickname());
     }
 
     @Override
     public synchronized void forwardMessage(Message message) {
         this.syncService.publishEvent(message, Topic.NEW_MESSAGE);
+        logger.info("Message published to sync service");
         if (!this.connectedClients.containsKey(message.receiverNickname())) {
-            this.logger.warning("Client " + message.receiverNickname() + " not connected. Adding message to pending messages.");
+            logger.warning("Client " + message.receiverNickname() + " not connected. Adding message to pending messages.");
             this.addMessageToPendingMessages(message);
         } else {
             try {
                 ObjectOutputStream out = this.connectedClients.get(message.receiverNickname()).objectOutputStream();
                 out.writeObject(message);
                 out.flush();
-                this.logger.info("Message forwarded to " + message.receiverNickname());
+                logger.info("Message forwarded to " + message.receiverNickname());
                 this.syncService.publishEvent(message, Topic.REMOVE_MESSAGE);
             } catch (IOException e) {
-                this.logger.warning("Error forwarding message to " + message.receiverNickname() + ": " + e.getMessage());
+                logger.warning("Error forwarding message to " + message.receiverNickname() + ": " + e.getMessage());
             }
         }
     }
@@ -186,9 +189,9 @@ public class ClientHandlerImpl implements Runnable, IClientHandler {
                     clientSocket.getInetAddress().toString().substring(1),
                     clientSocket.getPort(), content, LocalDateTime.now(), type));
             out.flush();
-            this.logger.info("Server response sent to " + nickname + ": " + type);
+            logger.info("Server response sent to " + nickname + ": " + type);
         } catch (IOException e) {
-            this.logger.warning("Error sending server response to " + nickname + ": " + e.getMessage());
+            logger.warning("Error sending server response to " + nickname + ": " + e.getMessage());
         }
     }
 }

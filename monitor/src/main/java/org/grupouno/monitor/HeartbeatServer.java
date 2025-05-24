@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  * timestamp of the last heartbeat received from each server.
  */
 public class HeartbeatServer implements Runnable {
-    private final Logger logger = Logger.getLogger(HeartbeatServer.class.getName());
+    private static final Logger logger = Logger.getLogger(HeartbeatServer.class.getName());
     private final int monitorPort;
     private final String monitorAddress;
     private final ConcurrentHashMap<SocketAddress, Long> heartbeats;

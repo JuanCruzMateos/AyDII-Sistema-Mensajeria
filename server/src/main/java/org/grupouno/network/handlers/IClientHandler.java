@@ -6,8 +6,10 @@ import org.grupouno.model.conversation.MessageType;
 import java.io.IOException;
 
 public interface IClientHandler {
+    // userConnect
     void registerNewConnection(Message message);
 
+    // userDisconnect
     void removeConnection(String nickname) throws IOException;
 
     void sendPendingMessages(String nickname);

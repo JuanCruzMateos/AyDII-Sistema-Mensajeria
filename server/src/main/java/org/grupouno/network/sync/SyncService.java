@@ -18,8 +18,8 @@ import java.net.Socket;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-public class SyncService implements Runnable {
-    private final Logger logger = Logger.getLogger(SyncService.class.getName());
+public class SyncService implements ISyncService, Runnable {
+    private static final Logger logger = Logger.getLogger(SyncService.class.getName());
     private final String serverAddress;
     private final int syncPort;
     private final String brokerAddress;
@@ -37,6 +37,7 @@ public class SyncService implements Runnable {
         this.pendingMessages = pendingMessages;
     }
 
+    @Override
     public void publishEvent(Message message, Topic topic) {
         try {
             SyncProtocolMessage syncMessage = new SyncProtocolMessage(topic, message);
@@ -47,18 +48,11 @@ public class SyncService implements Runnable {
         }
     }
 
-    public synchronized void syncAll(Message message) {
-        this.pendingMessages.getAllConversations().forEach(conversation -> conversation.getMessages().forEach(msg -> {
-            if (msg.receiverNickname().equals(message.senderNickname())) {
-                this.publishEvent(msg, Topic.SYNC_MESSAGE);
-            }
-        }));
-        this.directory.getContacts().forEach(contact -> {
-            if (contact.nickname().equals(message.senderNickname())) {
-                this.publishEvent(new Message(contact.nickname(), contact.ip(), contact.port(), null, null, 0, null, null, null), Topic.SYNC_USER);
-            }
-        });
-        this.logger.info("Sync all messages for " + message.senderNickname());
+    @Override
+    public synchronized void syncAll() {
+        this.pendingMessages.getAllConversations().forEach(conversation -> conversation.getMessages().forEach(msg -> this.publishEvent(msg, Topic.SYNC_MESSAGE)));
+        this.directory.getContacts().forEach(contact -> this.publishEvent(new Message(contact.nickname(), contact.ip(), contact.port(), null, null, 0, null, null, null), Topic.SYNC_USER));
+        logger.info("Sync all messages and users ");
     }
 
     @Override
@@ -66,7 +60,7 @@ public class SyncService implements Runnable {
         try {
             logger.info("Starting Sync Service on " + this.serverAddress + ":" + this.syncPort + " to " + this.brokerAddress + ":" + this.brokerPort);
             Socket socket = new Socket();
-            socket.setReuseAddress(Boolean.TRUE);
+            socket.setReuseAddress(true);
 //            socket.setSoTimeout(10000);
             socket.bind(new InetSocketAddress(InetAddress.getByName(this.serverAddress), this.syncPort));
             socket.connect(new InetSocketAddress(InetAddress.getByName(this.brokerAddress), this.brokerPort));
@@ -75,6 +69,11 @@ public class SyncService implements Runnable {
             ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
             this.connectionManager = new ConnectionManager(socket, out, in);
 
+            // sync_all
+            out.writeObject(new SyncProtocolMessage(Topic.SYNC_ALL, null));
+            out.flush();
+            logger.info("Sync all messages and users on startup");
+
             while (true) {
                 SyncProtocolMessage syncMessage = (SyncProtocolMessage) in.readObject();
                 switch (syncMessage.topic()) {
@@ -82,7 +81,7 @@ public class SyncService implements Runnable {
                     case Topic.REMOVE_MESSAGE -> this.removeMessage(syncMessage.message());
                     case Topic.USER_CONNECT -> this.userConnect(syncMessage.message());
                     case Topic.USER_DISCONNECT -> this.userDisconnect(syncMessage.message());
-                    case Topic.SYNC_ALL -> this.syncAll(syncMessage.message());
+                    case Topic.SYNC_ALL -> this.syncAll();
                     case Topic.SYNC_MESSAGE -> this.syncMessage(syncMessage.message());
                     case Topic.SYNC_USER -> this.syncUser(syncMessage.message());
                 }
@@ -92,7 +91,8 @@ public class SyncService implements Runnable {
         }
     }
 
-    private synchronized void syncUser(Message message) {
+    @Override
+    public synchronized void syncUser(Message message) {
         if (this.directory.isContactInAgenda(message.senderNickname())) {
             logger.info("User exists in agenda: " + message.senderNickname() + ". Ignoring sync.");
         } else {
@@ -101,61 +101,74 @@ public class SyncService implements Runnable {
         }
     }
 
-    private synchronized void syncMessage(Message message) {
+    @Override
+    public synchronized void syncMessage(Message message) {
         if (this.pendingMessages.existsConversationWith(message.receiverNickname())) {
             Optional<IConversation> c = this.pendingMessages.getConversationByContactNickname(message.receiverNickname());
             if (c.isPresent()) {
                 IConversation conversation = c.get();
                 if (!conversation.existsMessage(message)) {
                     conversation.addMessage(message);
-                    this.logger.info("Message synced for " + message.receiverNickname());
+                    logger.info("Message synced for " + message.receiverNickname());
                 } else {
-                    this.logger.info("Message already exists for " + message.receiverNickname());
+                    logger.info("Message already exists for " + message.receiverNickname());
                 }
             }
         } else {
-            this.logger.warning("No conversation found for " + message.receiverNickname());
+            logger.warning("No conversation found for " + message.receiverNickname());
             this.pendingMessages.startNewConversation(message.receiverNickname());
             Optional<IConversation> cc = this.pendingMessages.getConversationByContactNickname(message.receiverNickname());
             if (cc.isPresent()) {
                 IConversation conv = cc.get();
                 conv.addMessage(message);
-                this.logger.info("Message synced for " + message.receiverNickname());
+                logger.info("Message synced for " + message.receiverNickname());
             }
         }
     }
 
-    private synchronized void userDisconnect(Message message) {
-        this.directory.removeContact(message.senderNickname());
-        this.logger.info("Connection removed: " + message.senderNickname());
+    @Override
+    public synchronized void userDisconnect(Message message) {
+        if (this.directory.isContactInAgenda(message.senderNickname())) {
+            this.directory.removeContact(message.senderNickname());
+            logger.info("User disconnected: " + message.senderNickname());
+        } else {
+            logger.info("User not found in agenda: " + message.senderNickname());
+        }
     }
 
-    private synchronized void userConnect(Message message) {
-        this.directory.addContact(new User(message.senderNickname(), message.senderIP(), message.senderPort()));
-        this.logger.info("New connection registered: " + message.senderNickname());
+    @Override
+    public synchronized void userConnect(Message message) {
+        if (!this.directory.isContactInAgenda(message.senderNickname())) {
+            this.directory.addContact(new User(message.senderNickname(), message.senderIP(), message.senderPort()));
+            logger.info("New connection registered: " + message.senderNickname());
+        } else {
+            logger.info("User already exists in agenda: " + message.senderNickname());
+        }
     }
 
-    private synchronized void removeMessage(Message message) {
+    @Override
+    public synchronized void removeMessage(Message message) {
         if (this.pendingMessages.existsConversationWith(message.receiverNickname())) {
             Optional<IConversation> c = this.pendingMessages.getConversationByContactNickname(message.receiverNickname());
             if (c.isPresent()) {
                 IConversation conversation = c.get();
                 conversation.removeMessage(message);
-                this.logger.info("Message removed from pending messages for " + message.receiverNickname());
+                logger.info("Message removed from pending messages for " + message.receiverNickname());
             } else {
-                this.logger.warning("No conversation found for " + message.receiverNickname());
+                logger.warning("No conversation found for " + message.receiverNickname());
             }
         } else {
-            this.logger.warning("No conversation found for " + message.receiverNickname());
+            logger.warning("No conversation found for " + message.receiverNickname());
         }
     }
 
-    private synchronized void addNewMessage(Message message) {
+    @Override
+    public synchronized void addNewMessage(Message message) {
         if (!this.pendingMessages.existsConversationWith(message.receiverNickname())) {
-            this.logger.info("Starting new conversation for " + message.receiverNickname());
+            logger.info("Starting new conversation for " + message.receiverNickname());
             this.pendingMessages.startNewConversation(message.receiverNickname());
         }
-        this.logger.info("Adding message to pending messages for " + message.receiverNickname());
+        logger.info("Adding message to pending messages for " + message.receiverNickname());
         this.pendingMessages.addMessage(message, message.receiverNickname());
     }
 }

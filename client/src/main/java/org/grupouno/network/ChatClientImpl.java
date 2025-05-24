@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import java.util.logging.Logger;
 
 public class ChatClientImpl implements IChatClient, Runnable {
-    private final Logger logger = Logger.getLogger(ChatClientImpl.class.getName());
+    private static final Logger logger = Logger.getLogger(ChatClientImpl.class.getName());
     private final String clientName;
     private final String localAddress;
     private final int localPort;
@@ -39,19 +39,19 @@ public class ChatClientImpl implements IChatClient, Runnable {
     }
 
     public void fetchPrimaryServerFromMonitor(int delay) {
-        int retries = 0;
+        SocketAddress lastPrimaryServer = this.primaryServer;
         this.primaryServer = null;
         try {
             // TODO :: retry for a number of times
-            while (this.primaryServer == null) {
+            while (this.primaryServer == null || !this.primaryServer.equals(lastPrimaryServer)) {
                 this.monitorOutputStream.writeObject("primary.server");
                 this.monitorOutputStream.flush();
                 this.primaryServer = (SocketAddress) this.monitorInputStream.readObject();
-                this.logger.info("Primary server address from monitor: " + primaryServer);
-                if (this.primaryServer == null) {
-                    retries++;
+                logger.info("Primary server address from monitor: " + primaryServer);
+                if (this.primaryServer == null || this.primaryServer.equals(lastPrimaryServer)) {
                     logger.warning("Failed to fetch primary server address from monitor, retrying in " + delay + "ms");
-                    Thread.sleep(delay * (long) Math.pow(2, retries - 1));
+//                    Thread.sleep(delay * (long) Math.pow(2, retries - 1));
+                    Thread.sleep(delay);
                 }
             }
         } catch (IOException | ClassNotFoundException | InterruptedException e) {
@@ -116,6 +116,7 @@ public class ChatClientImpl implements IChatClient, Runnable {
                 logger.info("Reconnecting to server...");
                 this.close();
                 this.connectToServer();
+                this.registerWithServer(this.clientName, this.localAddress, this.localPort);
             }
         }
     }
@@ -125,11 +126,11 @@ public class ChatClientImpl implements IChatClient, Runnable {
         switch (message.type()) {
             case MESSAGE -> this.chatController.receiveMessage(message);
             case DIRECTORY -> this.chatController.updateDirectory(message);
-            case ERROR -> this.logger.warning("Error receiving message: " + message.type());
+            case ERROR -> logger.warning("Error receiving message: " + message.type());
             case MESSAGE_ACK, REGISTER_ACK -> {
                 // Handle acknowledgment messages
             }
-            default -> this.logger.severe("Unkwnon message type: " + message.type());
+            default -> logger.severe("Unkwnon message type: " + message.type());
         }
     }
 
@@ -146,9 +147,9 @@ public class ChatClientImpl implements IChatClient, Runnable {
         try {
             this.serverOutputStream.writeObject(message);
             this.serverOutputStream.flush();
-            this.logger.info("Message sent: " + message);
+            logger.info("Message sent: " + message);
         } catch (IOException e) {
-            this.logger.warning("Error sending message: " + e.getMessage());
+            logger.warning("Error sending message: " + e.getMessage());
         }
     }
 

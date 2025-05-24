@@ -6,7 +6,7 @@ import java.net.Socket;
 import java.util.logging.Logger;
 
 public class Heartbeat implements Runnable {
-    private final Logger logger = Logger.getLogger(Heartbeat.class.getName());
+    private static final Logger logger = Logger.getLogger(Heartbeat.class.getName());
     private final String monitorAddress;
     private final int monitorPort;
     private final String serverAddress;

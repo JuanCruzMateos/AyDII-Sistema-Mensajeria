@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.logging.Logger;
 
 public class ChatServerImpl implements IChatServer {
-    private final Logger logger = Logger.getLogger(ChatServerImpl.class.getName());
+    private static final Logger logger = Logger.getLogger(ChatServerImpl.class.getName());
     private final String serverAddress;
     private final int serverPort;
     private final IDirectory directory;

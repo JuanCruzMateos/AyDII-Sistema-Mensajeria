@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.logging.Logger;
 
 public class MessageBrokerServerImpl implements Runnable {
-    private final Logger logger = Logger.getLogger(MessageBrokerServerImpl.class.getName());
+    private static final Logger logger = Logger.getLogger(MessageBrokerServerImpl.class.getName());
     private final String brokerAddress;
     private final int brokerPort;
     private final HashMap<SocketAddress, ConnectionManager> connectedServers;
@@ -30,7 +30,7 @@ public class MessageBrokerServerImpl implements Runnable {
                 try {
                     Socket clientSocket = serverSocket.accept();
                     logger.info("Accepted connection from server " + clientSocket.getInetAddress() + ":" + clientSocket.getPort());
-                    new Thread(new ConnectionHandler(clientSocket, this.connectedServers)).start();
+                    new Thread(new ServerHandler(clientSocket, this.connectedServers)).start();
                 } catch (IOException e) {
                     logger.warning("Error accepting connection: " + e.getMessage());
                 }
