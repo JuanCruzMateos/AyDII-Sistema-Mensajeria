@@ -15,6 +15,7 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
     private final JLabel chatTitle;
     private final String sessionUsername;
     private String currentConversationContact;
+    private ISessionPersistence persistence;
 
     public ChatSessionScreen(String username, String ip, String port) throws IOException {
         /*
@@ -22,7 +23,7 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
          * Erik: Yo creo que tendría que estar acá, ya que este JFrame es el "padre" de todos los otros.
          */
         // Verifica si ya existe archivo de guardado para este usuario.
-        ISessionPersistence persistence = PersistenceFactory.getPersistence(username);
+        persistence = PersistenceFactory.getPersistence(username);
         if (persistence == null) { // Si no existe, pregunto cuál quiere usar.
             String[] options = new String[]{"XML", "JSON", "TXT"};
             String ans = (String) JOptionPane.showInputDialog(this, "Elija el tipo de archivo de guardado:", "Formato de guardado", JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
@@ -36,6 +37,9 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
                 type = PersistenceFactory.TXT_PERSISTENCE;
 
             persistence = PersistenceFactory.getPersistence(username, type);
+        } else // Si existe, cargo lo que ya está guardado.
+        {
+            //persistence.loadSession();
         }
 
         setTitle("SMChat | Running as " + username + " on " + ip + ":" + port);
@@ -142,6 +146,12 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
 
         add(centerPanel, BorderLayout.CENTER);
         setLocationRelativeTo(null);
+
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
     }
 
     public String getTextInputArea() {
@@ -193,6 +203,11 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
     @Override
     public void closeWindow() {
         dispose();
+    }
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {
+        JOptionPane.showMessageDialog(this, "Test");
+        //persistence.saveSession();
     }
 }
 
