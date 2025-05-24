@@ -1,4 +1,4 @@
-package org.grupouno.model.conversation;
+package org.grupouno.model.protocols;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

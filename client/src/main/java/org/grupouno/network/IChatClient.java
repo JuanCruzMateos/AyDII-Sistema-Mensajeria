@@ -1,6 +1,6 @@
 package org.grupouno.network;
 
-import org.grupouno.model.conversation.Message;
+import org.grupouno.model.protocols.Message;
 
 public interface IChatClient {
     void sendMessage(Message message); // Renamed from sendAndReceiveMessage

@@ -1,6 +1,6 @@
 package org.grupouno.broker;
 
-import org.grupouno.model.connection.ConnectionManager;
+import org.grupouno.model.connection.SocketConnection;
 
 import java.io.IOException;
 import java.net.*;
@@ -11,7 +11,7 @@ public class MessageBrokerServerImpl implements Runnable {
     private static final Logger logger = Logger.getLogger(MessageBrokerServerImpl.class.getName());
     private final String brokerAddress;
     private final int brokerPort;
-    private final HashMap<SocketAddress, ConnectionManager> connectedServers;
+    private final HashMap<SocketAddress, SocketConnection> connectedServers;
 
     public MessageBrokerServerImpl(String brokerAddress, int brokerPort) {
         this.brokerAddress = brokerAddress;
@@ -26,7 +26,7 @@ public class MessageBrokerServerImpl implements Runnable {
             serverSocket.setReuseAddress(true);
             serverSocket.bind(new InetSocketAddress(InetAddress.getByName(this.brokerAddress), this.brokerPort));
             logger.info("Waiting for connections... ");
-            while (true) {
+            for (; ; ) {
                 try {
                     Socket clientSocket = serverSocket.accept();
                     logger.info("Accepted connection from server " + clientSocket.getInetAddress() + ":" + clientSocket.getPort());

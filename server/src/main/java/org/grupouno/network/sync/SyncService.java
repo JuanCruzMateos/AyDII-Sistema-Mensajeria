@@ -1,11 +1,11 @@
 package org.grupouno.network.sync;
 
-import org.grupouno.model.connection.ConnectionManager;
+import org.grupouno.model.connection.SocketConnection;
 import org.grupouno.model.conversation.IConversation;
 import org.grupouno.model.conversation.IConversationService;
-import org.grupouno.model.conversation.Message;
 import org.grupouno.model.directory.IDirectory;
 import org.grupouno.model.directory.User;
+import org.grupouno.model.protocols.Message;
 import org.grupouno.model.protocols.SyncProtocolMessage;
 import org.grupouno.model.protocols.Topic;
 
@@ -26,7 +26,7 @@ public class SyncService implements ISyncService, Runnable {
     private final int brokerPort;
     private final IDirectory directory;
     private final IConversationService pendingMessages;
-    private ConnectionManager connectionManager;
+    private SocketConnection socketConnection;
 
     public SyncService(String serverAddress, int syncPort, String brokerAddress, int brokerPort, IDirectory directory, IConversationService pendingMessages) {
         this.serverAddress = serverAddress;
@@ -41,8 +41,8 @@ public class SyncService implements ISyncService, Runnable {
     public void publishEvent(Message message, Topic topic) {
         try {
             SyncProtocolMessage syncMessage = new SyncProtocolMessage(topic, message);
-            this.connectionManager.objectOutputStream().writeObject(syncMessage);
-            this.connectionManager.objectOutputStream().flush();
+            this.socketConnection.getObjectOutputStream().writeObject(syncMessage);
+            this.socketConnection.getObjectOutputStream().flush();
         } catch (IOException e) {
             logger.severe("Error sending sync message: " + e.getMessage());
         }
@@ -51,7 +51,7 @@ public class SyncService implements ISyncService, Runnable {
     @Override
     public synchronized void syncAll() {
         this.pendingMessages.getAllConversations().forEach(conversation -> conversation.getMessages().forEach(msg -> this.publishEvent(msg, Topic.SYNC_MESSAGE)));
-        this.directory.getContacts().forEach(contact -> this.publishEvent(new Message(contact.nickname(), contact.ip(), contact.port(), null, null, 0, null, null, null), Topic.SYNC_USER));
+        this.directory.getAllContacts().forEach(contact -> this.publishEvent(new Message(contact.nickname(), contact.ip(), contact.port(), null, null, 0, null, null, null), Topic.SYNC_USER));
         logger.info("Sync all messages and users ");
     }
 
@@ -61,13 +61,13 @@ public class SyncService implements ISyncService, Runnable {
             logger.info("Starting Sync Service on " + this.serverAddress + ":" + this.syncPort + " to " + this.brokerAddress + ":" + this.brokerPort);
             Socket socket = new Socket();
             socket.setReuseAddress(true);
-//            socket.setSoTimeout(10000);
+//            getSocket.setSoTimeout(10000);
             socket.bind(new InetSocketAddress(InetAddress.getByName(this.serverAddress), this.syncPort));
             socket.connect(new InetSocketAddress(InetAddress.getByName(this.brokerAddress), this.brokerPort));
 
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-            this.connectionManager = new ConnectionManager(socket, out, in);
+            this.socketConnection = new SocketConnection(socket, out, in);
 
             // sync_all
             out.writeObject(new SyncProtocolMessage(Topic.SYNC_ALL, null));
@@ -140,7 +140,7 @@ public class SyncService implements ISyncService, Runnable {
     public synchronized void userConnect(Message message) {
         if (!this.directory.isContactInAgenda(message.senderNickname())) {
             this.directory.addContact(new User(message.senderNickname(), message.senderIP(), message.senderPort()));
-            logger.info("New connection registered: " + message.senderNickname());
+            logger.info("New socketConnection registered: " + message.senderNickname());
         } else {
             logger.info("User already exists in agenda: " + message.senderNickname());
         }

@@ -1,6 +1,6 @@
 package org.grupouno.network.sync;
 
-import org.grupouno.model.conversation.Message;
+import org.grupouno.model.protocols.Message;
 import org.grupouno.model.protocols.Topic;
 
 public interface ISyncService {

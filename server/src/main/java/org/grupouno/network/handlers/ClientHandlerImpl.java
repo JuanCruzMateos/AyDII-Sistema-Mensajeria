@@ -1,12 +1,12 @@
 package org.grupouno.network.handlers;
 
-import org.grupouno.model.connection.ConnectionManager;
+import org.grupouno.model.connection.SocketConnection;
 import org.grupouno.model.conversation.IConversation;
 import org.grupouno.model.conversation.IConversationService;
-import org.grupouno.model.conversation.Message;
-import org.grupouno.model.conversation.MessageType;
 import org.grupouno.model.directory.IDirectory;
 import org.grupouno.model.directory.User;
+import org.grupouno.model.protocols.Message;
+import org.grupouno.model.protocols.MessageType;
 import org.grupouno.model.protocols.Topic;
 import org.grupouno.network.sync.SyncService;
 
@@ -24,15 +24,15 @@ import java.util.logging.Logger;
 
 public class ClientHandlerImpl implements Runnable, IClientHandler {
     private static final Logger logger = Logger.getLogger(ClientHandlerImpl.class.getName());
-    private final ConnectionManager connection;
+    private final SocketConnection socketConnection;
     private final IDirectory directory;
     private final IConversationService pendingMessages;
-    private final Map<String, ConnectionManager> connectedClients;
+    private final Map<String, SocketConnection> connectedClients;
     private final SyncService syncService;
 
 
-    public ClientHandlerImpl(Socket socket, IDirectory directory, IConversationService pendingMessages, Map<String, ConnectionManager> connectedClients, SyncService syncService) throws IOException {
-        this.connection = new ConnectionManager(socket, new ObjectOutputStream(socket.getOutputStream()), new ObjectInputStream(socket.getInputStream()));
+    public ClientHandlerImpl(Socket socket, IDirectory directory, IConversationService pendingMessages, Map<String, SocketConnection> connectedClients, SyncService syncService) throws IOException {
+        this.socketConnection = new SocketConnection(socket, new ObjectOutputStream(socket.getOutputStream()), new ObjectInputStream(socket.getInputStream()));
         this.directory = directory;
         this.pendingMessages = pendingMessages;
         this.connectedClients = connectedClients;
@@ -42,12 +42,12 @@ public class ClientHandlerImpl implements Runnable, IClientHandler {
     @Override
     public void run() {
         try {
-            ObjectInputStream in = this.connection.objectInputStream();
+            ObjectInputStream in = this.socketConnection.getObjectInputStream();
             Message message = (Message) in.readObject();
             logger.info("Received message from " + message.senderNickname() + ": " + message.type());
             this.registerNewConnection(message);
             this.sendPendingMessages(message.senderNickname());
-            while (message.type() != MessageType.DISCONNECT && this.connection.socket().isConnected() && !this.connection.socket().isClosed()) {
+            while (message.type() != MessageType.DISCONNECT && this.socketConnection.getSocket().isConnected() && !this.socketConnection.getSocket().isClosed()) {
                 switch (message.type()) {
                     case GET_DIRECTORY -> this.getDirectoryContacts(message);
                     case MESSAGE -> this.forwardMessage(message);
@@ -68,34 +68,34 @@ public class ClientHandlerImpl implements Runnable, IClientHandler {
     @Override
     public synchronized void registerNewConnection(Message message) {
         boolean isValid = message.type() == MessageType.REGISTER &&
-                message.receiverIP().equals(this.connection.socket().getLocalAddress().toString().substring(1)) &&
-                message.receiverPort() == this.connection.socket().getLocalPort();
+                message.receiverIP().equals(this.socketConnection.getSocket().getLocalAddress().toString().substring(1)) &&
+                message.receiverPort() == this.socketConnection.getSocket().getLocalPort();
         if (!isValid) {
-            logger.warning("Invalid connection attempt from " + message.senderNickname());
-            this.serverResponse(message.senderNickname(), "Invalid connection attempt", MessageType.ERROR);
+            logger.warning("Invalid socketConnection attempt from " + message.senderNickname());
+            this.serverResponse(message.senderNickname(), "Invalid socketConnection attempt", MessageType.ERROR);
         } else {
             if (!this.directory.isContactInAgenda(message.senderNickname())) {
                 this.directory.addContact(new User(message.senderNickname(), message.senderIP(), message.senderPort()));
             }
-            this.connectedClients.put(message.senderNickname(), this.connection);
+            this.connectedClients.put(message.senderNickname(), this.socketConnection);
             this.syncService.publishEvent(message, Topic.USER_CONNECT);
-            logger.info("New connection registered: " + message.senderNickname());
-            this.serverResponse(message.senderNickname(), "Connection successful", MessageType.REGISTER_ACK);
+            logger.info("New socketConnection registered: " + message.senderNickname());
+            this.serverResponse(message.senderNickname(), "SocketConnection successful", MessageType.REGISTER_ACK);
         }
     }
 
     @Override
     public synchronized void removeConnection(String nickname) throws IOException {
-        logger.info("Removing connection from " + nickname);
+        logger.info("Removing socketConnection from " + nickname);
         this.serverResponse(nickname, "Disconnected", MessageType.DISCONNECT_ACK);
-        ConnectionManager clientConnection = this.connectedClients.remove(nickname);
-        if (clientConnection != null) {
+        SocketConnection clientSocketConnection = this.connectedClients.remove(nickname);
+        if (clientSocketConnection != null) {
             try {
-                if (!clientConnection.socket().isClosed()) {
-                    clientConnection.socket().close();
+                if (!clientSocketConnection.getSocket().isClosed()) {
+                    clientSocketConnection.getSocket().close();
                 }
-                clientConnection.objectOutputStream().close();
-                clientConnection.objectInputStream().close();
+                clientSocketConnection.getObjectOutputStream().close();
+                clientSocketConnection.getObjectInputStream().close();
             } catch (IOException e) {
                 logger.warning("Error closing resources for " + nickname + ": " + e.getMessage());
             }
@@ -115,9 +115,9 @@ public class ClientHandlerImpl implements Runnable, IClientHandler {
     public synchronized void sendPendingMessages(String nickname) {
         Optional<IConversation> res = this.pendingMessages.getConversationByContactNickname(nickname);
         IConversation pendingMessages = res.orElse(null);
-        ConnectionManager clientConnection = this.connectedClients.get(nickname);
-        if (clientConnection != null && pendingMessages != null && !pendingMessages.isEmpty()) {
-            ObjectOutputStream out = clientConnection.objectOutputStream();
+        SocketConnection clientSocketConnection = this.connectedClients.get(nickname);
+        if (clientSocketConnection != null && pendingMessages != null && !pendingMessages.isEmpty()) {
+            ObjectOutputStream out = clientSocketConnection.getObjectOutputStream();
             Iterator<Message> messageIterator = pendingMessages.iterator();
             while (messageIterator.hasNext()) {
                 Message message = messageIterator.next();
@@ -161,7 +161,7 @@ public class ClientHandlerImpl implements Runnable, IClientHandler {
             this.addMessageToPendingMessages(message);
         } else {
             try {
-                ObjectOutputStream out = this.connectedClients.get(message.receiverNickname()).objectOutputStream();
+                ObjectOutputStream out = this.connectedClients.get(message.receiverNickname()).getObjectOutputStream();
                 out.writeObject(message);
                 out.flush();
                 logger.info("Message forwarded to " + message.receiverNickname());
@@ -174,15 +174,15 @@ public class ClientHandlerImpl implements Runnable, IClientHandler {
 
     @Override
     public synchronized void getDirectoryContacts(Message message) {
-        Set<User> activeUsers = this.directory.getContacts();
+        Set<User> activeUsers = this.directory.getAllContacts();
         this.serverResponse(message.senderNickname(), activeUsers, MessageType.DIRECTORY);
     }
 
     @Override
     public synchronized void serverResponse(String nickname, Object content, MessageType type) {
         try {
-            Socket clientSocket = this.connectedClients.get(nickname).socket();
-            ObjectOutputStream out = this.connectedClients.get(nickname).objectOutputStream();
+            Socket clientSocket = this.connectedClients.get(nickname).getSocket();
+            ObjectOutputStream out = this.connectedClients.get(nickname).getObjectOutputStream();
             out.writeObject(new Message("ChatServer",
                     clientSocket.getLocalAddress().toString().substring(1),
                     clientSocket.getLocalPort(), nickname,

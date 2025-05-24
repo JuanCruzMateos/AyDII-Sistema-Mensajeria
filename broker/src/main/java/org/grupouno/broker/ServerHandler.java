@@ -1,6 +1,6 @@
 package org.grupouno.broker;
 
-import org.grupouno.model.connection.ConnectionManager;
+import org.grupouno.model.connection.SocketConnection;
 import org.grupouno.model.protocols.SyncProtocolMessage;
 
 import java.io.IOException;
@@ -14,23 +14,25 @@ import java.util.logging.Logger;
 public class ServerHandler implements Runnable {
     private static final Logger logger = Logger.getLogger(ServerHandler.class.getName());
     private final Socket socket;
-    private final HashMap<SocketAddress, ConnectionManager> connectedServers;
+    private final HashMap<SocketAddress, SocketConnection> connectedServers;
 
-    public ServerHandler(Socket socket, HashMap<SocketAddress, ConnectionManager> connectedServers) {
+    public ServerHandler(Socket socket, HashMap<SocketAddress, SocketConnection> connectedServers) {
         this.socket = socket;
         this.connectedServers = connectedServers;
     }
 
-    private synchronized void broadcastMessage(SyncProtocolMessage message, SocketAddress sender) {
+    public void cleanup() {
         this.connectedServers.entrySet().removeIf(entry -> {
-            Socket targetSocket = entry.getValue().socket();
+            Socket targetSocket = entry.getValue().getSocket();
             return targetSocket.isClosed() || !targetSocket.isConnected();
         });
+    }
 
+    private synchronized void broadcastMessage(SyncProtocolMessage message, SocketAddress sender) {
         this.connectedServers.forEach((address, connectionManager) -> {
             if (!address.equals(sender)) {
                 try {
-                    ObjectOutputStream out = connectionManager.objectOutputStream();
+                    ObjectOutputStream out = connectionManager.getObjectOutputStream();
                     out.reset(); // Reset the stream to avoid object caching issues
                     out.writeObject(message);
                     out.flush();
@@ -56,10 +58,10 @@ public class ServerHandler implements Runnable {
             out.flush(); // Flush header
             ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 
-            ConnectionManager connectionManager = new ConnectionManager(socket, out, in);
-            this.connectedServers.put(remoteAddress, connectionManager);
+            SocketConnection socketConnection = new SocketConnection(socket, out, in);
+            this.connectedServers.put(remoteAddress, socketConnection);
 
-            while (!socket.isClosed() && socket.isConnected()) {
+            for (; ; ) {
                 try {
                     SyncProtocolMessage message = (SyncProtocolMessage) in.readObject();
                     logger.info("Received message: " + message.topic() + " from " + remoteAddress);
@@ -67,19 +69,19 @@ public class ServerHandler implements Runnable {
                 } catch (ClassNotFoundException e) {
                     logger.warning("Invalid message format from " + remoteAddress + ": " + e.getMessage());
                 } catch (IOException e) {
-                    logger.warning("Connection error with " + remoteAddress + ": " + e.getMessage());
+                    logger.warning("SocketConnection error with " + remoteAddress + ": " + e.getMessage());
                     try {
-                        logger.info("Closing connection with " + remoteAddress);
-                        connectionManager.close();
+                        logger.info("Closing socketConnection with " + remoteAddress);
+                        socketConnection.close();
                     } catch (Exception ignored) {
                         // Ignore close exceptions
                     }
                 }
             }
         } catch (IOException e) {
-            logger.warning("Connection error with " + remoteAddress + ": " + e.getMessage());
+            logger.warning("SocketConnection error with " + remoteAddress + ": " + e.getMessage());
         } finally {
-            ConnectionManager conn = this.connectedServers.remove(remoteAddress);
+            SocketConnection conn = this.connectedServers.remove(remoteAddress);
             if (conn != null) {
                 try {
                     conn.close();

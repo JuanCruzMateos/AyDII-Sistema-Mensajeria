@@ -1,7 +1,7 @@
 package org.grupouno.network.handlers;
 
-import org.grupouno.model.conversation.Message;
-import org.grupouno.model.conversation.MessageType;
+import org.grupouno.model.protocols.Message;
+import org.grupouno.model.protocols.MessageType;
 
 import java.io.IOException;
 

@@ -1,7 +1,7 @@
 package org.grupouno.model.session;
 
-import org.grupouno.model.conversation.Message;
 import org.grupouno.model.directory.User;
+import org.grupouno.model.protocols.Message;
 
 import java.util.List;
 import java.util.Optional;

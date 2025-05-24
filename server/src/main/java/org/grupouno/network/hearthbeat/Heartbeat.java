@@ -25,9 +25,9 @@ public class Heartbeat implements Runnable {
     public void run() {
         try (Socket socket = new Socket()) {
             logger.info("Heartbeat starting on " + serverAddress + ":" + serverPort + " to " + monitorAddress + ":" + monitorPort);
-            socket.setReuseAddress(true); // set reuse before bind and connecting
-            socket.bind(new InetSocketAddress(InetAddress.getByName(serverAddress), serverPort)); // Explicitly bind
-            socket.connect(new InetSocketAddress(InetAddress.getByName(monitorAddress), monitorPort)); // Connect to monitor
+            socket.setReuseAddress(true);
+            socket.bind(new InetSocketAddress(InetAddress.getByName(serverAddress), serverPort));
+            socket.connect(new InetSocketAddress(InetAddress.getByName(monitorAddress), monitorPort));
 
             while (true) {
                 socket.getOutputStream().write("HEARTBEAT".getBytes());

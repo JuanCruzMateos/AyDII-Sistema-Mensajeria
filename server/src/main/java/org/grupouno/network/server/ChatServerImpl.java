@@ -1,6 +1,6 @@
 package org.grupouno.network.server;
 
-import org.grupouno.model.connection.ConnectionManager;
+import org.grupouno.model.connection.SocketConnection;
 import org.grupouno.model.conversation.IConversationService;
 import org.grupouno.model.directory.IDirectory;
 import org.grupouno.network.handlers.ClientHandlerImpl;
@@ -20,11 +20,11 @@ public class ChatServerImpl implements IChatServer {
     private final int serverPort;
     private final IDirectory directory;
     private final IConversationService pendingMessages;
-    private final HashMap<String, ConnectionManager> connectedClients;
+    private final HashMap<String, SocketConnection> connectedClients;
     private final Heartbeat heartbeat;
     private final SyncService syncService;
 
-    public ChatServerImpl(String serverAddress, int serverPort, IDirectory directory, IConversationService pendingMessages, HashMap<String, ConnectionManager> connectedClients, Heartbeat heartbeat, SyncService syncService) {
+    public ChatServerImpl(String serverAddress, int serverPort, IDirectory directory, IConversationService pendingMessages, HashMap<String, SocketConnection> connectedClients, Heartbeat heartbeat, SyncService syncService) {
         this.serverAddress = serverAddress;
         this.serverPort = serverPort;
         this.directory = directory;

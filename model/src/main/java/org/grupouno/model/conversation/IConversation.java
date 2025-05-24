@@ -1,5 +1,7 @@
 package org.grupouno.model.conversation;
 
+import org.grupouno.model.protocols.Message;
+
 import java.util.Iterator;
 import java.util.List;
 

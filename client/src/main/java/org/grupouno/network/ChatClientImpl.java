@@ -1,8 +1,8 @@
 package org.grupouno.network;
 
 import org.grupouno.controller.ChatController;
-import org.grupouno.model.conversation.Message;
-import org.grupouno.model.conversation.MessageType;
+import org.grupouno.model.protocols.Message;
+import org.grupouno.model.protocols.MessageType;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -39,18 +39,16 @@ public class ChatClientImpl implements IChatClient, Runnable {
     }
 
     public void fetchPrimaryServerFromMonitor(int delay) {
-        SocketAddress lastPrimaryServer = this.primaryServer;
         this.primaryServer = null;
         try {
             // TODO :: retry for a number of times
-            while (this.primaryServer == null || !this.primaryServer.equals(lastPrimaryServer)) {
+            while (this.primaryServer == null) {
                 this.monitorOutputStream.writeObject("primary.server");
                 this.monitorOutputStream.flush();
                 this.primaryServer = (SocketAddress) this.monitorInputStream.readObject();
                 logger.info("Primary server address from monitor: " + primaryServer);
-                if (this.primaryServer == null || this.primaryServer.equals(lastPrimaryServer)) {
+                if (this.primaryServer == null) {
                     logger.warning("Failed to fetch primary server address from monitor, retrying in " + delay + "ms");
-//                    Thread.sleep(delay * (long) Math.pow(2, retries - 1));
                     Thread.sleep(delay);
                 }
             }
@@ -70,23 +68,45 @@ public class ChatClientImpl implements IChatClient, Runnable {
             this.monitorOutputStream = new ObjectOutputStream(this.monitorSocket.getOutputStream());
             logger.info("Connected to monitor at " + monitorAddress + ":" + monitorPort);
         } catch (IOException e) {
-            logger.warning("Error creating socket connection to monitor: " + e.getMessage());
+            logger.warning("Error creating getSocket connection to monitor: " + e.getMessage());
         }
     }
 
-    public void connectToServer() {
-        this.serverSocket = new Socket();
-        try {
-            this.fetchPrimaryServerFromMonitor(1000);
-            this.serverSocket.setReuseAddress(true);
-            this.serverSocket.bind(new InetSocketAddress(localAddress, localPort));
-            this.serverSocket.connect(primaryServer);
-            this.serverInputStream = new ObjectInputStream(serverSocket.getInputStream());
-            this.serverOutputStream = new ObjectOutputStream(serverSocket.getOutputStream());
-            logger.info("Connected to primary server: " + primaryServer);
-        } catch (IOException e) {
-            logger.warning("Error connecting to primary server: " + e.getMessage());
+    public boolean connectToServer() {
+        int maxRetries = 5;
+        int attempts = 0;
+        boolean connected = false;
+
+        while (!connected && attempts < maxRetries) {
+            try {
+                this.fetchPrimaryServerFromMonitor(1000);
+                if (this.primaryServer != null) {
+                    this.serverSocket = new Socket();
+                    this.serverSocket.setReuseAddress(true);
+                    this.serverSocket.bind(new InetSocketAddress(localAddress, localPort));
+                    this.serverSocket.connect(this.primaryServer);
+                    this.serverInputStream = new ObjectInputStream(this.serverSocket.getInputStream());
+                    this.serverOutputStream = new ObjectOutputStream(this.serverSocket.getOutputStream());
+                    connected = true;
+                    logger.info("Connected to primary server: " + this.primaryServer);
+                }
+            } catch (IOException e) {
+                logger.warning("Error connecting to primary server: " + e.getMessage());
+                attempts++;
+                if (attempts < maxRetries) {
+                    logger.info("Retrying connection to primary server...");
+                    try {
+                        Thread.sleep(2000); // Wait for 2 seconds before retrying
+                    } catch (InterruptedException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            }
         }
+        if (!connected) {
+            logger.warning("Failed to connect to primary server after " + maxRetries + " attempts");
+        }
+        return connected;
     }
 
 
@@ -96,11 +116,12 @@ public class ChatClientImpl implements IChatClient, Runnable {
         logger.info("Connecting to monitor at " + this.monitorAddress + ":" + this.monitorPort);
 
         this.connectToMonitor();
-        this.connectToServer();
-        this.registerWithServer(this.clientName, this.localAddress, this.localPort);
+        if (this.connectToServer()) {
+            this.registerWithServer(this.clientName, this.localAddress, this.localPort);
+        }
 
-        boolean isConnected = true;
-        while (isConnected) {
+        boolean running = true;
+        while (running) {
             try {
                 Message message = (Message) this.serverInputStream.readObject();
                 while (message.type() != MessageType.DISCONNECT_ACK) {
@@ -109,14 +130,19 @@ public class ChatClientImpl implements IChatClient, Runnable {
                     message = (Message) this.serverInputStream.readObject();
                 }
                 logger.info("Received DISCONNECT_ACK, stopping client thread");
-                isConnected = false;
+                running = false;
                 this.close();
             } catch (IOException | ClassNotFoundException e) {
-                logger.warning("Error receiving message: " + e.getMessage());
-                logger.info("Reconnecting to server...");
-                this.close();
-                this.connectToServer();
-                this.registerWithServer(this.clientName, this.localAddress, this.localPort);
+                logger.info("Connection lost. Reconnecting to server...");
+                try {
+                    Thread.sleep(2000); // Wait for 2 second before reconnecting
+                    this.close();
+                    if (this.connectToServer()) {
+                        this.registerWithServer(this.clientName, this.localAddress, this.localPort);
+                    }
+                } catch (InterruptedException ie) {
+                    logger.warning("Thread interrupted while waiting to reconnect: " + ie.getMessage());
+                }
             }
         }
     }
@@ -168,25 +194,8 @@ public class ChatClientImpl implements IChatClient, Runnable {
         this.sendMessage(this.createMessage(nickname, serverSocket.getLocalAddress().getHostAddress(), serverSocket.getLocalPort(), MessageType.DISCONNECT));
     }
 
-    private synchronized void close() {
+    public synchronized void close() {
         try {
-//            if (this.monitorInputStream != null) {
-//                this.monitorInputStream.close();
-//                logger.info("Input stream closed");
-//            } else {
-//                logger.info("Input stream is null");
-//            }
-//            if (this.monitorOutputStream != null) {
-//                this.monitorOutputStream.close();
-//                logger.info("Output stream closed");
-//            } else {
-//                logger.info("Output stream is null");
-//            }
-//            if (this.monitorSocket != null && !this.monitorSocket.isClosed()) {
-//                logger.info("Closing socket: " + this.monitorSocket);
-//                this.monitorSocket.setReuseAddress(true);
-//                this.monitorSocket.close();
-//            }
             if (this.serverInputStream != null) {
                 this.serverInputStream.close();
                 logger.info("Input stream closed");
@@ -200,8 +209,7 @@ public class ChatClientImpl implements IChatClient, Runnable {
                 logger.info("Output stream is null");
             }
             if (this.serverSocket != null && !this.serverSocket.isClosed()) {
-                logger.info("Closing socket: " + this.serverSocket);
-                this.serverSocket.setReuseAddress(true);
+                logger.info("Closing getSocket: " + this.serverSocket);
                 this.serverSocket.close();
                 this.serverSocket = null;
             }

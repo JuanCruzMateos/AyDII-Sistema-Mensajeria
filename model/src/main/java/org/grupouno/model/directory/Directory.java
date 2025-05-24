@@ -37,12 +37,12 @@ public class Directory implements IDirectory, Serializable {
     }
 
     @Override
-    public synchronized List<String> getContactNicknames() {
+    public synchronized List<String> getAllContactNicknames() {
         return this.contacts.keySet().stream().toList();
     }
 
     @Override
-    public Set<User> getContacts() {
+    public synchronized Set<User> getAllContacts() {
         return Set.copyOf(this.contacts.values());
     }
 }
