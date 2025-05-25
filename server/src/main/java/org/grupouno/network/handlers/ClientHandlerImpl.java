@@ -60,17 +60,23 @@ public class ClientHandlerImpl implements Runnable, IClientHandler {
                 logger.info("Received message from " + message.senderNickname() + ": " + message.type());
             }
             this.removeConnection(message.senderNickname());
-        } catch (IOException | ClassNotFoundException e) {
-            logger.warning("Error handling client: " + e.getMessage());
+        } catch (IOException e) {
+            logger.warning("Client disconnected " + e.getMessage());
+        } catch (ClassNotFoundException e) {
+            logger.warning("Error reading message: " + e.getMessage());
+        } finally {
+            try {
+                this.connectedClients.remove(this.socketConnection.getSocket().getInetAddress().toString().substring(1));
+                this.socketConnection.close();
+            } catch (IOException e) {
+                logger.warning("Error closing socket: " + e.getMessage());
+            }
         }
     }
 
     @Override
     public synchronized void registerNewConnection(Message message) {
-        boolean isValid = message.type() == MessageType.REGISTER &&
-                message.receiverIP().equals(this.socketConnection.getSocket().getLocalAddress().toString().substring(1)) &&
-                message.receiverPort() == this.socketConnection.getSocket().getLocalPort();
-        if (!isValid) {
+        if (message.type() != MessageType.REGISTER) {
             logger.warning("Invalid socketConnection attempt from " + message.senderNickname());
             this.serverResponse(message.senderNickname(), "Invalid socketConnection attempt", MessageType.ERROR);
         } else {

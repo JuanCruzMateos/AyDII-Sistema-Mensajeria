@@ -37,8 +37,9 @@ public class SyncService implements ISyncService, Runnable {
         this.pendingMessages = pendingMessages;
     }
 
+
     @Override
-    public void publishEvent(Message message, Topic topic) {
+    public synchronized void publishEvent(Message message, Topic topic) {
         try {
             SyncProtocolMessage syncMessage = new SyncProtocolMessage(topic, message);
             this.socketConnection.getObjectOutputStream().writeObject(syncMessage);
@@ -70,11 +71,10 @@ public class SyncService implements ISyncService, Runnable {
             this.socketConnection = new SocketConnection(socket, out, in);
 
             // sync_all
-            out.writeObject(new SyncProtocolMessage(Topic.SYNC_ALL, null));
-            out.flush();
+            this.publishEvent(null, Topic.SYNC_ALL);
             logger.info("Sync all messages and users on startup");
 
-            while (true) {
+            for (; ; ) {
                 SyncProtocolMessage syncMessage = (SyncProtocolMessage) in.readObject();
                 switch (syncMessage.topic()) {
                     case Topic.NEW_MESSAGE -> this.addNewMessage(syncMessage.message());

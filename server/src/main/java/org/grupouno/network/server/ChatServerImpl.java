@@ -9,6 +9,7 @@ import org.grupouno.network.sync.SyncService;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
@@ -45,9 +46,11 @@ public class ChatServerImpl implements IChatServer {
         syncThread.start();
 
         logger.info("Starting client service on port " + serverPort);
-        try (ServerSocket serverSocket = new ServerSocket(serverPort, 50, InetAddress.getByName(this.serverAddress))) {
+        try (ServerSocket serverSocket = new ServerSocket()) {
+            serverSocket.setReuseAddress(true);
+            serverSocket.bind(new InetSocketAddress(InetAddress.getByName(this.serverAddress), this.serverPort));
             logger.info("Waiting for connections... ");
-            while (true) {
+            for (; ; ) {
                 try {
                     Socket clientSocket = serverSocket.accept();
                     logger.info("Accepted connection from " + clientSocket.getInetAddress() + ":" + clientSocket.getPort());

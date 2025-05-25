@@ -21,14 +21,7 @@ public class ServerHandler implements Runnable {
         this.connectedServers = connectedServers;
     }
 
-    public void cleanup() {
-        this.connectedServers.entrySet().removeIf(entry -> {
-            Socket targetSocket = entry.getValue().getSocket();
-            return targetSocket.isClosed() || !targetSocket.isConnected();
-        });
-    }
-
-    private synchronized void broadcastMessage(SyncProtocolMessage message, SocketAddress sender) {
+    public synchronized void broadcastMessage(SyncProtocolMessage message, SocketAddress sender) {
         this.connectedServers.forEach((address, connectionManager) -> {
             if (!address.equals(sender)) {
                 try {
@@ -41,10 +34,11 @@ public class ServerHandler implements Runnable {
                     logger.warning("Error sending message to " + address + ": " + e.getMessage());
                     try {
                         connectionManager.close();
+                        this.connectedServers.remove(address);
+                        logger.info("Closed connection with " + address + " due to send error");
                     } catch (Exception ignored) {
                         // Ignore close exceptions
                     }
-                    this.connectedServers.remove(address);
                 }
             }
         });
@@ -55,36 +49,37 @@ public class ServerHandler implements Runnable {
         SocketAddress remoteAddress = socket.getRemoteSocketAddress();
         try {
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-            out.flush(); // Flush header
             ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 
             SocketConnection socketConnection = new SocketConnection(socket, out, in);
             this.connectedServers.put(remoteAddress, socketConnection);
 
-            for (; ; ) {
-                try {
+            try {
+                for (; ; ) {
                     SyncProtocolMessage message = (SyncProtocolMessage) in.readObject();
                     logger.info("Received message: " + message.topic() + " from " + remoteAddress);
                     this.broadcastMessage(message, remoteAddress);
-                } catch (ClassNotFoundException e) {
-                    logger.warning("Invalid message format from " + remoteAddress + ": " + e.getMessage());
-                } catch (IOException e) {
-                    logger.warning("SocketConnection error with " + remoteAddress + ": " + e.getMessage());
-                    try {
-                        logger.info("Closing socketConnection with " + remoteAddress);
-                        socketConnection.close();
-                    } catch (Exception ignored) {
-                        // Ignore close exceptions
-                    }
+                }
+            } catch (ClassNotFoundException e) {
+                logger.warning("Invalid message format from " + remoteAddress + ": " + e.getMessage());
+            } catch (IOException e) {
+                logger.warning("Server disconnected " + remoteAddress);
+                try {
+                    logger.info("Closing connection with " + remoteAddress);
+                    this.connectedServers.remove(remoteAddress);
+                    socketConnection.close();
+                } catch (Exception ignored) {
+                    //
                 }
             }
         } catch (IOException e) {
-            logger.warning("SocketConnection error with " + remoteAddress + ": " + e.getMessage());
+            logger.warning("Error with streams with " + remoteAddress + ": " + e.getMessage());
         } finally {
             SocketConnection conn = this.connectedServers.remove(remoteAddress);
             if (conn != null) {
                 try {
                     conn.close();
+                    logger.info("Closed connection with " + remoteAddress);
                 } catch (Exception ignored) {
                     //
                 }
