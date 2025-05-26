@@ -8,12 +8,15 @@ import org.grupouno.model.session.ChatSessionImpl;
 import org.grupouno.model.session.IChatSession;
 import org.grupouno.network.ChatClientImpl;
 import org.grupouno.network.IChatClient;
+import org.grupouno.persistence.ISessionPersistence;
+import org.grupouno.persistence.PersistenceFactory;
 import org.grupouno.view.AgendaScreen;
 import org.grupouno.view.ChatSessionScreen;
 import org.grupouno.view.DirectoryScreen;
 import org.grupouno.view.IChatSessionScreen;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -35,6 +38,7 @@ public class ChatController implements ActionListener {
     private IChatSessionScreen chatSessionScreen;
     private AgendaScreen agendaScreen;
     private DirectoryScreen directoryScreen;
+    private ISessionPersistence persistence;
 
     private ChatController() {
     }
@@ -60,7 +64,25 @@ public class ChatController implements ActionListener {
         new Thread((Runnable) this.chatClient).start();
         this.chatSessionScreen.setVisible(true);
 
+        // Verifica si ya existe archivo de guardado para este usuario.
+        persistence = PersistenceFactory.getPersistence(nickname);
+        if (persistence == null) { // Si no existe, pregunto cuál quiere usar.
+            String[] options = new String[]{"XML", "JSON", "TXT"};
+            String ans = (String) JOptionPane.showInputDialog((Component) this.chatSessionScreen, "Elija el tipo de archivo de guardado:", "Formato de guardado", JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+            // Creo el nuevo archivo de guardado
+            int type = 0;
+            if (ans.equals(options[0]))
+                type = PersistenceFactory.XML_PERSISTENCE;
+            else if (ans.equals(options[1]))
+                type = PersistenceFactory.JSON_PERSISTENCE;
+            else if (ans.equals(options[2]))
+                type = PersistenceFactory.TXT_PERSISTENCE;
 
+            persistence = PersistenceFactory.getPersistence(nickname, type);
+        } else // Si existe, cargo lo que ya está guardado.
+        {
+            //persistence.loadSession();
+        }
     }
 
     @Override
@@ -78,6 +100,8 @@ public class ChatController implements ActionListener {
     }
 
     public void disconect() {
+        //Persiste datos del usuario
+        //persistence.saveSession();
         this.chatClient.disconnect(this.chatSessionScreen.getSessionUsername());
         this.chatSessionScreen.closeWindow();
         logger.info("Disconnected from chat session.");
@@ -120,6 +144,8 @@ public class ChatController implements ActionListener {
         } else {
             JOptionPane.showMessageDialog(null, "Seleccione un contacto.", "Error", JOptionPane.ERROR_MESSAGE);
         }
+        // CARGAR ARCHIVO DE GUARDADO
+
     }
 
     /**

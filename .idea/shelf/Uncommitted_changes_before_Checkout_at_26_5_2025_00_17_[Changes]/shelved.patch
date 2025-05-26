@@ -1,0 +1,212 @@
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"5486df74-5d68-4513-bf6f-42320c48c0d3\" name=\"Changes\" comment=\"Más detalles.\">\r\n      <change afterPath=\"$PROJECT_DIR$/client/src/main/java/org/grupouno/encryption/Encrypter.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/client/src/main/java/org/grupouno/controller/ChatController.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/client/src/main/java/org/grupouno/controller/ChatController.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/client/src/main/java/org/grupouno/view/ChatSessionScreen.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/client/src/main/java/org/grupouno/view/ChatSessionScreen.java\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"package-info\" />\r\n        <option value=\"HTTP Request\" />\r\n        <option value=\"Enum\" />\r\n        <option value=\"Record\" />\r\n        <option value=\"Class\" />\r\n        <option value=\"Interface\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"FormatOnSaveOptions\">\r\n    <option name=\"myRunOnSave\" value=\"true\" />\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <favorite-branches>\r\n      <branch-storage>\r\n        <map>\r\n          <entry type=\"REMOTE\">\r\n            <value>\r\n              <list>\r\n                <branch-info repo=\"$PROJECT_DIR$\" source=\"origin/v4.0.0\" />\r\n              </list>\r\n            </value>\r\n          </entry>\r\n        </map>\r\n      </branch-storage>\r\n    </favorite-branches>\r\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\r\n      <map>\r\n        <entry key=\"$PROJECT_DIR$\" value=\"v2.0.0\" />\r\n      </map>\r\n    </option>\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GitHubPullRequestSearchHistory\">{\r\n  &quot;lastFilter&quot;: {\r\n    &quot;state&quot;: &quot;OPEN&quot;,\r\n    &quot;assignee&quot;: &quot;JuanCruzMateos&quot;\r\n  }\r\n}</component>\r\n  <component name=\"GithubPullRequestsUISettings\">{\r\n  &quot;selectedUrlAndAccountId&quot;: {\r\n    &quot;url&quot;: &quot;https://github.com/JuanCruzMateos/AyDII-Sistema-Mensajeria.git&quot;,\r\n    &quot;accountId&quot;: &quot;da1b062f-26a7-4b1b-89b9-f9068be3ac90&quot;\r\n  }\r\n}</component>\r\n  <component name=\"KubernetesApiPersistence\">{}</component>\r\n  <component name=\"KubernetesApiProvider\">{\r\n  &quot;isMigrated&quot;: true\r\n}</component>\r\n  <component name=\"OptimizeOnSaveOptions\">\r\n    <option name=\"myRunOnSave\" value=\"true\" />\r\n  </component>\r\n  <component name=\"ProblemsViewState\">\r\n    <option name=\"selectedTabId\" value=\"CurrentFile\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 3\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2v6iyOQxrjgiIUQveZUKVA4DFtq\" />\r\n  <component name=\"ProjectLevelVcsManager\">\r\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;Application.AddContactScreen.executor&quot;: &quot;Run&quot;,\r\n    &quot;Application.AgendaScreen.executor&quot;: &quot;Run&quot;,\r\n    &quot;Application.App (1).executor&quot;: &quot;Run&quot;,\r\n    &quot;Application.App.executor&quot;: &quot;Run&quot;,\r\n    &quot;Application.ChatScreen.executor&quot;: &quot;Run&quot;,\r\n    &quot;Application.ClientApp.executor&quot;: &quot;Run&quot;,\r\n    &quot;Application.ConfigScreen.executor&quot;: &quot;Run&quot;,\r\n    &quot;Application.ConfigService.executor&quot;: &quot;Run&quot;,\r\n    &quot;Application.DGClient.executor&quot;: &quot;Run&quot;,\r\n    &quot;Application.DGServer.executor&quot;: &quot;Run&quot;,\r\n    &quot;Application.DirectoryScreen.executor&quot;: &quot;Run&quot;,\r\n    &quot;Application.Main.executor&quot;: &quot;Run&quot;,\r\n    &quot;Application.MessageBrokerService.executor&quot;: &quot;Run&quot;,\r\n    &quot;Application.MonitorApp.executor&quot;: &quot;Run&quot;,\r\n    &quot;Application.P.executor&quot;: &quot;Run&quot;,\r\n    &quot;Application.Prueba (1).executor&quot;: &quot;Profiler#1&quot;,\r\n    &quot;Application.Prueba.executor&quot;: &quot;Run&quot;,\r\n    &quot;Application.ServerApp.executor&quot;: &quot;Run&quot;,\r\n    &quot;Application.org.grupouno.Prueba (1).executor&quot;: &quot;Run&quot;,\r\n    &quot;Application.org.grupouno.Prueba.executor&quot;: &quot;Run&quot;,\r\n    &quot;Docker.Dockerfile build.executor&quot;: &quot;Run&quot;,\r\n    &quot;Docker.Dockerfile.executor&quot;: &quot;Run&quot;,\r\n    &quot;HTTP Request.dasd | GET request to example server.executor&quot;: &quot;Run&quot;,\r\n    &quot;JAR Application.server-2.0.0.jar.executor&quot;: &quot;Run&quot;,\r\n    &quot;JAR Application.sistema-mensajeria-1.0-SNAPSHOT.jar.executor&quot;: &quot;Run&quot;,\r\n    &quot;JAR Application.sistema-mensajeria-1.0.0.jar.executor&quot;: &quot;Run&quot;,\r\n    &quot;JUnit.AgendaTest.executor&quot;: &quot;Run&quot;,\r\n    &quot;JUnit.ChatSessionTest.executor&quot;: &quot;Run&quot;,\r\n    &quot;JUnit.ConversationServiceTest.executor&quot;: &quot;Run&quot;,\r\n    &quot;JUnit.ConversationTest.addMessageAppendsMessageToConversation.executor&quot;: &quot;Run&quot;,\r\n    &quot;JUnit.ConversationTest.executor&quot;: &quot;Run&quot;,\r\n    &quot;JUnit.UserTest.executor&quot;: &quot;Run&quot;,\r\n    &quot;Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor&quot;: &quot;Run&quot;,\r\n    &quot;Maven.sistema-mensajeria [clean].executor&quot;: &quot;Run&quot;,\r\n    &quot;Maven.sistema-mensajeria [compile].executor&quot;: &quot;Run&quot;,\r\n    &quot;Maven.sistema-mensajeria [install].executor&quot;: &quot;Run&quot;,\r\n    &quot;Maven.sistema-mensajeria [org.apache.maven.plugins:maven-clean-plugin:3.2.0:clean].executor&quot;: &quot;Run&quot;,\r\n    &quot;Maven.sistema-mensajeria [org.apache.maven.plugins:maven-clean-plugin:3.2.0:help].executor&quot;: &quot;Run&quot;,\r\n    &quot;Maven.sistema-mensajeria [org.apache.maven.plugins:maven-compiler-plugin:3.8.1:compile].executor&quot;: &quot;Run&quot;,\r\n    &quot;Maven.sistema-mensajeria [org.apache.maven.plugins:maven-compiler-plugin:3.8.1:help].executor&quot;: &quot;Run&quot;,\r\n    &quot;Maven.sistema-mensajeria [org.apache.maven.plugins:maven-jar-plugin:3.2.0:jar].executor&quot;: &quot;Run&quot;,\r\n    &quot;Maven.sistema-mensajeria [org.apache.maven.plugins:maven-jar-plugin:3.2.2:help].executor&quot;: &quot;Run&quot;,\r\n    &quot;Maven.sistema-mensajeria [org.apache.maven.plugins:maven-jar-plugin:3.2.2:jar].executor&quot;: &quot;Run&quot;,\r\n    &quot;Maven.sistema-mensajeria [org.apache.maven.plugins:maven-jar-plugin:3.4.1:help].executor&quot;: &quot;Run&quot;,\r\n    &quot;Maven.sistema-mensajeria [org.apache.maven.plugins:maven-jar-plugin:3.4.1:jar].executor&quot;: &quot;Run&quot;,\r\n    &quot;Maven.sistema-mensajeria [package].executor&quot;: &quot;Run&quot;,\r\n    &quot;Maven.sistema-mensajeria [test].executor&quot;: &quot;Run&quot;,\r\n    &quot;Maven.sistema-mensajeria [validate].executor&quot;: &quot;Run&quot;,\r\n    &quot;Maven.sistema-mensajeria [verify].executor&quot;: &quot;Run&quot;,\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,\r\n    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,\r\n    &quot;SHELLCHECK.PATH&quot;: &quot;/Users/juancruz/Library/Application Support/JetBrains/IntelliJIdea2025.1/plugins/Shell Script/shellcheck&quot;,\r\n    &quot;Shell Script.build.sh.executor&quot;: &quot;Run&quot;,\r\n    &quot;Shell Script.run_client.sh.executor&quot;: &quot;Run&quot;,\r\n    &quot;Shell Script.run_local.sh.executor&quot;: &quot;Run&quot;,\r\n    &quot;Shell Script.run_server.sh.executor&quot;: &quot;Run&quot;,\r\n    &quot;code.cleanup.on.save&quot;: &quot;true&quot;,\r\n    &quot;extract.method.default.visibility&quot;: &quot;private&quot;,\r\n    &quot;git-widget-placeholder&quot;: &quot;main&quot;,\r\n    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,\r\n    &quot;last_opened_file_path&quot;: &quot;/Users/juancruz/Documents/ingenieria/analisis-diseno-02/sistema-mensajeria/monitor/src/main/resources&quot;,\r\n    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,\r\n    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,\r\n    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,\r\n    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,\r\n    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,\r\n    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,\r\n    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,\r\n    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,\r\n    &quot;rearrange.code.on.save&quot;: &quot;true&quot;,\r\n    &quot;run.code.analysis.last.selected.profile&quot;: &quot;aDefault&quot;,\r\n    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,\r\n    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;\r\n  }\r\n}</component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CreateClassDialog.RecentsKey\">\r\n      <recent name=\"org.grupouno.exceptions\" />\r\n    </key>\r\n    <key name=\"CopyFile.RECENT_KEYS\">\r\n      <recent name=\"$PROJECT_DIR$/monitor/src/main/resources\" />\r\n      <recent name=\"$PROJECT_DIR$/pubsub/src/main\" />\r\n      <recent name=\"$PROJECT_DIR$/client/src/main/resources\" />\r\n    </key>\r\n    <key name=\"MoveFile.RECENT_KEYS\">\r\n      <recent name=\"$PROJECT_DIR$/server/src/main/resources\" />\r\n      <recent name=\"$PROJECT_DIR$/shared/src/main/resources\" />\r\n      <recent name=\"$PROJECT_DIR$/client/src/main/java/org/grupouno\" />\r\n    </key>\r\n    <key name=\"ExtractSuperBase.RECENT_KEYS\">\r\n      <recent name=\"org.grupouno.model.session\" />\r\n      <recent name=\"org.grupouno.model.conversation\" />\r\n      <recent name=\"org.grupouno.network\" />\r\n    </key>\r\n    <key name=\"MoveClassesOrPackagesDialog.RECENTS_KEY\">\r\n      <recent name=\"org.grupouno.validation\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunManager\" selected=\"Application.ClientApp\">\r\n    <configuration default=\"true\" type=\"docker-deploy\" factoryName=\"dockerfile\" temporary=\"true\">\r\n      <deployment type=\"dockerfile\">\r\n        <settings />\r\n      </deployment>\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"ClientApp\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"org.grupouno.ClientApp\" />\r\n      <module name=\"client\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.grupouno.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"MessageBrokerService\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"org.grupouno.MessageBrokerService\" />\r\n      <module name=\"broker\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.grupouno.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"MonitorApp\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"org.grupouno.MonitorApp\" />\r\n      <module name=\"monitor\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.grupouno.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"Prueba\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"org.grupouno.Prueba\" />\r\n      <module name=\"utils\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.grupouno.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"ServerApp\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"org.grupouno.ServerApp\" />\r\n      <module name=\"server\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.grupouno.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"Application.ClientApp\" />\r\n        <item itemvalue=\"Application.MonitorApp\" />\r\n        <item itemvalue=\"Application.MessageBrokerService\" />\r\n        <item itemvalue=\"Application.ServerApp\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"5486df74-5d68-4513-bf6f-42320c48c0d3\" name=\"Changes\" comment=\"\" />\r\n      <created>1743472178448</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1743472178448</updated>\r\n      <workItem from=\"1743472180320\" duration=\"130000\" />\r\n      <workItem from=\"1743472390646\" duration=\"1388000\" />\r\n      <workItem from=\"1743563920720\" duration=\"56000\" />\r\n      <workItem from=\"1743565211669\" duration=\"3349000\" />\r\n      <workItem from=\"1743605850679\" duration=\"53915000\" />\r\n      <workItem from=\"1743981709095\" duration=\"6083000\" />\r\n      <workItem from=\"1743987836989\" duration=\"29482000\" />\r\n      <workItem from=\"1744584037214\" duration=\"10494000\" />\r\n      <workItem from=\"1744997412123\" duration=\"18441000\" />\r\n      <workItem from=\"1745095970626\" duration=\"42375000\" />\r\n      <workItem from=\"1745613817935\" duration=\"73000\" />\r\n      <workItem from=\"1745613899318\" duration=\"35661000\" />\r\n      <workItem from=\"1745799415171\" duration=\"589000\" />\r\n      <workItem from=\"1745800024464\" duration=\"5087000\" />\r\n      <workItem from=\"1745806610988\" duration=\"14000\" />\r\n      <workItem from=\"1745806626226\" duration=\"175000\" />\r\n      <workItem from=\"1745806980324\" duration=\"2763000\" />\r\n      <workItem from=\"1746922319676\" duration=\"56000\" />\r\n      <workItem from=\"1746922387342\" duration=\"1561000\" />\r\n      <workItem from=\"1747050869368\" duration=\"2900000\" />\r\n      <workItem from=\"1747267575834\" duration=\"22930000\" />\r\n      <workItem from=\"1747454337969\" duration=\"14000\" />\r\n      <workItem from=\"1747454355320\" duration=\"3000\" />\r\n      <workItem from=\"1747454392289\" duration=\"14089000\" />\r\n      <workItem from=\"1747506016766\" duration=\"10000\" />\r\n      <workItem from=\"1747506046362\" duration=\"30240000\" />\r\n      <workItem from=\"1747600016861\" duration=\"21000\" />\r\n      <workItem from=\"1747600480317\" duration=\"59000\" />\r\n      <workItem from=\"1747600559014\" duration=\"12679000\" />\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"Added persistence folder\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1747777122414</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1747777122414</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"Pero por qué c***** no te subiste?!\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1747777293019</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1747777293019</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"Poco a poco toma forma la persistencia.\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1747781415325</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1747781415325</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"Poco a poco toma forma la persistencia. bis\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1747783287265</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1747783287265</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00005\" summary=\"Arreglados detalles de parámetros.\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1748023034215</created>\r\n      <option name=\"number\" value=\"00005\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1748023034215</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00006\" summary=\"Creamos archivos (y carpeta saves), si no existe. Y además le preguntamos al usuario!\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1748026441969</created>\r\n      <option name=\"number\" value=\"00006\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1748026441969</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00007\" summary=\"Más detalles.\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1748126531993</created>\r\n      <option name=\"number\" value=\"00007\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1748126531993</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"8\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"UnknownFeatures\">\r\n    <option featureType=\"com.intellij.fileTypeFactory\" implementationName=\"*.ps1\" />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"Added persistence folder\" />\r\n    <MESSAGE value=\"Pero por qué c***** no te subiste?!\" />\r\n    <MESSAGE value=\"Poco a poco toma forma la persistencia.\" />\r\n    <MESSAGE value=\"Poco a poco toma forma la persistencia. bis\" />\r\n    <MESSAGE value=\"Arreglados detalles de parámetros.\" />\r\n    <MESSAGE value=\"Creamos archivos (y carpeta saves), si no existe. Y además le preguntamos al usuario!\" />\r\n    <MESSAGE value=\"Más detalles.\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Más detalles.\" />\r\n  </component>\r\n  <component name=\"XDebuggerManager\">\r\n    <breakpoint-manager>\r\n      <breakpoints>\r\n        <breakpoint enabled=\"true\" type=\"java-exception\">\r\n          <properties class=\"java.lang.UnsupportedOperationException\" package=\"java.lang\" />\r\n          <option name=\"timeStamp\" value=\"1\" />\r\n        </breakpoint>\r\n      </breakpoints>\r\n    </breakpoint-manager>\r\n  </component>\r\n  <component name=\"XSLT-Support.FileAssociations.UIState\">\r\n    <expand />\r\n    <select />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 2b48a13458be8f919b45a77af5a1f530a9011553)
++++ b/.idea/workspace.xml	(date 1748229170701)
+@@ -4,11 +4,8 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="5486df74-5d68-4513-bf6f-42320c48c0d3" name="Changes" comment="Más detalles.">
+-      <change afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/encryption/Encrypter.java" afterDir="false" />
++    <list default="true" id="5486df74-5d68-4513-bf6f-42320c48c0d3" name="Changes" comment="Comentarios. Inicia Encrypter.">
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/controller/ChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/controller/ChatController.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/ChatSessionScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/ChatSessionScreen.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -84,84 +81,84 @@
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent">{
+-  &quot;keyToString&quot;: {
+-    &quot;Application.AddContactScreen.executor&quot;: &quot;Run&quot;,
+-    &quot;Application.AgendaScreen.executor&quot;: &quot;Run&quot;,
+-    &quot;Application.App (1).executor&quot;: &quot;Run&quot;,
+-    &quot;Application.App.executor&quot;: &quot;Run&quot;,
+-    &quot;Application.ChatScreen.executor&quot;: &quot;Run&quot;,
+-    &quot;Application.ClientApp.executor&quot;: &quot;Run&quot;,
+-    &quot;Application.ConfigScreen.executor&quot;: &quot;Run&quot;,
+-    &quot;Application.ConfigService.executor&quot;: &quot;Run&quot;,
+-    &quot;Application.DGClient.executor&quot;: &quot;Run&quot;,
+-    &quot;Application.DGServer.executor&quot;: &quot;Run&quot;,
+-    &quot;Application.DirectoryScreen.executor&quot;: &quot;Run&quot;,
+-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+-    &quot;Application.MessageBrokerService.executor&quot;: &quot;Run&quot;,
+-    &quot;Application.MonitorApp.executor&quot;: &quot;Run&quot;,
+-    &quot;Application.P.executor&quot;: &quot;Run&quot;,
+-    &quot;Application.Prueba (1).executor&quot;: &quot;Profiler#1&quot;,
+-    &quot;Application.Prueba.executor&quot;: &quot;Run&quot;,
+-    &quot;Application.ServerApp.executor&quot;: &quot;Run&quot;,
+-    &quot;Application.org.grupouno.Prueba (1).executor&quot;: &quot;Run&quot;,
+-    &quot;Application.org.grupouno.Prueba.executor&quot;: &quot;Run&quot;,
+-    &quot;Docker.Dockerfile build.executor&quot;: &quot;Run&quot;,
+-    &quot;Docker.Dockerfile.executor&quot;: &quot;Run&quot;,
+-    &quot;HTTP Request.dasd | GET request to example server.executor&quot;: &quot;Run&quot;,
+-    &quot;JAR Application.server-2.0.0.jar.executor&quot;: &quot;Run&quot;,
+-    &quot;JAR Application.sistema-mensajeria-1.0-SNAPSHOT.jar.executor&quot;: &quot;Run&quot;,
+-    &quot;JAR Application.sistema-mensajeria-1.0.0.jar.executor&quot;: &quot;Run&quot;,
+-    &quot;JUnit.AgendaTest.executor&quot;: &quot;Run&quot;,
+-    &quot;JUnit.ChatSessionTest.executor&quot;: &quot;Run&quot;,
+-    &quot;JUnit.ConversationServiceTest.executor&quot;: &quot;Run&quot;,
+-    &quot;JUnit.ConversationTest.addMessageAppendsMessageToConversation.executor&quot;: &quot;Run&quot;,
+-    &quot;JUnit.ConversationTest.executor&quot;: &quot;Run&quot;,
+-    &quot;JUnit.UserTest.executor&quot;: &quot;Run&quot;,
+-    &quot;Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor&quot;: &quot;Run&quot;,
+-    &quot;Maven.sistema-mensajeria [clean].executor&quot;: &quot;Run&quot;,
+-    &quot;Maven.sistema-mensajeria [compile].executor&quot;: &quot;Run&quot;,
+-    &quot;Maven.sistema-mensajeria [install].executor&quot;: &quot;Run&quot;,
+-    &quot;Maven.sistema-mensajeria [org.apache.maven.plugins:maven-clean-plugin:3.2.0:clean].executor&quot;: &quot;Run&quot;,
+-    &quot;Maven.sistema-mensajeria [org.apache.maven.plugins:maven-clean-plugin:3.2.0:help].executor&quot;: &quot;Run&quot;,
+-    &quot;Maven.sistema-mensajeria [org.apache.maven.plugins:maven-compiler-plugin:3.8.1:compile].executor&quot;: &quot;Run&quot;,
+-    &quot;Maven.sistema-mensajeria [org.apache.maven.plugins:maven-compiler-plugin:3.8.1:help].executor&quot;: &quot;Run&quot;,
+-    &quot;Maven.sistema-mensajeria [org.apache.maven.plugins:maven-jar-plugin:3.2.0:jar].executor&quot;: &quot;Run&quot;,
+-    &quot;Maven.sistema-mensajeria [org.apache.maven.plugins:maven-jar-plugin:3.2.2:help].executor&quot;: &quot;Run&quot;,
+-    &quot;Maven.sistema-mensajeria [org.apache.maven.plugins:maven-jar-plugin:3.2.2:jar].executor&quot;: &quot;Run&quot;,
+-    &quot;Maven.sistema-mensajeria [org.apache.maven.plugins:maven-jar-plugin:3.4.1:help].executor&quot;: &quot;Run&quot;,
+-    &quot;Maven.sistema-mensajeria [org.apache.maven.plugins:maven-jar-plugin:3.4.1:jar].executor&quot;: &quot;Run&quot;,
+-    &quot;Maven.sistema-mensajeria [package].executor&quot;: &quot;Run&quot;,
+-    &quot;Maven.sistema-mensajeria [test].executor&quot;: &quot;Run&quot;,
+-    &quot;Maven.sistema-mensajeria [validate].executor&quot;: &quot;Run&quot;,
+-    &quot;Maven.sistema-mensajeria [verify].executor&quot;: &quot;Run&quot;,
+-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+-    &quot;SHELLCHECK.PATH&quot;: &quot;/Users/juancruz/Library/Application Support/JetBrains/IntelliJIdea2025.1/plugins/Shell Script/shellcheck&quot;,
+-    &quot;Shell Script.build.sh.executor&quot;: &quot;Run&quot;,
+-    &quot;Shell Script.run_client.sh.executor&quot;: &quot;Run&quot;,
+-    &quot;Shell Script.run_local.sh.executor&quot;: &quot;Run&quot;,
+-    &quot;Shell Script.run_server.sh.executor&quot;: &quot;Run&quot;,
+-    &quot;code.cleanup.on.save&quot;: &quot;true&quot;,
+-    &quot;extract.method.default.visibility&quot;: &quot;private&quot;,
+-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+-    &quot;last_opened_file_path&quot;: &quot;/Users/juancruz/Documents/ingenieria/analisis-diseno-02/sistema-mensajeria/monitor/src/main/resources&quot;,
+-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+-    &quot;rearrange.code.on.save&quot;: &quot;true&quot;,
+-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;aDefault&quot;,
+-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
++  <component name="PropertiesComponent"><![CDATA[{
++  "keyToString": {
++    "Application.AddContactScreen.executor": "Run",
++    "Application.AgendaScreen.executor": "Run",
++    "Application.App (1).executor": "Run",
++    "Application.App.executor": "Run",
++    "Application.ChatScreen.executor": "Run",
++    "Application.ClientApp.executor": "Run",
++    "Application.ConfigScreen.executor": "Run",
++    "Application.ConfigService.executor": "Run",
++    "Application.DGClient.executor": "Run",
++    "Application.DGServer.executor": "Run",
++    "Application.DirectoryScreen.executor": "Run",
++    "Application.Main.executor": "Run",
++    "Application.MessageBrokerService.executor": "Run",
++    "Application.MonitorApp.executor": "Run",
++    "Application.P.executor": "Run",
++    "Application.Prueba (1).executor": "Profiler#1",
++    "Application.Prueba.executor": "Run",
++    "Application.ServerApp.executor": "Run",
++    "Application.org.grupouno.Prueba (1).executor": "Run",
++    "Application.org.grupouno.Prueba.executor": "Run",
++    "Docker.Dockerfile build.executor": "Run",
++    "Docker.Dockerfile.executor": "Run",
++    "HTTP Request.dasd | GET request to example server.executor": "Run",
++    "JAR Application.server-2.0.0.jar.executor": "Run",
++    "JAR Application.sistema-mensajeria-1.0-SNAPSHOT.jar.executor": "Run",
++    "JAR Application.sistema-mensajeria-1.0.0.jar.executor": "Run",
++    "JUnit.AgendaTest.executor": "Run",
++    "JUnit.ChatSessionTest.executor": "Run",
++    "JUnit.ConversationServiceTest.executor": "Run",
++    "JUnit.ConversationTest.addMessageAppendsMessageToConversation.executor": "Run",
++    "JUnit.ConversationTest.executor": "Run",
++    "JUnit.UserTest.executor": "Run",
++    "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
++    "Maven.sistema-mensajeria [clean].executor": "Run",
++    "Maven.sistema-mensajeria [compile].executor": "Run",
++    "Maven.sistema-mensajeria [install].executor": "Run",
++    "Maven.sistema-mensajeria [org.apache.maven.plugins:maven-clean-plugin:3.2.0:clean].executor": "Run",
++    "Maven.sistema-mensajeria [org.apache.maven.plugins:maven-clean-plugin:3.2.0:help].executor": "Run",
++    "Maven.sistema-mensajeria [org.apache.maven.plugins:maven-compiler-plugin:3.8.1:compile].executor": "Run",
++    "Maven.sistema-mensajeria [org.apache.maven.plugins:maven-compiler-plugin:3.8.1:help].executor": "Run",
++    "Maven.sistema-mensajeria [org.apache.maven.plugins:maven-jar-plugin:3.2.0:jar].executor": "Run",
++    "Maven.sistema-mensajeria [org.apache.maven.plugins:maven-jar-plugin:3.2.2:help].executor": "Run",
++    "Maven.sistema-mensajeria [org.apache.maven.plugins:maven-jar-plugin:3.2.2:jar].executor": "Run",
++    "Maven.sistema-mensajeria [org.apache.maven.plugins:maven-jar-plugin:3.4.1:help].executor": "Run",
++    "Maven.sistema-mensajeria [org.apache.maven.plugins:maven-jar-plugin:3.4.1:jar].executor": "Run",
++    "Maven.sistema-mensajeria [package].executor": "Run",
++    "Maven.sistema-mensajeria [test].executor": "Run",
++    "Maven.sistema-mensajeria [validate].executor": "Run",
++    "Maven.sistema-mensajeria [verify].executor": "Run",
++    "RunOnceActivity.ShowReadmeOnStart": "true",
++    "RunOnceActivity.git.unshallow": "true",
++    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
++    "SHELLCHECK.PATH": "/Users/juancruz/Library/Application Support/JetBrains/IntelliJIdea2025.1/plugins/Shell Script/shellcheck",
++    "Shell Script.build.sh.executor": "Run",
++    "Shell Script.run_client.sh.executor": "Run",
++    "Shell Script.run_local.sh.executor": "Run",
++    "Shell Script.run_server.sh.executor": "Run",
++    "code.cleanup.on.save": "true",
++    "extract.method.default.visibility": "private",
++    "git-widget-placeholder": "Local__v4.0.0",
++    "kotlin-language-version-configured": "true",
++    "last_opened_file_path": "/Users/juancruz/Documents/ingenieria/analisis-diseno-02/sistema-mensajeria/monitor/src/main/resources",
++    "node.js.detected.package.eslint": "true",
++    "node.js.detected.package.tslint": "true",
++    "node.js.selected.package.eslint": "(autodetect)",
++    "node.js.selected.package.tslint": "(autodetect)",
++    "nodejs_package_manager_path": "npm",
++    "project.structure.last.edited": "Modules",
++    "project.structure.proportion": "0.0",
++    "project.structure.side.proportion": "0.0",
++    "rearrange.code.on.save": "true",
++    "run.code.analysis.last.selected.profile": "aDefault",
++    "settings.editor.selected.configurable": "preferences.pluginManager",
++    "vue.rearranger.settings.migration": "true"
+   }
+-}</component>
++}]]></component>
+   <component name="RecentsManager">
+     <key name="CreateClassDialog.RecentsKey">
+       <recent name="org.grupouno.exceptions" />
+@@ -360,7 +357,15 @@
+       <option name="project" value="LOCAL" />
+       <updated>1748126531993</updated>
+     </task>
+-    <option name="localTasksCounter" value="8" />
++    <task id="LOCAL-00008" summary="Comentarios. Inicia Encrypter.">
++      <option name="closed" value="true" />
++      <created>1748228812942</created>
++      <option name="number" value="00008" />
++      <option name="presentableId" value="LOCAL-00008" />
++      <option name="project" value="LOCAL" />
++      <updated>1748228812942</updated>
++    </task>
++    <option name="localTasksCounter" value="9" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+@@ -388,7 +393,8 @@
+     <MESSAGE value="Arreglados detalles de parámetros." />
+     <MESSAGE value="Creamos archivos (y carpeta saves), si no existe. Y además le preguntamos al usuario!" />
+     <MESSAGE value="Más detalles." />
+-    <option name="LAST_COMMIT_MESSAGE" value="Más detalles." />
++    <MESSAGE value="Comentarios. Inicia Encrypter." />
++    <option name="LAST_COMMIT_MESSAGE" value="Comentarios. Inicia Encrypter." />
+   </component>
+   <component name="XDebuggerManager">
+     <breakpoint-manager>
