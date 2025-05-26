@@ -83,7 +83,10 @@ public class ChatClientImpl implements IChatClient, Runnable {
             try {
                 this.monitorSocket = new Socket();
                 this.monitorSocket.setReuseAddress(true);
-                this.monitorSocket.bind(new InetSocketAddress(localAddress, localPort));
+                //this.monitorSocket.bind(new InetSocketAddress(localAddress, localPort));
+                //Si el error es porque está dos veces con el mismo puerto, el que menos importa es el del monitor que sólo actúa acá
+                //Así que, que agarre algún puerto al azar que esté libre...
+                this.monitorSocket.bind(null);
                 this.monitorSocket.connect(new InetSocketAddress(monitorAddress, monitorPort));
                 this.monitorInputStream = new ObjectInputStream(this.monitorSocket.getInputStream());
                 this.monitorOutputStream = new ObjectOutputStream(this.monitorSocket.getOutputStream());
