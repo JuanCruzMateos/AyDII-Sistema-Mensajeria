@@ -1,6 +1,6 @@
 package org.grupouno.network.server;
 
-import org.grupouno.model.connection.ConnectionManager;
+import org.grupouno.model.connection.SocketConnection;
 import org.grupouno.model.conversation.IConversationService;
 import org.grupouno.model.directory.IDirectory;
 import org.grupouno.network.handlers.ClientHandlerImpl;
@@ -9,22 +9,23 @@ import org.grupouno.network.sync.SyncService;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
 public class ChatServerImpl implements IChatServer {
-    private final Logger logger = Logger.getLogger(ChatServerImpl.class.getName());
+    private static final Logger logger = Logger.getLogger(ChatServerImpl.class.getName());
     private final String serverAddress;
     private final int serverPort;
     private final IDirectory directory;
     private final IConversationService pendingMessages;
-    private final HashMap<String, ConnectionManager> connectedClients;
+    private final HashMap<String, SocketConnection> connectedClients;
     private final Heartbeat heartbeat;
     private final SyncService syncService;
 
-    public ChatServerImpl(String serverAddress, int serverPort, IDirectory directory, IConversationService pendingMessages, HashMap<String, ConnectionManager> connectedClients, Heartbeat heartbeat, SyncService syncService) {
+    public ChatServerImpl(String serverAddress, int serverPort, IDirectory directory, IConversationService pendingMessages, HashMap<String, SocketConnection> connectedClients, Heartbeat heartbeat, SyncService syncService) {
         this.serverAddress = serverAddress;
         this.serverPort = serverPort;
         this.directory = directory;
@@ -44,10 +45,12 @@ public class ChatServerImpl implements IChatServer {
         Thread syncThread = new Thread(syncService);
         syncThread.start();
 
-        logger.info("Starting server on port " + serverPort);
-        try (ServerSocket serverSocket = new ServerSocket(serverPort, 50, InetAddress.getByName(this.serverAddress))) {
+        logger.info("Starting client service on port " + serverPort);
+        try (ServerSocket serverSocket = new ServerSocket()) {
+            serverSocket.setReuseAddress(true);
+            serverSocket.bind(new InetSocketAddress(InetAddress.getByName(this.serverAddress), this.serverPort));
             logger.info("Waiting for connections... ");
-            while (true) {
+            for (; ; ) {
                 try {
                     Socket clientSocket = serverSocket.accept();
                     logger.info("Accepted connection from " + clientSocket.getInetAddress() + ":" + clientSocket.getPort());

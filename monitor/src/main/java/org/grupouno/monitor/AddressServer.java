@@ -1,46 +1,51 @@
 package org.grupouno.monitor;
 
-import java.io.ObjectOutputStream;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.SocketAddress;
+import java.net.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class AddressServer implements Runnable {
-    private final Logger logger = Logger.getLogger(AddressServer.class.getName());
-    private final int addressServerPort;
-    private final String addressServerAddress;
-    private final PrimaryServerAddress primaryServerAddress;
+    private static final Logger logger = Logger.getLogger(AddressServer.class.getName());
+    private final int port;
+    private final String address;
+    private final List<AddressServerHandler> socketConnections;
+    private SocketAddress primaryServerAddress;
 
-    public AddressServer(String addressServerAddress, int addressServerPort, PrimaryServerAddress primaryServerAddress) {
-        this.addressServerAddress = addressServerAddress;
-        this.addressServerPort = addressServerPort;
-        this.primaryServerAddress = primaryServerAddress;
+    public AddressServer(String address, int port) {
+        this.address = address;
+        this.port = port;
+        this.socketConnections = new ArrayList<>();
     }
 
     @Override
     public void run() {
-        try (ServerSocket serverSocket = new ServerSocket(addressServerPort, 50, InetAddress.getByName(addressServerAddress))) {
-            serverSocket.setReuseAddress(Boolean.TRUE);
-            logger.info("HeartbeatServer started on " + addressServerAddress + ":" + addressServerPort);
-            while (true) {
-                Socket socket = serverSocket.accept();
-                logger.info("New connection from " + socket.getRemoteSocketAddress());
-                ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-                synchronized (this.primaryServerAddress) {
-                    SocketAddress address = this.primaryServerAddress.getAddress();
-                    if (address != null) {
-                        logger.info("Sending primary server address: " + address);
-                    } else {
-                        logger.warning("Primary server address is not set.");
-                    }
-                    out.writeObject(address);
-                    out.flush();
+        try (ServerSocket serverSocket = new ServerSocket()) {
+            serverSocket.setReuseAddress(true);
+            serverSocket.bind(new InetSocketAddress(InetAddress.getByName(address), port));
+            logger.info("AddressServer started on " + address + ":" + port);
+            for (; ; ) {
+                try {
+                    Socket socket = serverSocket.accept();
+                    logger.info("New connection from " + socket.getRemoteSocketAddress());
+                    AddressServerHandler handler = new AddressServerHandler(socket, primaryServerAddress);
+                    this.socketConnections.add(handler);
+                    logger.info("New AddressServerHandler created for " + socket.getRemoteSocketAddress());
+                    new Thread(handler).start();
+                } catch (Exception e) {
+                    logger.warning("Error accepting connection: " + e.getMessage());
                 }
             }
         } catch (Exception e) {
-            logger.warning("Error in monitor: " + e.getMessage());
+            logger.warning("Error in AddressServer: " + e.getMessage());
         }
+    }
+
+    public synchronized void setPrimaryServerAddress(SocketAddress address) {
+        this.primaryServerAddress = address;
+        for (AddressServerHandler handler : this.socketConnections) {
+            handler.setPrimaryServerAddress(address);
+        }
+        logger.info("All " + this.socketConnections.toArray().length + " handlers updated primary server address set to: " + address);
     }
 }

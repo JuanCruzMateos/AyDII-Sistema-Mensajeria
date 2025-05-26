@@ -6,7 +6,7 @@ import java.net.Socket;
 import java.util.logging.Logger;
 
 public class Heartbeat implements Runnable {
-    private final Logger logger = Logger.getLogger(Heartbeat.class.getName());
+    private static final Logger logger = Logger.getLogger(Heartbeat.class.getName());
     private final String monitorAddress;
     private final int monitorPort;
     private final String serverAddress;
@@ -25,11 +25,11 @@ public class Heartbeat implements Runnable {
     public void run() {
         try (Socket socket = new Socket()) {
             logger.info("Heartbeat starting on " + serverAddress + ":" + serverPort + " to " + monitorAddress + ":" + monitorPort);
-            socket.setReuseAddress(true); // set reuse before bind and connecting
-            socket.bind(new InetSocketAddress(InetAddress.getByName(serverAddress), serverPort)); // Explicitly bind
-            socket.connect(new InetSocketAddress(InetAddress.getByName(monitorAddress), monitorPort)); // Connect to monitor
+            socket.setReuseAddress(true);
+            socket.bind(new InetSocketAddress(InetAddress.getByName(serverAddress), serverPort));
+            socket.connect(new InetSocketAddress(InetAddress.getByName(monitorAddress), monitorPort));
 
-            while (true) {
+            for (; ; ) {
                 socket.getOutputStream().write("HEARTBEAT".getBytes());
                 socket.getOutputStream().flush();
                 Thread.sleep(heartbeatInterval);

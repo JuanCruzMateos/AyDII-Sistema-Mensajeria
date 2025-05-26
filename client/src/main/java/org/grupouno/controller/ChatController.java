@@ -1,9 +1,9 @@
 package org.grupouno.controller;
 
 import org.grupouno.config.ConfigService;
-import org.grupouno.model.conversation.Message;
-import org.grupouno.model.conversation.MessageType;
 import org.grupouno.model.directory.User;
+import org.grupouno.model.protocols.Message;
+import org.grupouno.model.protocols.MessageType;
 import org.grupouno.model.session.ChatSessionImpl;
 import org.grupouno.model.session.IChatSession;
 import org.grupouno.network.ChatClientImpl;
@@ -206,5 +206,9 @@ public class ChatController implements ActionListener {
         this.chatSessionScreen.setChatTitle("Conversando con: " + selectedContact);
         this.chatSessionScreen.setChatAreaText(this.IChatSession.getMessagesByContact(selectedContact));
         this.chatSessionScreen.selectContactInList(selectedContact);
+    }
+
+    public void networkError(String s) {
+        this.chatSessionScreen.networkError(s);
     }
 }

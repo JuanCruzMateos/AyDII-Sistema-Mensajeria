@@ -19,7 +19,7 @@ public interface IDirectory {
 
     Optional<User> getContactByNickname(String contactNickname);
 
-    List<String> getContactNicknames();
+    List<String> getAllContactNicknames();
 
-    Set<User> getContacts();
+    Set<User> getAllContacts();
 }

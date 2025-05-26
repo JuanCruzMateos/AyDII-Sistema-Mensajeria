@@ -13,15 +13,16 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 public class Monitor implements Runnable, AutoCloseable {
-    private final Logger logger = Logger.getLogger(Monitor.class.getName());
+    private static final Logger logger = Logger.getLogger(Monitor.class.getName());
     private final ConcurrentHashMap<SocketAddress, Long> heartbeats;
     private final HeartbeatServer heartbeatServer;
     private final AddressServer addressServer;
     private final Long heartbeatTolerance;
     private final ScheduledExecutorService scheduler;
-    private final PrimaryServerAddress primaryServerAddress;
-    private final HashMap<InetSocketAddress, InetSocketAddress> serverPortMap;
+    private final HashMap<SocketAddress, SocketAddress> serverPortMap;
+    private volatile SocketAddress primaryServerAddress;
 
+    // TODO : this can be omitted if the Heartbeat Component on the Server sends the address of the client port on the heartbeat
     {
         this.serverPortMap = new HashMap<>();
         this.serverPortMap.put(new InetSocketAddress(ConfigService.getConfig("server.one.local.host"), Integer.parseInt(ConfigService.getConfig("server.one.heartbeat.port"))), new InetSocketAddress(ConfigService.getConfig("server.one.local.host"), Integer.parseInt(ConfigService.getConfig("server.one.client.port"))));
@@ -31,14 +32,13 @@ public class Monitor implements Runnable, AutoCloseable {
 
     public Monitor(String monitorServerAddrress, int monitorServerPort, String addressServerAddress, int addressServerPort, Long heartbeatTolerance) {
         this.heartbeats = new ConcurrentHashMap<>();
-        this.primaryServerAddress = new PrimaryServerAddress();
         this.heartbeatServer = new HeartbeatServer(monitorServerAddrress, monitorServerPort, this.heartbeats);
-        this.addressServer = new AddressServer(addressServerAddress, addressServerPort, this.primaryServerAddress);
+        this.addressServer = new AddressServer(addressServerAddress, addressServerPort);
         this.heartbeatTolerance = heartbeatTolerance;
         this.scheduler = Executors.newScheduledThreadPool(1);
     }
 
-    private synchronized void promoteToPrimaryServer() {
+    public synchronized void promoteNewPrimaryServer() {
         SocketAddress newPrimary = null;
         long maxTime = Long.MIN_VALUE;
         for (SocketAddress address : this.heartbeats.keySet()) {
@@ -49,18 +49,18 @@ public class Monitor implements Runnable, AutoCloseable {
             }
         }
         if (newPrimary != null) {
-            this.primaryServerAddress.setAddress(this.serverPortMap.get(newPrimary));
-//            logger.info("Promoted " + newPrimary + " to primary server.");
-            logger.info("Promoted " + this.primaryServerAddress.getAddress() + " to primary server.");
+            this.primaryServerAddress = this.serverPortMap.get(newPrimary);
+            logger.info("Promoted " + this.primaryServerAddress + " to primary server.");
+            this.addressServer.setPrimaryServerAddress(this.primaryServerAddress);
         } else {
-            this.primaryServerAddress.setAddress(null);
+            this.addressServer.setPrimaryServerAddress(null);
             logger.warning("No suitable server found to promote to primary.");
         }
     }
 
     public synchronized void checkForFailure() {
         if (this.heartbeats.isEmpty()) {
-            logger.warning("No heartbeats received. No servers are available. Waiting for heartbeats...");
+            logger.warning("No heartbeats received. No servers are available. Waiting for heartbeats ...");
         } else {
             Long currentTime = System.currentTimeMillis();
             for (SocketAddress address : this.heartbeats.keySet()) {
@@ -69,34 +69,34 @@ public class Monitor implements Runnable, AutoCloseable {
                     this.heartbeats.remove(address);
                 }
             }
-            if (this.primaryServerAddress.getAddress() == null ||
+            if (this.primaryServerAddress == null ||
                     !this.heartbeats.containsKey(
                             this.serverPortMap.entrySet().stream()
-                                    .filter(entry -> entry.getValue().equals(this.primaryServerAddress.getAddress()))
+                                    .filter(entry -> entry.getValue().equals(this.primaryServerAddress))
                                     .map(Map.Entry::getKey)
                                     .findFirst()
                                     .orElse(null)
                     )) {
                 logger.info("Promoting a new primary server...");
-                this.promoteToPrimaryServer();
+                this.promoteNewPrimaryServer();
             } else {
-                logger.info("Primary server is still alive: " + this.primaryServerAddress.getAddress());
+                logger.info("Primary server is still alive: " + this.primaryServerAddress);
             }
         }
     }
 
     @Override
     public void run() {
-        logger.info("Starting monitor server deamon...");
+//        logger.info("Starting monitor server deamon...");
         Thread monitorServerThread = new Thread(this.heartbeatServer);
 //        monitorServerThread.setDaemon(true);
         monitorServerThread.start();
-        logger.info("Starting address server deamon...");
+//        logger.info("Starting address server deamon...");
         Thread addressServerThread = new Thread(this.addressServer);
 //        addressServerThread.setDaemon(true);
         addressServerThread.start();
         logger.info("Starting failure detection...");
-        this.scheduler.scheduleAtFixedRate(this::checkForFailure, 0, heartbeatTolerance, TimeUnit.MILLISECONDS);
+        this.scheduler.scheduleAtFixedRate(this::checkForFailure, 1000, heartbeatTolerance, TimeUnit.MILLISECONDS);
     }
 
     @Override

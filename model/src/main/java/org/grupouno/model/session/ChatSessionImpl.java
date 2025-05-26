@@ -3,10 +3,10 @@ package org.grupouno.model.session;
 import org.grupouno.model.conversation.ConversationService;
 import org.grupouno.model.conversation.IConversation;
 import org.grupouno.model.conversation.IConversationService;
-import org.grupouno.model.conversation.Message;
 import org.grupouno.model.directory.Directory;
 import org.grupouno.model.directory.IDirectory;
 import org.grupouno.model.directory.User;
+import org.grupouno.model.protocols.Message;
 
 import java.util.List;
 import java.util.Optional;
@@ -80,7 +80,7 @@ public class ChatSessionImpl implements IChatSession {
 
     @Override
     public synchronized List<String> getAgendaContacts() {
-        return this.agenda.getContactNicknames();
+        return this.agenda.getAllContactNicknames();
     }
 
     @Override

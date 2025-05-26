@@ -1,7 +1,5 @@
 package org.grupouno.model.protocols;
 
-import org.grupouno.model.conversation.Message;
-
 import java.io.Serializable;
 
 public record SyncProtocolMessage(

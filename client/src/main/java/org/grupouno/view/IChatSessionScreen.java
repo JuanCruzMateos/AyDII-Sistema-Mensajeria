@@ -22,4 +22,6 @@ public interface IChatSessionScreen {
     String getSessionUsername();
 
     void closeWindow();
+
+    void networkError(String s);
 }

@@ -1,9 +1,7 @@
 package org.grupouno.monitor;
 
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.SocketAddress;
+import java.io.IOException;
+import java.net.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
@@ -14,7 +12,7 @@ import java.util.logging.Logger;
  * timestamp of the last heartbeat received from each server.
  */
 public class HeartbeatServer implements Runnable {
-    private final Logger logger = Logger.getLogger(HeartbeatServer.class.getName());
+    private static final Logger logger = Logger.getLogger(HeartbeatServer.class.getName());
     private final int monitorPort;
     private final String monitorAddress;
     private final ConcurrentHashMap<SocketAddress, Long> heartbeats;
@@ -27,23 +25,26 @@ public class HeartbeatServer implements Runnable {
 
     private void handleConnection(Socket socket) {
         SocketAddress address = socket.getRemoteSocketAddress();
-        logger.info("Accepted connection from: " + address);
         byte[] buffer = new byte[64];
 
         try {
             int bytesRead;
-            while ((bytesRead = socket.getInputStream().read(buffer)) != -1) {
-                String message = new String(buffer, 0, bytesRead);
-                long timestamp = System.currentTimeMillis();
-                logger.info("Received message: " + message + " from " + address);
+            while (true) {
+                while ((bytesRead = socket.getInputStream().read(buffer)) != -1) {
+                    String message = new String(buffer, 0, bytesRead);
+                    long timestamp = System.currentTimeMillis();
+                    logger.info("Received message: " + message + " from " + address);
 
-                if (!heartbeats.containsKey(address)) {
-                    logger.info("New server detected " + address);
+                    synchronized (this.heartbeats) {
+                        if (!this.heartbeats.containsKey(address)) {
+                            logger.info("New server detected " + address);
+                        }
+                        this.heartbeats.put(address, timestamp);
+                    }
                 }
-                heartbeats.put(address, timestamp);
             }
-        } catch (Exception e) {
-            logger.warning("Error reading from socket: " + e.getMessage());
+        } catch (IOException e) {
+            logger.warning("Error reading from getSocket: " + e.getMessage());
         } finally {
             logger.info((socket.isClosed() ? "Socket closed: " : "Socket not closed properly: ") + address);
         }
@@ -52,11 +53,13 @@ public class HeartbeatServer implements Runnable {
 
     @Override
     public void run() {
-        try (ServerSocket serverSocket = new ServerSocket(monitorPort, 50, InetAddress.getByName(monitorAddress))) {
-            serverSocket.setReuseAddress(Boolean.TRUE);
+        try (ServerSocket serverSocket = new ServerSocket()) {
+            serverSocket.setReuseAddress(true);
+            serverSocket.bind(new InetSocketAddress(InetAddress.getByName(monitorAddress), monitorPort));
             logger.info("HeartbeatServer started on " + monitorAddress + ":" + monitorPort);
-            while (true) {
+            for (; ; ) {
                 Socket socket = serverSocket.accept();
+                logger.info("Accepted connection from: " + socket.getRemoteSocketAddress());
                 new Thread(() -> this.handleConnection(socket)).start();
             }
         } catch (Exception e) {
