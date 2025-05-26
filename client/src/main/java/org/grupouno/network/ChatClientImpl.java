@@ -17,10 +17,10 @@ public class ChatClientImpl implements IChatClient, Runnable {
     private static final Logger logger = Logger.getLogger(ChatClientImpl.class.getName());
     private final String clientName;
     private final String localAddress;
-    private final int localPort;
     private final String monitorAddress;
     private final int monitorPort;
     private final ChatController chatController;
+    private int localPort;
     private SocketAddress primaryServer;
     private Socket monitorSocket;
     private ObjectInputStream monitorInputStream;
@@ -120,7 +120,11 @@ public class ChatClientImpl implements IChatClient, Runnable {
                 if (this.primaryServer != null) {
                     this.serverSocket = new Socket();
                     this.serverSocket.setReuseAddress(true);
-                    this.serverSocket.bind(new InetSocketAddress(localAddress, localPort));
+                    logger.info("Previo a bind: " + localAddress + ":" + localPort);
+                    this.serverSocket.bind(null);
+                    //this.serverSocket.bind(new InetSocketAddress(localAddress, localPort));
+                    this.localPort = this.serverSocket.getLocalPort();
+                    logger.info("Luego a bind(null): " + localAddress + ":" + localPort);
                     this.serverSocket.connect(this.primaryServer);
                     this.serverInputStream = new ObjectInputStream(this.serverSocket.getInputStream());
                     this.serverOutputStream = new ObjectOutputStream(this.serverSocket.getOutputStream());

@@ -1,6 +1,8 @@
 package org.grupouno.controller;
 
 import org.grupouno.config.ConfigService;
+import org.grupouno.encryption.AESEncrypter;
+import org.grupouno.encryption.Encrypter;
 import org.grupouno.model.directory.User;
 import org.grupouno.model.protocols.Message;
 import org.grupouno.model.protocols.MessageType;
@@ -39,6 +41,7 @@ public class ChatController implements ActionListener {
     private AgendaScreen agendaScreen;
     private DirectoryScreen directoryScreen;
     private ISessionPersistence persistence;
+    private Encrypter encrypter;
 
     private ChatController() {
     }
@@ -83,6 +86,9 @@ public class ChatController implements ActionListener {
         {
             //persistence.loadSession();
         }
+
+        // Instancia de encriptador
+        encrypter = new AESEncrypter();
     }
 
     @Override
@@ -102,6 +108,7 @@ public class ChatController implements ActionListener {
     public void disconect() {
         //Persiste datos del usuario
         //persistence.saveSession();
+        logger.info("AAAAAAAAAAAAAAAAAAAA.");
         this.chatClient.disconnect(this.chatSessionScreen.getSessionUsername());
         this.chatSessionScreen.closeWindow();
         logger.info("Disconnected from chat session.");
@@ -202,8 +209,10 @@ public class ChatController implements ActionListener {
             if (contact.isPresent()) {
                 LocalDateTime timeStamp = LocalDateTime.now();
                 //CIFRADO
-                Message message = new Message(this.IChatSession.getNickname(), this.IChatSession.getIp(), this.IChatSession.getPort(), contact.get().nickname(), contact.get().ip(), contact.get().port(), textInputArea, timeStamp, MessageType.MESSAGE);
-                logger.info("Sending message: " + textInputArea);
+                encrypter.setKey(this.IChatSession.getNickname(), contact.get().nickname());
+                String encryptedData = encrypter.encrypt(textInputArea);
+                Message message = new Message(this.IChatSession.getNickname(), this.IChatSession.getIp(), this.IChatSession.getPort(), contact.get().nickname(), contact.get().ip(), contact.get().port(), encryptedData, timeStamp, MessageType.MESSAGE);
+                logger.info("Sending message: " + textInputArea + "\nEncrypted as: " + encryptedData);
                 this.chatClient.sendMessage(message);
                 this.IChatSession.sendMessage(message);
                 this.chatSessionScreen.appendNewMessageToChatArea(message.getFormattedMessage() + "\n");
@@ -214,16 +223,26 @@ public class ChatController implements ActionListener {
     }
 
     public synchronized void receiveMessage(Message message) {
-        logger.info("Receiving message from: " + message.senderNickname());
-        this.IChatSession.receiveMessage(message);
-        // DESCIFRAR
+        // DESCIFRAR PRIMERO!
+        encrypter.setKey(this.IChatSession.getNickname(), message.senderNickname());
+        Message decryptedMessage = new Message(message.senderNickname(),
+                message.senderIP(),
+                message.senderPort(),
+                message.receiverNickname(),
+                message.receiverIP(),
+                message.receiverPort(),
+                encrypter.decrypt((String) message.content()),
+                message.timestamp(),
+                message.type());
+        logger.info("Receiving message from: " + decryptedMessage.senderNickname());
+        this.IChatSession.receiveMessage(decryptedMessage);
         if (message.senderNickname().equals(this.chatSessionScreen.getCurrentConversationContact())) {
-            logger.info("Message received from current conversation contact: " + message.senderNickname());
-            this.chatSessionScreen.appendNewMessageToChatArea(message.getFormattedMessage());
+            logger.info("Message received from current conversation contact: " + decryptedMessage.senderNickname());
+            this.chatSessionScreen.appendNewMessageToChatArea(decryptedMessage.getFormattedMessage());
         } else {
-            logger.info("New message from: " + message.senderNickname());
-            this.chatSessionScreen.updateConversationList(message.senderNickname());
-            JOptionPane.showMessageDialog(null, "Nuevo mensaje de " + message.senderNickname());
+            logger.info("New message from: " + decryptedMessage.senderNickname());
+            this.chatSessionScreen.updateConversationList(decryptedMessage.senderNickname());
+            JOptionPane.showMessageDialog(null, "Nuevo mensaje de " + decryptedMessage.senderNickname());
         }
     }
 
