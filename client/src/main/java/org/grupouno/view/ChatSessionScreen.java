@@ -207,6 +207,7 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {
         JOptionPane.showMessageDialog(this, "Test");
+        ChatController.getInstance().disconect();
         //persistence.saveSession();
     }
 }

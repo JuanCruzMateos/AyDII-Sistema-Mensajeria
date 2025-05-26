@@ -59,6 +59,8 @@ public class ChatController implements ActionListener {
 //        this.chatClient.registerWithServer(nickname, ip, port);
         new Thread((Runnable) this.chatClient).start();
         this.chatSessionScreen.setVisible(true);
+
+
     }
 
     @Override
@@ -75,7 +77,7 @@ public class ChatController implements ActionListener {
         }
     }
 
-    private void disconect() {
+    public void disconect() {
         this.chatClient.disconnect(this.chatSessionScreen.getSessionUsername());
         this.chatSessionScreen.closeWindow();
         logger.info("Disconnected from chat session.");
@@ -173,6 +175,7 @@ public class ChatController implements ActionListener {
             Optional<User> contact = this.IChatSession.getContactByNickname(contactNickName);
             if (contact.isPresent()) {
                 LocalDateTime timeStamp = LocalDateTime.now();
+                //CIFRADO
                 Message message = new Message(this.IChatSession.getNickname(), this.IChatSession.getIp(), this.IChatSession.getPort(), contact.get().nickname(), contact.get().ip(), contact.get().port(), textInputArea, timeStamp, MessageType.MESSAGE);
                 logger.info("Sending message: " + textInputArea);
                 this.chatClient.sendMessage(message);
@@ -187,6 +190,7 @@ public class ChatController implements ActionListener {
     public synchronized void receiveMessage(Message message) {
         logger.info("Receiving message from: " + message.senderNickname());
         this.IChatSession.receiveMessage(message);
+        // DESCIFRAR
         if (message.senderNickname().equals(this.chatSessionScreen.getCurrentConversationContact())) {
             logger.info("Message received from current conversation contact: " + message.senderNickname());
             this.chatSessionScreen.appendNewMessageToChatArea(message.getFormattedMessage());
