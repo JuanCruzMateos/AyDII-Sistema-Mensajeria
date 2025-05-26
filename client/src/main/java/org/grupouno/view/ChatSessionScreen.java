@@ -174,7 +174,6 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
 
     @Override
     public void closeWindow() {
-        JOptionPane.showMessageDialog(this, "Test2");
         dispose();
     }
 

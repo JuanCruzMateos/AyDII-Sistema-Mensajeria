@@ -108,7 +108,6 @@ public class ChatController implements ActionListener {
     public void disconect() {
         //Persiste datos del usuario
         //persistence.saveSession();
-        logger.info("AAAAAAAAAAAAAAAAAAAA.");
         this.chatClient.disconnect(this.chatSessionScreen.getSessionUsername());
         this.chatSessionScreen.closeWindow();
         logger.info("Disconnected from chat session.");
@@ -211,9 +210,11 @@ public class ChatController implements ActionListener {
                 //CIFRADO
                 encrypter.setKey(this.IChatSession.getNickname(), contact.get().nickname());
                 String encryptedData = encrypter.encrypt(textInputArea);
-                Message message = new Message(this.IChatSession.getNickname(), this.IChatSession.getIp(), this.IChatSession.getPort(), contact.get().nickname(), contact.get().ip(), contact.get().port(), encryptedData, timeStamp, MessageType.MESSAGE);
-                logger.info("Sending message: " + textInputArea + "\nEncrypted as: " + encryptedData);
-                this.chatClient.sendMessage(message);
+                Message encryptedMessage = new Message(this.IChatSession.getNickname(), this.IChatSession.getIp(), this.IChatSession.getPort(), contact.get().nickname(), contact.get().ip(), contact.get().port(), encryptedData, timeStamp, MessageType.MESSAGE);
+                Message message = new Message(this.IChatSession.getNickname(), this.IChatSession.getIp(), this.IChatSession.getPort(), contact.get().nickname(), contact.get().ip(), contact.get().port(), textInputArea, timeStamp, MessageType.MESSAGE);
+                logger.info("Sending message: " + textInputArea);
+                logger.info("Encrypted as: " + encryptedData);
+                this.chatClient.sendMessage(encryptedMessage);
                 this.IChatSession.sendMessage(message);
                 this.chatSessionScreen.appendNewMessageToChatArea(message.getFormattedMessage() + "\n");
                 this.chatSessionScreen.resetTextInputArea();

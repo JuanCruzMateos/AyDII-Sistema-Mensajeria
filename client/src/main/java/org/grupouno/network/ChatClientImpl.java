@@ -20,7 +20,7 @@ public class ChatClientImpl implements IChatClient, Runnable {
     private final String monitorAddress;
     private final int monitorPort;
     private final ChatController chatController;
-    private int localPort;
+    private final int localPort;
     private SocketAddress primaryServer;
     private Socket monitorSocket;
     private ObjectInputStream monitorInputStream;
@@ -94,7 +94,7 @@ public class ChatClientImpl implements IChatClient, Runnable {
                 logger.warning("Error connecting to monitor: " + e.getMessage());
                 attempts++;
                 if (attempts < maxRetries) {
-                    logger.info("Retrying connection to monitorr...");
+                    logger.info("Retrying connection to monitor...");
                     try {
                         Thread.sleep(2000); // Wait for 2 seconds before retrying
                     } catch (InterruptedException ex) {
@@ -120,11 +120,13 @@ public class ChatClientImpl implements IChatClient, Runnable {
                 if (this.primaryServer != null) {
                     this.serverSocket = new Socket();
                     this.serverSocket.setReuseAddress(true);
-                    logger.info("Previo a bind: " + localAddress + ":" + localPort);
-                    this.serverSocket.bind(null);
-                    //this.serverSocket.bind(new InetSocketAddress(localAddress, localPort));
-                    this.localPort = this.serverSocket.getLocalPort();
-                    logger.info("Luego a bind(null): " + localAddress + ":" + localPort);
+                    this.serverSocket.bind(new InetSocketAddress(localAddress, localPort));
+                    //No se por qué, pero me tira error acá con puerto ya en uso. Creo que no le gusta esto de usar el mismo puerto 2 veces.
+                    //Lo de acá es una solución con esto de bind(null) que agarra un puerto cualquiera que esté disponible.
+                    //logger.info("Previo a bind: " + localAddress + ":" + localPort);
+                    //this.serverSocket.bind(null);
+                    //this.localPort = this.serverSocket.getLocalPort();
+                    //logger.info("Luego a bind(null): " + localAddress + ":" + localPort);
                     this.serverSocket.connect(this.primaryServer);
                     this.serverInputStream = new ObjectInputStream(this.serverSocket.getInputStream());
                     this.serverOutputStream = new ObjectOutputStream(this.serverSocket.getOutputStream());

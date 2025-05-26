@@ -4,23 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5486df74-5d68-4513-bf6f-42320c48c0d3" name="Changes" comment="Merge con v3.1.0">
-      <change afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/encryption/AESEncrypter.java" afterDir="false" />
+    <list default="true" id="5486df74-5d68-4513-bf6f-42320c48c0d3" name="Changes" comment="Encrypter + POM y PS1 Actualizados">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/broker/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/broker/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/broker/src/main/resources/config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/broker/src/main/resources/config.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/client/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/controller/ChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/controller/ChatController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/encryption/Encrypter.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/encryption/Encrypter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/network/ChatClientImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/network/ChatClientImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/persistence/PersistenceFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/persistence/PersistenceFactory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/ChatSessionScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/ChatSessionScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/resources/config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/resources/config.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/model/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/monitor/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/monitor/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/run.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/run.ps1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/server/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/utils/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -383,7 +371,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748230561215</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Encrypter + POM y PS1 Actualizados">
+      <option name="closed" value="true" />
+      <created>1748265465014</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1748265465014</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -412,7 +408,8 @@
     <MESSAGE value="Creamos archivos (y carpeta saves), si no existe. Y además le preguntamos al usuario!" />
     <MESSAGE value="Más detalles." />
     <MESSAGE value="Merge con v3.1.0" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge con v3.1.0" />
+    <MESSAGE value="Encrypter + POM y PS1 Actualizados" />
+    <option name="LAST_COMMIT_MESSAGE" value="Encrypter + POM y PS1 Actualizados" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
