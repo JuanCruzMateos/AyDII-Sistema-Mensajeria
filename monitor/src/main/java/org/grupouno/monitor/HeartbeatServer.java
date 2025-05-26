@@ -57,7 +57,7 @@ public class HeartbeatServer implements Runnable {
             serverSocket.setReuseAddress(true);
             serverSocket.bind(new InetSocketAddress(InetAddress.getByName(monitorAddress), monitorPort));
             logger.info("HeartbeatServer started on " + monitorAddress + ":" + monitorPort);
-            while (true) {
+            for (; ; ) {
                 Socket socket = serverSocket.accept();
                 logger.info("Accepted connection from: " + socket.getRemoteSocketAddress());
                 new Thread(() -> this.handleConnection(socket)).start();

@@ -24,7 +24,7 @@ public class AddressServer implements Runnable {
             serverSocket.setReuseAddress(true);
             serverSocket.bind(new InetSocketAddress(InetAddress.getByName(address), port));
             logger.info("AddressServer started on " + address + ":" + port);
-            while (true) {
+            for (; ; ) {
                 try {
                     Socket socket = serverSocket.accept();
                     logger.info("New connection from " + socket.getRemoteSocketAddress());

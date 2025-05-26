@@ -29,7 +29,7 @@ public class Heartbeat implements Runnable {
             socket.bind(new InetSocketAddress(InetAddress.getByName(serverAddress), serverPort));
             socket.connect(new InetSocketAddress(InetAddress.getByName(monitorAddress), monitorPort));
 
-            while (true) {
+            for (; ; ) {
                 socket.getOutputStream().write("HEARTBEAT".getBytes());
                 socket.getOutputStream().flush();
                 Thread.sleep(heartbeatInterval);

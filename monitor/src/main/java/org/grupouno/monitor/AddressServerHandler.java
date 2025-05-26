@@ -26,7 +26,7 @@ public class AddressServerHandler implements Runnable {
         try {
             ObjectInputStream in = this.socketConnection.getObjectInputStream();
             ObjectOutputStream out = this.socketConnection.getObjectOutputStream();
-            while (true) {
+            for (; ; ) {
                 String message = (String) in.readObject();
                 logger.info("Received message: " + message + " from " + this.socketConnection.getSocket().getRemoteSocketAddress());
                 if ("primary.server".equals(message)) {

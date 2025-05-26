@@ -203,4 +203,8 @@ public class ChatController implements ActionListener {
         this.chatSessionScreen.setChatAreaText(this.IChatSession.getMessagesByContact(selectedContact));
         this.chatSessionScreen.selectContactInList(selectedContact);
     }
+
+    public void networkError(String s) {
+        this.chatSessionScreen.networkError(s);
+    }
 }

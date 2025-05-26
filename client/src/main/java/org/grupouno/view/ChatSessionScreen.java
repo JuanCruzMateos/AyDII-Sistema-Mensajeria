@@ -170,6 +170,12 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
     public void closeWindow() {
         dispose();
     }
+
+    @Override
+    public void networkError(String s) {
+        JOptionPane.showMessageDialog(this, s + "\nIntente otra vez.", "Error de red", JOptionPane.ERROR_MESSAGE);
+        this.closeWindow();
+    }
 }
 
 

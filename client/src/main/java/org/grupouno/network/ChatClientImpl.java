@@ -38,38 +38,75 @@ public class ChatClientImpl implements IChatClient, Runnable {
         this.chatController = chatController;
     }
 
-    public void fetchPrimaryServerFromMonitor(int delay) {
+    public boolean fetchPrimaryServerFromMonitor(int delay) {
+        int maxRetries = 5;
+        int attempts = 0;
+        boolean connected = false;
+
         this.primaryServer = null;
-        try {
-            // TODO :: retry for a number of times
-            while (this.primaryServer == null) {
+        while (this.primaryServer == null && attempts < maxRetries) {
+            try {
                 this.monitorOutputStream.writeObject("primary.server");
                 this.monitorOutputStream.flush();
                 this.primaryServer = (SocketAddress) this.monitorInputStream.readObject();
                 logger.info("Primary server address from monitor: " + primaryServer);
                 if (this.primaryServer == null) {
-                    logger.warning("Failed to fetch primary server address from monitor, retrying in " + delay + "ms");
+                    logger.info("No servers found, retrying in " + delay + "ms");
+                    attempts++;
+                    System.out.println(attempts);
                     Thread.sleep(delay);
+                } else {
+                    connected = true;
+                    logger.info("Primary server address fetched successfully: " + primaryServer);
                 }
+            } catch (IOException e) {
+                logger.warning("Error getting primary server address: " + e.getMessage() + ". Retrying...");
+                attempts++;
+            } catch (ClassNotFoundException e) {
+                logger.warning("Error reading message from monitor: " + e.getMessage() + ". Retrying...");
+                throw new RuntimeException(e);
+            } catch (InterruptedException e) {
+                logger.warning("Thread interrupted while waiting for primary server: " + e.getMessage());
+                throw new RuntimeException(e);
             }
-        } catch (IOException | ClassNotFoundException | InterruptedException e) {
-            logger.warning("Error getting primary server address: " + e.getMessage());
-            this.primaryServer = null;
         }
+        return connected;
     }
 
-    public void connectToMonitor() {
-        this.monitorSocket = new Socket();
-        try {
-            this.monitorSocket.setReuseAddress(true);
-            this.monitorSocket.bind(new InetSocketAddress(localAddress, localPort));
-            this.monitorSocket.connect(new InetSocketAddress(monitorAddress, monitorPort));
-            this.monitorInputStream = new ObjectInputStream(this.monitorSocket.getInputStream());
-            this.monitorOutputStream = new ObjectOutputStream(this.monitorSocket.getOutputStream());
-            logger.info("Connected to monitor at " + monitorAddress + ":" + monitorPort);
-        } catch (IOException e) {
-            logger.warning("Error creating getSocket connection to monitor: " + e.getMessage());
+    // TODO :: Refactor, mucho codigo duplicado entre connectToMonitor y connectToServer
+    public boolean connectToMonitor() {
+        int maxRetries = 5;
+        int attempts = 0;
+        boolean connected = false;
+
+        while (!connected && attempts < maxRetries) {
+            try {
+                this.monitorSocket = new Socket();
+                this.monitorSocket.setReuseAddress(true);
+                this.monitorSocket.bind(new InetSocketAddress(localAddress, localPort));
+                this.monitorSocket.connect(new InetSocketAddress(monitorAddress, monitorPort));
+                this.monitorInputStream = new ObjectInputStream(this.monitorSocket.getInputStream());
+                this.monitorOutputStream = new ObjectOutputStream(this.monitorSocket.getOutputStream());
+                logger.info("Connected to monitor at " + monitorAddress + ":" + monitorPort);
+                connected = true;
+                logger.info("Connected to monitor at " + monitorAddress + ":" + monitorPort);
+            } catch (IOException e) {
+                logger.warning("Error connecting to monitor: " + e.getMessage());
+                attempts++;
+                if (attempts < maxRetries) {
+                    logger.info("Retrying connection to monitorr...");
+                    try {
+                        Thread.sleep(2000); // Wait for 2 seconds before retrying
+                    } catch (InterruptedException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            }
         }
+        if (!connected) {
+            logger.warning("Failed to connect to monitor after " + maxRetries + " attempts");
+        }
+        return connected;
     }
 
     public boolean connectToServer() {
@@ -79,7 +116,7 @@ public class ChatClientImpl implements IChatClient, Runnable {
 
         while (!connected && attempts < maxRetries) {
             try {
-                this.fetchPrimaryServerFromMonitor(1000);
+                boolean c = this.fetchPrimaryServerFromMonitor(1000);
                 if (this.primaryServer != null) {
                     this.serverSocket = new Socket();
                     this.serverSocket.setReuseAddress(true);
@@ -115,9 +152,17 @@ public class ChatClientImpl implements IChatClient, Runnable {
         logger.info("Local address: " + this.localAddress + ":" + this.localPort);
         logger.info("Connecting to monitor at " + this.monitorAddress + ":" + this.monitorPort);
 
-        this.connectToMonitor();
+        if (!this.connectToMonitor()) {
+            logger.severe("Failed to connect to monitor. Exiting...");
+            this.chatController.networkError("Failed to connect to monitor at " + this.monitorAddress + ":" + this.monitorPort);
+            return;
+        }
         if (this.connectToServer()) {
             this.registerWithServer(this.clientName, this.localAddress, this.localPort);
+        } else {
+            logger.severe("Failed to connect to primary server. Exiting...");
+            this.chatController.networkError("Failed to connect to primary server at " + this.primaryServer);
+            return;
         }
 
         boolean running = true;
@@ -139,6 +184,10 @@ public class ChatClientImpl implements IChatClient, Runnable {
                     this.close();
                     if (this.connectToServer()) {
                         this.registerWithServer(this.clientName, this.localAddress, this.localPort);
+                    } else {
+                        logger.severe("Failed to reconnect to primary server. Exiting...");
+                        this.chatController.networkError("Failed to reconnect to primary server at " + this.primaryServer);
+                        running = false;
                     }
                 } catch (InterruptedException ie) {
                     logger.warning("Thread interrupted while waiting to reconnect: " + ie.getMessage());

@@ -23,24 +23,14 @@ Compile and Packege into JAR:
 ./build.ps1
 ```
 
-Run Server:
+Run:
 
 ```bash
 # Linux / MacOs
-./run.sh server
+./run.sh [broker | monitor | server <one|two|three> | client]
 
 # Windows (PowerShell)
-./run.ps1 server
-```
-
-Run Client:
-
-```bash
-# Linux / MacOs
-./run.sh client
-
-# Windows (PowerShell)
-./run.ps1 client
+./run.ps1 [broker | monitor | server <one|two|three> | client]
 ```
 
 ### Features
