@@ -84,11 +84,13 @@ public class ChatController implements ActionListener {
         } else // Si existe, cargo lo que ya está guardado.
         {
             logger.info("Loading chat session.");
-            //persistence.loadSession(chatSession);
+            persistence.loadSession();
+            chatSessionScreen.updateConversationList();
         }
 
         // Instancia de encriptador
         String encStrat = ConfigService.getConfig("EncryptionStrategy");
+        logger.info("Eligiendo estrategia de encriptacion: " + encStrat);
         encrypter = new EncryptionStrategy(encStrat);
     }
 
@@ -109,7 +111,7 @@ public class ChatController implements ActionListener {
     public void disconect() {
         //Persiste datos del usuario
         logger.info("Persisting chat session.");
-        //persistence.saveSession();
+        persistence.saveSession();
         this.chatClient.disconnect(this.chatSessionScreen.getSessionUsername());
         this.chatSessionScreen.closeWindow();
         logger.info("Disconnected from chat session.");

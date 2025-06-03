@@ -1,6 +1,7 @@
 package org.grupouno.view;
 
 import org.grupouno.controller.ChatController;
+import org.grupouno.model.session.ChatSessionImpl;
 
 import javax.swing.*;
 import java.awt.*;
@@ -136,6 +137,15 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
 
     public void setChatTitle(String chatTitle) {
         this.chatTitle.setText(chatTitle);
+    }
+
+    @Override
+    public void updateConversationList() {
+        DefaultListModel<String> model = new DefaultListModel<>();
+        for (String contact : ChatSessionImpl.getInstance().getAgendaContacts()) {
+            model.addElement(contact);
+        }
+        this.conversationList.setModel(model);
     }
 
     @Override

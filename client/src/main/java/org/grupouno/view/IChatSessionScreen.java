@@ -9,6 +9,8 @@ public interface IChatSessionScreen {
 
     void setChatTitle(String s);
 
+    void updateConversationList();
+
     void updateConversationList(String contact);
 
     void setChatAreaText(String messagesByContact);
