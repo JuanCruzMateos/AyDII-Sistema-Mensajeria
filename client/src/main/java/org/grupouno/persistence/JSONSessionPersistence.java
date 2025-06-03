@@ -46,7 +46,7 @@ public class JSONSessionPersistence extends FileSessionPersistence {
                 writer.write(openBracket);
                 if (convService.existsConversationWith(act.nickname())) {
                     //"user": "USER"
-                    writer.write("\t\t\t\"user\": \"" + act.nickname() + "\"\n");
+                    writer.write("\t\t\t\"user\": \"" + act.nickname() + "\",\n");
                     //"messages": [
                     writer.write("\t\t\t\"messages\": [\n");
                     openBracket = "\t\t\t\t{\n";
@@ -60,7 +60,7 @@ public class JSONSessionPersistence extends FileSessionPersistence {
                     }
                     if (openBracket.equals(",\n\t\t\t\t{\n"))
                         writer.write("\n");
-                    writer.write("\t\t\t],\n");
+                    writer.write("\t\t\t]\n");
                 }
                 writer.write("\t\t}");
                 openBracket = ",\n\t\t{\n";
