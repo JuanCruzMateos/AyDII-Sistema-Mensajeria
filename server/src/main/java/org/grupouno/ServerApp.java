@@ -22,10 +22,12 @@ public class ServerApp {
         if (args.length == 1) {
             String serverNumber = args[0];
 
+            //Esto de acá se tiene que poder obtener con .bind(null) del socket. No está bueno harcodearlo.
             String serverAddress = ConfigService.getConfig("server." + serverNumber + ".local.host");
             int serverClientPort = Integer.parseInt(ConfigService.getConfig("server." + serverNumber + ".client.port"));
             int serverHeartbeatPort = Integer.parseInt(Objects.requireNonNull(ConfigService.getConfig("server." + serverNumber + ".heartbeat.port")));
             int serverBrokerPort = Integer.parseInt(Objects.requireNonNull(ConfigService.getConfig("server." + serverNumber + ".broker.port")));
+            // Esto de acá está bien que sea algo fijo, son las direcciones del Monitor y Broker y deben serlo.
             String brokerServerAddress = ConfigService.getConfig("broker.server.host");
             int brokerServerPort = Integer.parseInt(Objects.requireNonNull(ConfigService.getConfig("broker.server.port")));
             String heartbeatServerAddress = ConfigService.getConfig("monitor.heartbeat.server.host");
@@ -44,6 +46,8 @@ public class ServerApp {
             logger.info("Broker Server Address: " + brokerServerAddress);
             logger.info("Broker Server Port: " + brokerServerPort);
 
+            //TODO Remodelar las clases Monitor y Broker, no pueden levantar las direcciones harcodeadas....
+            //TODO Constructor raro. Varias cosas mejorables, para evitar darle tantos parámetros inútiles.
             Directory directory = new Directory();
             ConversationService conversationService = new ConversationService();
             ChatServerImpl chatServerImpl = new ChatServerImpl(

@@ -17,13 +17,13 @@ import java.util.logging.Logger;
 
 public class ChatServerImpl implements IChatServer {
     private static final Logger logger = Logger.getLogger(ChatServerImpl.class.getName());
-    private final String serverAddress;
-    private final int serverPort;
     private final IDirectory directory;
     private final IConversationService pendingMessages;
     private final HashMap<String, SocketConnection> connectedClients;
     private final Heartbeat heartbeat;
     private final SyncService syncService;
+    private final String serverAddress;
+    private final int serverPort;
 
     public ChatServerImpl(String serverAddress, int serverPort, IDirectory directory, IConversationService pendingMessages, HashMap<String, SocketConnection> connectedClients, Heartbeat heartbeat, SyncService syncService) {
         this.serverAddress = serverAddress;
@@ -45,10 +45,15 @@ public class ChatServerImpl implements IChatServer {
         Thread syncThread = new Thread(syncService);
         syncThread.start();
 
-        logger.info("Starting client service on port " + serverPort);
+        //logger.info("Starting client service on port " + serverPort);
         try (ServerSocket serverSocket = new ServerSocket()) {
             serverSocket.setReuseAddress(true);
             serverSocket.bind(new InetSocketAddress(InetAddress.getByName(this.serverAddress), this.serverPort));
+            //Esto debería hacerse así. No se puede ahora porque está muy hardcodeado...
+            //serverSocket.bind(null);
+            //serverPort = serverSocket.getLocalPort();
+            //serverAddress = serverSocket.getInetAddress().getHostAddress();
+            logger.info("Starting client service on " + serverAddress + ":" + serverPort);
             logger.info("Waiting for connections... ");
             for (; ; ) {
                 try {

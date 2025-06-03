@@ -4,9 +4,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5486df74-5d68-4513-bf6f-42320c48c0d3" name="Changes" comment="Encrypter + POM y PS1 Actualizados">
+    <list default="true" id="5486df74-5d68-4513-bf6f-42320c48c0d3" name="Changes" comment="Quick start para powershell. Que fiaca iniciar todo esto uno por uno a mano.">
+      <change afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/encryption/CaesarEncrypter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/encryption/EncryptionStrategy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_26_5_2025_00_17_[Changes]1/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_26_5_2025_00_17__Changes_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_26_5_2025_00_22_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_26_5_2025_00_22__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/network/ChatClientImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/network/ChatClientImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/controller/ChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/controller/ChatController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/encryption/AESEncrypter.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/encryption/AESEncrypter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/encryption/Encrypter.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/encryption/Encrypter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/persistence/FileSessionPersistence.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/persistence/FileSessionPersistence.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/persistence/ISessionPersistence.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/persistence/ISessionPersistence.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/src/main/java/org/grupouno/model/session/ChatSessionImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/org/grupouno/model/session/ChatSessionImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/src/main/java/org/grupouno/model/session/IChatSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/org/grupouno/model/session/IChatSession.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/monitor/Monitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/monitor/src/main/java/org/grupouno/monitor/Monitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/monitor/src/main/resources/config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/monitor/src/main/resources/config.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/org/grupouno/ServerApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/org/grupouno/ServerApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/server/ChatServerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/org/grupouno/network/server/ChatServerImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/resources/config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/resources/config.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -377,7 +396,23 @@
       <option name="project" value="LOCAL" />
       <updated>1748265465014</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Monitor bind con null, así no colisiona con server.">
+      <option name="closed" value="true" />
+      <created>1748270252229</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1748270252229</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Quick start para powershell. Que fiaca iniciar todo esto uno por uno a mano.">
+      <option name="closed" value="true" />
+      <created>1748270285264</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1748270285264</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -407,7 +442,9 @@
     <MESSAGE value="Más detalles." />
     <MESSAGE value="Merge con v3.1.0" />
     <MESSAGE value="Encrypter + POM y PS1 Actualizados" />
-    <option name="LAST_COMMIT_MESSAGE" value="Encrypter + POM y PS1 Actualizados" />
+    <MESSAGE value="Monitor bind con null, así no colisiona con server." />
+    <MESSAGE value="Quick start para powershell. Que fiaca iniciar todo esto uno por uno a mano." />
+    <option name="LAST_COMMIT_MESSAGE" value="Quick start para powershell. Que fiaca iniciar todo esto uno por uno a mano." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

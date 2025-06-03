@@ -28,11 +28,12 @@ public class Monitor implements Runnable, AutoCloseable {
         this.serverPortMap.put(new InetSocketAddress(ConfigService.getConfig("server.one.local.host"), Integer.parseInt(ConfigService.getConfig("server.one.heartbeat.port"))), new InetSocketAddress(ConfigService.getConfig("server.one.local.host"), Integer.parseInt(ConfigService.getConfig("server.one.client.port"))));
         this.serverPortMap.put(new InetSocketAddress(ConfigService.getConfig("server.two.local.host"), Integer.parseInt(ConfigService.getConfig("server.two.heartbeat.port"))), new InetSocketAddress(ConfigService.getConfig("server.two.local.host"), Integer.parseInt(ConfigService.getConfig("server.two.client.port"))));
         this.serverPortMap.put(new InetSocketAddress(ConfigService.getConfig("server.three.local.host"), Integer.parseInt(ConfigService.getConfig("server.three.heartbeat.port"))), new InetSocketAddress(ConfigService.getConfig("server.three.local.host"), Integer.parseInt(ConfigService.getConfig("server.three.client.port"))));
-    }
+    }//TODO DESTROY OBLITERATE ERADICATE ALL THIS HARDCODED PORTS
+    // Se debería obtener la dirección de los servidores cuando hacen el heartbeat, donde se puede enviar la dirección para cliente como dato.
 
-    public Monitor(String monitorServerAddrress, int monitorServerPort, String addressServerAddress, int addressServerPort, Long heartbeatTolerance) {
+    public Monitor(String monitorServerAddress, int monitorServerPort, String addressServerAddress, int addressServerPort, Long heartbeatTolerance) {
         this.heartbeats = new ConcurrentHashMap<>();
-        this.heartbeatServer = new HeartbeatServer(monitorServerAddrress, monitorServerPort, this.heartbeats);
+        this.heartbeatServer = new HeartbeatServer(monitorServerAddress, monitorServerPort, this.heartbeats);
         this.addressServer = new AddressServer(addressServerAddress, addressServerPort);
         this.heartbeatTolerance = heartbeatTolerance;
         this.scheduler = Executors.newScheduledThreadPool(1);

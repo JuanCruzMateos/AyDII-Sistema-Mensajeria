@@ -10,8 +10,28 @@ import java.nio.charset.StandardCharsets;
 import java.security.spec.KeySpec;
 import java.util.Base64;
 
+/**
+ * Implementación de la famosísima encriptación AES con clave en base a los hashes de los nombres de usuario.
+ */
 public class AESEncrypter extends Encrypter {
 
+    /**
+     * Setea una clave en base a los 2 nombres de usuario de la conversación. Cada encriptador lo implementa como quiere, pero tiene que ser indistinto el orden.
+     *
+     * @param name1 El nombre de uno de los usuarios.
+     * @param name2 El nombre del otro usuario.
+     */
+    @Override
+    public void setKey(String name1, String name2) {
+        this.key = Integer.toHexString(name1.hashCode() + name2.hashCode());
+    }
+
+    /**
+     * Encripta el mensaje dado por parametro y lo retorna. Hace uso de la clave seteada por setKey.
+     *
+     * @param data El mensaje a encriptar.
+     * @return El mensaje encriptado.
+     */
     @Override
     public String encrypt(String data) {
         try {
@@ -51,6 +71,12 @@ public class AESEncrypter extends Encrypter {
         return null;
     }
 
+    /**
+     * Desencripta el mensaje dado por parametro y lo retorna. Hace uso de la clave seteada por setKey.
+     *
+     * @param data El mensaje encriptado.
+     * @return El mensaje desencriptado.
+     */
     @Override
     public String decrypt(String data) {
         try {

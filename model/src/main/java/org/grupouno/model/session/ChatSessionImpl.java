@@ -73,9 +73,31 @@ public class ChatSessionImpl implements IChatSession {
     }
 
     @Override
+    public IDirectory getAgenda() {
+        return this.agenda;
+    }
+
+    @Override
+    public void initAgenda(IDirectory agenda) {
+        logger.info("Loading agenda");
+        this.agenda = agenda;
+    }
+
+    @Override
     public void initConversationService() {
         logger.info("Initializing conversation service");
         this.conversationService = new ConversationService();
+    }
+
+    @Override
+    public IConversationService getConversationService() {
+        return this.conversationService;
+    }
+
+    @Override
+    public void initConversationService(IConversationService conversationService) {
+        logger.info("Loading conversation service");
+        this.conversationService = conversationService;
     }
 
     @Override

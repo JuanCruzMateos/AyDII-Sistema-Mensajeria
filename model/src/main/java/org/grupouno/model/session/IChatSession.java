@@ -1,5 +1,7 @@
 package org.grupouno.model.session;
 
+import org.grupouno.model.conversation.IConversationService;
+import org.grupouno.model.directory.IDirectory;
 import org.grupouno.model.directory.User;
 import org.grupouno.model.protocols.Message;
 
@@ -21,7 +23,15 @@ public interface IChatSession {
 
     void initAgenda();
 
+    IDirectory getAgenda();
+
+    void initAgenda(IDirectory agenda);
+
     void initConversationService();
+
+    IConversationService getConversationService();
+    
+    void initConversationService(IConversationService conversationService);
 
     List<String> getAgendaContacts();
 
