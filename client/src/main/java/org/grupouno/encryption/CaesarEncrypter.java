@@ -27,7 +27,7 @@ public class CaesarEncrypter extends Encrypter {
         char[] messageChars = data.toCharArray();
         byte shift = key.getBytes()[0];
         for (int i = 0; i < messageChars.length; i++) {
-            messageChars[i] += shift;
+            messageChars[i] += (char) shift;
         }
         return String.copyValueOf(messageChars);
     }
@@ -43,7 +43,7 @@ public class CaesarEncrypter extends Encrypter {
         char[] messageChars = data.toCharArray();
         byte shift = key.getBytes()[0];
         for (int i = 0; i < messageChars.length; i++) {
-            messageChars[i] -= shift;
+            messageChars[i] -= (char) shift;
         }
         return String.copyValueOf(messageChars);
     }
