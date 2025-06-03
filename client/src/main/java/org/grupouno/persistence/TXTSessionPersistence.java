@@ -35,7 +35,7 @@ public class TXTSessionPersistence extends FileSessionPersistence {
             for (User act : agenda.getAllContacts()) {
                 if (convService.existsConversationWith(act.nickname())) {
                     writer.write(act.nickname() + "\n");
-                    for (Message mes : convService.getConversationByContactNickname(act.nickname()).get().getMessages()) {
+                    for (Message mes : convService.getConversationByContactNickname(act.nickname()).orElseThrow().getMessages()) {
                         writer.write("\t" + mes.senderNickname());
                         writer.write("\t" + mes.timestamp().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")));
                         writer.write("\t" + mes.content().toString() + "\n");

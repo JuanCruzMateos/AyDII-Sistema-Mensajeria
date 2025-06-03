@@ -22,31 +22,35 @@ public class XMLSessionPersistence extends FileSessionPersistence {
         BufferedWriter writer;
         try {
             writer = new BufferedWriter(new FileWriter(file));
+            writer.write("<?xml version=\"1.0\"?>\n");
+            writer.write("<session>\n");
 
             logger.info("Guardando agenda");
-            writer.write("<agenda>\n");
+            writer.write("\t<agenda>\n");
             IDirectory agenda = session.getAgenda();
             for (User act : agenda.getAllContacts()) {
-                writer.write("\t<user nickname=\"" + act.nickname() + "\" />\n");
+                writer.write("\t\t<user nickname=\"" + act.nickname() + "\" />\n");
             }
-            writer.write("</agenda>\n");
+            writer.write("\t</agenda>\n");
             logger.info("Guardando conversaciones");
-            writer.write("<conversations>\n");
+            writer.write("\t<conversations>\n");
             IConversationService convService = session.getConversationService();
             for (User act : agenda.getAllContacts()) {
                 if (convService.existsConversationWith(act.nickname())) {
-                    writer.write("\t<conversation nickname=\"" + act.nickname() + "\">\n");
-                    for (Message mes : convService.getConversationByContactNickname(act.nickname()).get().getMessages()) {
-                        writer.write("\t\t<message>\n");
-                        writer.write("\t\t\t<sender \"" + mes.senderNickname() + "\" />\n");
-                        writer.write("\t\t\t<time \"" + mes.timestamp().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) + "\" />\n");
-                        writer.write("\t\t\t<body \"" + mes.content().toString() + "\" />\n");
-                        writer.write("\t\t</message>\n");
+                    writer.write("\t\t<conversation user=\"" + act.nickname() + "\">\n");
+                    for (Message mes : convService.getConversationByContactNickname(act.nickname()).orElseThrow().getMessages()) {
+                        writer.write("\t\t\t<message>\n");
+                        writer.write("\t\t\t\t<sender>" + mes.senderNickname() + "</sender>\n");
+                        writer.write("\t\t\t\t<time>" + mes.timestamp().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) + "</time>\n");
+                        writer.write("\t\t\t\t<body>" + mes.content().toString() + "</body>\n");
+                        writer.write("\t\t\t</message>\n");
                     }
-                    writer.write("\t</conversation>\n");
+                    writer.write("\t\t</conversation>\n");
                 }
             }
-            writer.write("</conversations>");
+            writer.write("\t</conversations>\n");
+
+            writer.write("</session>");
             writer.close();
             logger.info("XML Finalizado");
         } catch (IOException e) {
@@ -62,9 +66,14 @@ public class XMLSessionPersistence extends FileSessionPersistence {
         BufferedReader reader;
         try {
             reader = new BufferedReader(new FileReader(file));
+            //<?xml version="1.0"?>
+            String line = reader.readLine().trim();
+            if (!line.equals("<?xml version=\"1.0\"?>")) throw new IOException("XML Mal formateado! - XML Version");
+            line = reader.readLine().trim();
+            if (!line.equals("<session>")) throw new IOException("XML Mal formateado! - Session");
 
             logger.info("Cargando agenda");
-            String line = reader.readLine().trim();
+            line = reader.readLine().trim();
             if (!line.equals("<agenda>")) throw new IOException("XML Mal formateado! - Agenda");
             line = reader.readLine().trim();
             while (!line.equals("</agenda>")) {
@@ -87,41 +96,41 @@ public class XMLSessionPersistence extends FileSessionPersistence {
             if (!line.equals("<conversations>")) throw new IOException("XML Mal formateado! - Conversations");
             line = reader.readLine().trim();
             while (!line.equals("</conversations>")) {
-                //<conversation nickname="USER">
-                String pre = line.substring(0, 24);
-                String nickname = line.substring(24, line.length() - 2);
+                //<conversation user="USER">
+                String pre = line.substring(0, 20);
+                String nickname = line.substring(20, line.length() - 2);
                 String post = line.substring(line.length() - 2);
                 // No debería fallar, pero por las dudas...
-                if (!pre.equals("<conversation nickname=\"") || !post.equals("\">"))
+                if (!pre.equals("<conversation user=\"") || !post.equals("\">"))
                     throw new IOException("XML Mal formateado! - Conversation");
                 logger.info("\tCargando conversacion con " + nickname);
                 session.getConversationService().startNewConversation(nickname);
                 line = reader.readLine().trim();
                 while (!line.equals("</conversation>")) {
                     if (!line.equals("<message>")) throw new IOException("XML Mal formateado! - Message");
-                    //<sender "SENDER" />
+                    //<sender>SENDER</sender>
                     line = reader.readLine().trim();
-                    pre = line.substring(0, 9);
-                    String sender = line.substring(9, line.length() - 4);
-                    post = line.substring(line.length() - 4);
-                    if (!pre.equals("<sender \"") || !post.equals("\" />"))
+                    pre = line.substring(0, 8);
+                    String sender = line.substring(8, line.length() - 9);
+                    post = line.substring(line.length() - 9);
+                    if (!pre.equals("<sender>") || !post.equals("</sender>"))
                         throw new IOException("XML Mal formateado! - Sender");
 
-                    //<time "dd/MM/yyyy HH:mm:ss" />
+                    //<time>dd/MM/yyyy HH:mm:ss</time>
                     line = reader.readLine().trim();
-                    pre = line.substring(0, 7);
-                    String date = line.substring(7, line.length() - 4);
+                    pre = line.substring(0, 6);
+                    String date = line.substring(6, line.length() - 7);
                     LocalDateTime timestamp = this.getDateTimeFromSTR(date);
-                    post = line.substring(line.length() - 4);
-                    if (!pre.equals("<time \"") || !post.equals("\" />"))
+                    post = line.substring(line.length() - 7);
+                    if (!pre.equals("<time>") || !post.equals("</time>"))
                         throw new IOException("XML Mal formateado! - Time");
 
-                    //<body "BODY\" />
+                    //<body>BODY</body>
                     line = reader.readLine().trim();
-                    pre = line.substring(0, 7);
-                    String body = line.substring(7, line.length() - 4);
-                    post = line.substring(line.length() - 4);
-                    if (!pre.equals("<body \"") || !post.equals("\" />"))
+                    pre = line.substring(0, 6);
+                    String body = line.substring(6, line.length() - 7);
+                    post = line.substring(line.length() - 7);
+                    if (!pre.equals("<body>") || !post.equals("</body>"))
                         throw new IOException("XML Mal formateado! - Body");
 
                     //Todos los atributos que no son cargados no le importan al usuario en este momento
@@ -145,6 +154,8 @@ public class XMLSessionPersistence extends FileSessionPersistence {
             }
             logger.info("Conversaciones cargadas");
 
+            line = reader.readLine().trim();
+            if (!line.equals("</session>")) throw new IOException("XML Mal formateado! - /Session");
 
             reader.close();
         } catch (IOException e) {
