@@ -105,6 +105,7 @@ public class JSONSessionPersistence extends FileSessionPersistence {
                 logger.info("\tCargado " + nickname);
                 session.getAgenda().addContact(new User(nickname, "", 0));
                 line = reader.readLine().trim(); //Lee el } o },
+                if (!line.equals("}") && !line.equals("},")) throw new IOException("JSON Mal formateado! - Agenda }");
                 line = reader.readLine().trim(); //Lee el { o el ],
             }
             logger.info("Agenda cargada");
@@ -162,11 +163,15 @@ public class JSONSessionPersistence extends FileSessionPersistence {
                     session.getConversationService().addMessage(mensaje, nickname);
 
                     line = reader.readLine().trim(); //Lee el } o },
+                    if (!line.equals("}") && !line.equals("},"))
+                        throw new IOException("JSON Mal formateado! - Messages }");
                     line = reader.readLine().trim(); //Lee el { o el ]
                 }
                 logger.info("\tCargada conversacion con " + nickname);
 
                 line = reader.readLine().trim(); //Lee el } o },
+                if (!line.equals("}") && !line.equals("},"))
+                    throw new IOException("JSON Mal formateado! - Conversations }");
                 line = reader.readLine().trim(); //Lee el { o el ]
             }
             logger.info("Conversaciones cargadas");
