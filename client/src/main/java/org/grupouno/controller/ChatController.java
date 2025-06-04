@@ -194,7 +194,8 @@ public class ChatController implements ActionListener {
         } else {
             this.chatSession.addNewContact(new User(contactName, contactIp, contactPort));
             logger.info("New contact added: " + contactName);
-            this.agendaScreen.setContactList(this.chatSession.getAgendaContacts());
+            if (this.agendaScreen != null)
+                this.agendaScreen.setContactList(this.chatSession.getAgendaContacts());
             JOptionPane.showMessageDialog(null, "Contacto agregado: " + contactName);
             this.directoryScreen.dispose();
         }

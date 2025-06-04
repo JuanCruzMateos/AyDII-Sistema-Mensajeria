@@ -16,7 +16,7 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
 
     public ChatSessionScreen(String username, String ip, String port) {
         setTitle("SMChat | Running as " + username + " on " + ip + ":" + port);
-        setSize(500, 400);
+        setSize(600, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout(10, 10));
 
@@ -35,7 +35,7 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
         gbc.anchor = GridBagConstraints.WEST;
 
         JLabel userInfoLabel = new JLabel("👤 Usuario: " + username + "   🌐 IP: " + ip + "   📡 Puerto: " + port);
-        userInfoLabel.setFont(new Font("Arial", Font.PLAIN, 13));
+        userInfoLabel.setFont(new Font("Dialog", Font.PLAIN, 13));
         topPanel.add(userInfoLabel, gbc);
 
         gbc.gridx = 1;
@@ -45,7 +45,7 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
         JButton disconnectButton = new JButton("Desconectar ❌");
         disconnectButton.setActionCommand("disconnect");
         disconnectButton.addActionListener(ChatController.getInstance());
-        disconnectButton.setFont(new Font("Arial", Font.BOLD, 12));
+        disconnectButton.setFont(new Font("Dialog", Font.BOLD, 12));
 //        disconnectButton.setForeground(Color.WHITE);
         disconnectButton.setBackground(new Color(217, 22, 42)); // Bootstrap red
         disconnectButton.setFocusPainted(false);
@@ -62,7 +62,7 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
         leftPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         JLabel conversationsLabel = new JLabel("Conversaciones 📨", SwingConstants.CENTER);
-        conversationsLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        conversationsLabel.setFont(new Font("Dialog", Font.BOLD, 14));
         leftPanel.add(conversationsLabel, BorderLayout.NORTH);
 
         // Center Panel - Chat Area
@@ -70,7 +70,7 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
         centerPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         this.chatTitle = new JLabel("Seleccione un contacto ", SwingConstants.CENTER);
-        chatTitle.setFont(new Font("Arial", Font.BOLD, 16));
+        chatTitle.setFont(new Font("Dialog", Font.BOLD, 16));
         centerPanel.add(chatTitle, BorderLayout.NORTH);
 
         JList<String> demoList = new JList<>(new DefaultListModel<>());
@@ -87,19 +87,31 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
         });
         leftPanel.add(this.conversationList, BorderLayout.CENTER);
 
+        JPanel buttonsPanel = new JPanel(new BorderLayout());
+
         // New Conversation Button
         JButton newConversationButton = new JButton("Nueva Conversación");
         newConversationButton.setActionCommand("openNewConversationScreen");
         newConversationButton.addActionListener(ChatController.getInstance());
-        newConversationButton.setFont(new Font("Arial", Font.BOLD, 12));
+        newConversationButton.setFont(new Font("Dialog", Font.BOLD, 12));
         newConversationButton.setPreferredSize(new Dimension(160, 30));
-        leftPanel.add(newConversationButton, BorderLayout.SOUTH);
+        buttonsPanel.add(newConversationButton, BorderLayout.NORTH);
+
+        // Open Directory Button
+        JButton openDirectoryButton = new JButton("Ver Directorio");
+        openDirectoryButton.setActionCommand("openDirectoryScreen");
+        openDirectoryButton.addActionListener(ChatController.getInstance());
+        openDirectoryButton.setFont(new Font("Dialog", Font.BOLD, 12));
+        openDirectoryButton.setPreferredSize(new Dimension(160, 30));
+        buttonsPanel.add(openDirectoryButton, BorderLayout.SOUTH);
+
+        leftPanel.add(buttonsPanel, BorderLayout.SOUTH);
 
         add(leftPanel, BorderLayout.WEST);
 
         chatArea = new JTextArea();
         chatArea.setEditable(false);
-        chatArea.setFont(new Font("Arial", Font.PLAIN, 12));
+        chatArea.setFont(new Font("Dialog", Font.PLAIN, 12));
         JScrollPane chatScrollPane = new JScrollPane(chatArea);
         centerPanel.add(chatScrollPane, BorderLayout.CENTER);
 
@@ -111,8 +123,8 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
         JButton sendButton = new JButton("Enviar ▶");
         sendButton.setActionCommand("send");
         sendButton.addActionListener(ChatController.getInstance());
-        sendButton.setFont(new Font("Arial", Font.BOLD, 12));
-        sendButton.setPreferredSize(new Dimension(80, 30));
+        sendButton.setFont(new Font("Dialog", Font.BOLD, 12));
+        sendButton.setPreferredSize(new Dimension(90, 30));
         bottomPanel.add(sendButton, BorderLayout.EAST);
 
         centerPanel.add(bottomPanel, BorderLayout.SOUTH);
