@@ -27,7 +27,7 @@ public class DirectoryScreen extends JFrame {
 
         // Directorio Label
         JLabel directorioLabel = new JLabel("Directorio");
-        directorioLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        directorioLabel.setFont(new Font("Dialog", Font.BOLD, 18));
         directorioLabel.setBounds(20, 10, 150, 30);
         add(directorioLabel);
 
