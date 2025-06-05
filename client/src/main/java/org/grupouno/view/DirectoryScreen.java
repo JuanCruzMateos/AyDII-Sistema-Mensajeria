@@ -23,6 +23,8 @@ public class DirectoryScreen extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(null);
         setLocationRelativeTo(null);
+        super.getContentPane().setBackground(GUIColors.backgroundColor);
+
         // Directorio Label
         JLabel directorioLabel = new JLabel("Directorio");
         directorioLabel.setFont(new Font("Arial", Font.BOLD, 18));
@@ -44,6 +46,7 @@ public class DirectoryScreen extends JFrame {
         nicknameField = new JTextField("");
         nicknameField.setBounds(180, 70, 150, 25);
         add(nicknameField);
+        nicknameField.setEditable(false);
 
         // IP
         JLabel ipLabel = new JLabel("IP");
@@ -53,6 +56,7 @@ public class DirectoryScreen extends JFrame {
         ipField = new JTextField("");
         ipField.setBounds(180, 120, 150, 25);
         add(ipField);
+        ipField.setEditable(false);
 
         // Puerto
         JLabel puertoLabel = new JLabel("Puerto");
@@ -62,6 +66,7 @@ public class DirectoryScreen extends JFrame {
         portField = new JTextField("");
         portField.setBounds(180, 170, 150, 25);
         add(portField);
+        portField.setEditable(false);
 
         // Agregar Button
         addButton = new JButton("Agregar");

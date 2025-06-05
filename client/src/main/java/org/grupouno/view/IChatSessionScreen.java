@@ -15,6 +15,8 @@ public interface IChatSessionScreen {
 
     void setChatAreaText(String messagesByContact);
 
+    void enableInputArea();
+
     void resetTextInputArea();
 
     void appendNewMessageToChatArea(String s);

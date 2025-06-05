@@ -5,11 +5,13 @@ import org.grupouno.model.session.ChatSessionImpl;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
     private final JList<String> conversationList;
     private final JTextArea chatArea;
     private final JTextField messageField;
+    private final JButton sendButton;
     private final JLabel chatTitle;
     private final String sessionUsername;
     private String currentConversationContact;
@@ -19,13 +21,14 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
         setSize(600, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout(10, 10));
+        super.getContentPane().setBackground(GUIColors.backgroundColor);
 
         this.setLocationRelativeTo(null);
         this.sessionUsername = username;
 
         // Top Panel - User Info and Disconnect
         JPanel topPanel = new JPanel(new GridBagLayout());
-        topPanel.setBorder(BorderFactory.createEmptyBorder(8, 12, 0, 12));
+        topPanel.setBorder(BorderFactory.createEmptyBorder(4, 12, 4, 12));
         topPanel.setBackground(new Color(245, 245, 245)); // light gray background
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -35,7 +38,7 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
         gbc.anchor = GridBagConstraints.WEST;
 
         JLabel userInfoLabel = new JLabel("👤 Usuario: " + username + "   🌐 IP: " + ip + "   📡 Puerto: " + port);
-        userInfoLabel.setFont(new Font("Dialog", Font.PLAIN, 13));
+        userInfoLabel.setFont(new Font("Dialog", Font.PLAIN, 14));
         topPanel.add(userInfoLabel, gbc);
 
         gbc.gridx = 1;
@@ -60,17 +63,19 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
         // Left Panel - Conversations List
         JPanel leftPanel = new JPanel(new BorderLayout());
         leftPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        leftPanel.setBackground(GUIColors.backgroundColor);
 
         JLabel conversationsLabel = new JLabel("Conversaciones 📨", SwingConstants.CENTER);
-        conversationsLabel.setFont(new Font("Dialog", Font.BOLD, 14));
+        conversationsLabel.setFont(new Font("Dialog", Font.BOLD, 18));
         leftPanel.add(conversationsLabel, BorderLayout.NORTH);
 
         // Center Panel - Chat Area
         JPanel centerPanel = new JPanel(new BorderLayout());
         centerPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        centerPanel.setBackground(GUIColors.backgroundColor);
 
         this.chatTitle = new JLabel("Seleccione un contacto ", SwingConstants.CENTER);
-        chatTitle.setFont(new Font("Dialog", Font.BOLD, 16));
+        chatTitle.setFont(new Font("Dialog", Font.BOLD, 18));
         centerPanel.add(chatTitle, BorderLayout.NORTH);
 
         JList<String> demoList = new JList<>(new DefaultListModel<>());
@@ -87,7 +92,9 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
         });
         leftPanel.add(this.conversationList, BorderLayout.CENTER);
 
-        JPanel buttonsPanel = new JPanel(new BorderLayout());
+        JPanel buttonsPanel = new JPanel(new BorderLayout(1, 1));
+        buttonsPanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
+        buttonsPanel.setBackground(GUIColors.backgroundColor);
 
         // New Conversation Button
         JButton newConversationButton = new JButton("Nueva Conversación");
@@ -106,6 +113,7 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
         buttonsPanel.add(openDirectoryButton, BorderLayout.SOUTH);
 
         leftPanel.add(buttonsPanel, BorderLayout.SOUTH);
+        leftPanel.setBackground(GUIColors.backgroundColor);
 
         add(leftPanel, BorderLayout.WEST);
 
@@ -117,15 +125,30 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
 
         // Bottom Panel - Message Input
         JPanel bottomPanel = new JPanel(new BorderLayout(5, 5));
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
+        bottomPanel.setBackground(GUIColors.backgroundColor);
         messageField = new JTextField();
         bottomPanel.add(messageField, BorderLayout.CENTER);
+        // Press enter to send.
+        messageField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                if (evt.getKeyChar() == '\n')
+                    ChatController.getInstance().actionPerformed(new ActionEvent(evt, 1001, "send"));
+            }
+        });
 
-        JButton sendButton = new JButton("Enviar ▶");
+        sendButton = new JButton("Enviar ▶");
         sendButton.setActionCommand("send");
         sendButton.addActionListener(ChatController.getInstance());
         sendButton.setFont(new Font("Dialog", Font.BOLD, 12));
         sendButton.setPreferredSize(new Dimension(90, 30));
         bottomPanel.add(sendButton, BorderLayout.EAST);
+
+        // Inician deshabilitados porque no hay nada para hacer sin chats seleccionados...
+        this.messageField.setEnabled(false);
+        this.chatArea.setEnabled(false);
+        this.sendButton.setEnabled(false);
+
 
         centerPanel.add(bottomPanel, BorderLayout.SOUTH);
 
@@ -207,6 +230,12 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {
         ChatController.getInstance().disconect();
+    }
+
+    public void enableInputArea() {
+        this.messageField.setEnabled(true);
+        this.chatArea.setEnabled(true);
+        this.sendButton.setEnabled(true);
     }
 
 }

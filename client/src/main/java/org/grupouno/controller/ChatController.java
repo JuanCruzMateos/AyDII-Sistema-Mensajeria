@@ -40,6 +40,7 @@ public class ChatController implements ActionListener {
     private AgendaScreen agendaScreen;
     private DirectoryScreen directoryScreen;
     private ISessionPersistence persistence;
+    private String encStrat;
     private EncryptionStrategy encrypter;
 
     private ChatController() {
@@ -89,7 +90,10 @@ public class ChatController implements ActionListener {
         }
 
         // Instancia de encriptador
-        String encStrat = ConfigService.getConfig("EncryptionStrategy");
+        // Primero se elige una estrategia (al azar jaja)
+        int max = Integer.parseInt(ConfigService.getConfig("EncryptionStrategyAmount"));
+        int randomStrat = (int) (Math.random() * max) + 1;
+        encStrat = ConfigService.getConfig("EncryptionStrategy" + randomStrat);
         logger.info("Eligiendo estrategia de encriptacion: " + encStrat);
         encrypter = new EncryptionStrategy(encStrat);
     }
@@ -212,8 +216,9 @@ public class ChatController implements ActionListener {
             Optional<User> contact = this.chatSession.getContactByNickname(contactNickName);
             if (contact.isPresent()) {
                 LocalDateTime timeStamp = LocalDateTime.now();
-                //CIFRADO
-                String encryptedData = encrypter.encrypt(textInputArea, this.chatSession.getNickname(), contact.get().nickname());
+                //CIFRADO... Seteo la estrategia elegida por el cliente primero!
+                encrypter.setStrategy(encStrat);
+                String encryptedData = encStrat + "|" + encrypter.encrypt(textInputArea, this.chatSession.getNickname(), contact.get().nickname());
                 Message encryptedMessage = new Message(this.chatSession.getNickname(), this.chatSession.getIp(), this.chatSession.getPort(), contact.get().nickname(), contact.get().ip(), contact.get().port(), encryptedData, timeStamp, MessageType.MESSAGE);
                 Message message = new Message(this.chatSession.getNickname(), this.chatSession.getIp(), this.chatSession.getPort(), contact.get().nickname(), contact.get().ip(), contact.get().port(), textInputArea, timeStamp, MessageType.MESSAGE);
                 logger.info("Sending message: " + textInputArea);
@@ -228,17 +233,22 @@ public class ChatController implements ActionListener {
     }
 
     public synchronized void receiveMessage(Message message) {
-        // DESCIFRAR PRIMERO!
+        logger.info("Receiving message from: " + message.senderNickname());
+        // DESCIFRAR PRIMERO! Primero obtengo la estrategia de encriptado...
+        String body = (String) message.content();
+        String bodyEnc = body.substring(0, body.indexOf('|'));
+        body = body.substring(body.indexOf('|') + 1);
+        logger.info("Decrypting \"" + body + "\" with strategy: " + bodyEnc);
+        encrypter.setStrategy(bodyEnc);
         Message decryptedMessage = new Message(message.senderNickname(),
                 message.senderIP(),
                 message.senderPort(),
                 message.receiverNickname(),
                 message.receiverIP(),
                 message.receiverPort(),
-                encrypter.decrypt((String) message.content(), this.chatSession.getNickname(), message.senderNickname()),
+                encrypter.decrypt(body, this.chatSession.getNickname(), message.senderNickname()),
                 message.timestamp(),
                 message.type());
-        logger.info("Receiving message from: " + decryptedMessage.senderNickname());
         this.chatSession.receiveMessage(decryptedMessage);
         if (message.senderNickname().equals(this.chatSessionScreen.getCurrentConversationContact())) {
             logger.info("Message received from current conversation contact: " + decryptedMessage.senderNickname());
@@ -252,6 +262,7 @@ public class ChatController implements ActionListener {
 
     public void setCurrentContact(String selectedContact) {
         logger.info("Setting current contact: " + selectedContact);
+        this.chatSessionScreen.enableInputArea();
         this.chatSessionScreen.setChatTitle("Conversando con: " + selectedContact);
         this.chatSessionScreen.setChatAreaText(this.chatSession.getMessagesByContact(selectedContact));
         this.chatSessionScreen.selectContactInList(selectedContact);

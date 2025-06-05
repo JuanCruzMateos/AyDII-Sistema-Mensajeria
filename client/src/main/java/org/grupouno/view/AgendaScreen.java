@@ -16,11 +16,13 @@ public class AgendaScreen extends JFrame {
         setSize(300, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout(10, 10));
+        super.getContentPane().setBackground(GUIColors.backgroundColor);
 
         // Main Panel with Padding
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
         add(mainPanel, BorderLayout.CENTER);
+        mainPanel.setBackground(GUIColors.backgroundColor);
 
         // Title
         JLabel titleLabel = new JLabel("Agenda", SwingConstants.CENTER);
@@ -36,6 +38,7 @@ public class AgendaScreen extends JFrame {
 
         // Bottom Panel (Buttons)
         JPanel buttonPanel = new JPanel(new GridLayout(2, 1, 5, 5));
+        buttonPanel.setBackground(GUIColors.backgroundColor);
         this.startConversationButton = new JButton("Comenzar Conversacion");
         startConversationButton.setActionCommand("startConversation");
         startConversationButton.setFont(new Font("Arial", Font.BOLD, 12));

@@ -5,6 +5,7 @@ import org.grupouno.validation.NetworkValidator;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.logging.Level;
@@ -16,8 +17,8 @@ public class ConfigScreen extends JFrame {
     private final JTextField portField;
 
     public ConfigScreen() {
-        setTitle("Sistema Mensajería");
-        setSize(320, 300);
+        setTitle("Sistema de Mensajería");
+        setSize(370, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout(10, 10));
 
@@ -27,8 +28,8 @@ public class ConfigScreen extends JFrame {
         add(mainPanel, BorderLayout.CENTER);
 
         // Title Label
-        JLabel titleLabel = new JLabel("Sistema Mensajeria", SwingConstants.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 28));
+        JLabel titleLabel = new JLabel("Sistema de Mensajeria", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Dialog", Font.BOLD, 28));
         mainPanel.add(titleLabel, BorderLayout.NORTH);
 
         // Spacer Panel to add more space below the title
@@ -38,11 +39,16 @@ public class ConfigScreen extends JFrame {
 
         // Form Panel
         JPanel formPanel = new JPanel(new GridLayout(3, 2, 10, 7));
-        formPanel.add(new JLabel("👤 Nickname:"));
+        JLabel labelNick = new JLabel("👤 Nickname:");
+        labelNick.setFont(new Font("Dialog", Font.PLAIN, 14));
+        formPanel.add(labelNick);
         nicknameField = new JTextField();
+        nicknameField.setFont(new Font("Dialog", Font.PLAIN, 14));
         formPanel.add(nicknameField);
 
-        formPanel.add(new JLabel("🌐 IP:"));
+        JLabel labelIP = new JLabel("🌐 IP:");
+        labelIP.setFont(new Font("Dialog", Font.PLAIN, 14));
+        formPanel.add(labelIP);
         String ip;
         try {
             ip = InetAddress.getLoopbackAddress().getHostAddress();
@@ -51,11 +57,18 @@ public class ConfigScreen extends JFrame {
             ip = "127.0.0.1";
         }
         ipField = new JTextField(ip);
+        ipField.setFont(new Font("Dialog", Font.PLAIN, 14));
         formPanel.add(ipField);
 
-        formPanel.add(new JLabel("📡 Puerto:"));
-        String port = "50747"; // Fallback to default port
+        JLabel labelPort = new JLabel("📡 Puerto:");
+        labelPort.setFont(new Font("Dialog", Font.PLAIN, 14));
+        formPanel.add(labelPort);
+        int defaultPort = 50700;
+        while (!NetworkValidator.isPortAvailable(defaultPort))
+            defaultPort++;
+        String port = Integer.toString(defaultPort); // Fallback to default port
         portField = new JTextField(port);
+        portField.setFont(new Font("Dialog", Font.PLAIN, 14));
         formPanel.add(portField);
 
         // Wrap formPanel inside another panel to keep spacing
@@ -66,10 +79,14 @@ public class ConfigScreen extends JFrame {
         // Button Panel
         JPanel buttonPanel = new JPanel();
         JButton startButton = new JButton("Iniciar");
-        startButton.setFont(new Font("Arial", Font.BOLD, 14)); // Bigger font
+        startButton.setFont(new Font("Arial", Font.BOLD, 16)); // Bigger font
         startButton.setPreferredSize(new Dimension(120, 40)); // Bigger button
         buttonPanel.add(startButton);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        mainPanel.setBackground(GUIColors.backgroundColor);
+        formPanel.setBackground(GUIColors.backgroundColor);
+        buttonPanel.setBackground(GUIColors.backgroundColor);
 
         // Button Action
         startButton.addActionListener(e -> {
@@ -101,6 +118,18 @@ public class ConfigScreen extends JFrame {
                 }
             }
         });
+
+        // Press enter to send.
+        KeyAdapter enterToPressButton = new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                if (evt.getKeyChar() == '\n')
+                    startButton.getActionListeners()[0].actionPerformed(null);
+            }
+        };
+        nicknameField.addKeyListener(enterToPressButton);
+        ipField.addKeyListener(enterToPressButton);
+        portField.addKeyListener(enterToPressButton);
+
         setLocationRelativeTo(null);
     }
 }
