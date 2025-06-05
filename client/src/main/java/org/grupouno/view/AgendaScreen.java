@@ -33,6 +33,7 @@ public class AgendaScreen extends JFrame {
         DefaultListModel<String> contactModel = new DefaultListModel<>();
         contactList = new JList<>(contactModel);
         contactList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        contactList.setBackground(GUIColors.textFieldColor);
         JScrollPane listScrollPane = new JScrollPane(contactList);
         mainPanel.add(listScrollPane, BorderLayout.CENTER);
 
@@ -43,12 +44,14 @@ public class AgendaScreen extends JFrame {
         startConversationButton.setActionCommand("startConversation");
         startConversationButton.setFont(new Font("Arial", Font.BOLD, 12));
         startConversationButton.setPreferredSize(new Dimension(160, 35));
+        startConversationButton.setBackground(GUIColors.buttonColor);
         buttonPanel.add(startConversationButton);
 
         this.addNewContactButton = new JButton("Ver Directorio");
         addNewContactButton.setActionCommand("openDirectoryScreen");
         addNewContactButton.setFont(new Font("Arial", Font.BOLD, 12));
         addNewContactButton.setPreferredSize(new Dimension(160, 35));
+        addNewContactButton.setBackground(GUIColors.buttonColor);
         buttonPanel.add(addNewContactButton);
 
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);

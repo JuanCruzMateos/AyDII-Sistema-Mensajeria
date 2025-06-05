@@ -18,7 +18,7 @@ public class ConfigScreen extends JFrame {
 
     public ConfigScreen() {
         setTitle("Sistema de Mensajería");
-        setSize(370, 300);
+        setSize(370, 280);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout(10, 10));
 
@@ -79,7 +79,7 @@ public class ConfigScreen extends JFrame {
         // Button Panel
         JPanel buttonPanel = new JPanel();
         JButton startButton = new JButton("Iniciar");
-        startButton.setFont(new Font("Arial", Font.BOLD, 16)); // Bigger font
+        startButton.setFont(new Font("Dialog", Font.BOLD, 16)); // Bigger font
         startButton.setPreferredSize(new Dimension(120, 40)); // Bigger button
         buttonPanel.add(startButton);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
@@ -87,6 +87,10 @@ public class ConfigScreen extends JFrame {
         mainPanel.setBackground(GUIColors.backgroundColor);
         formPanel.setBackground(GUIColors.backgroundColor);
         buttonPanel.setBackground(GUIColors.backgroundColor);
+        startButton.setBackground(GUIColors.buttonColor);
+        nicknameField.setBackground(GUIColors.textFieldColor);
+        ipField.setBackground(GUIColors.textFieldColor);
+        portField.setBackground(GUIColors.textFieldColor);
 
         // Button Action
         startButton.addActionListener(e -> {

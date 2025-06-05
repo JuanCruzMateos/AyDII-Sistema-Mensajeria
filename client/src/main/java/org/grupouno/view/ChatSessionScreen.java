@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 
 public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
     private final JList<String> conversationList;
-    private final JTextArea chatArea;
+    private final JTextPane chatArea;
     private final JTextField messageField;
     private final JButton sendButton;
     private final JLabel chatTitle;
@@ -18,7 +18,7 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
 
     public ChatSessionScreen(String username, String ip, String port) {
         setTitle("SMChat | Running as " + username + " on " + ip + ":" + port);
-        setSize(600, 600);
+        setSize(620, 520);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout(10, 10));
         super.getContentPane().setBackground(GUIColors.backgroundColor);
@@ -90,6 +90,7 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
                 }
             }
         });
+        this.conversationList.setBackground(GUIColors.textFieldColor);
         leftPanel.add(this.conversationList, BorderLayout.CENTER);
 
         JPanel buttonsPanel = new JPanel(new BorderLayout(1, 1));
@@ -102,6 +103,7 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
         newConversationButton.addActionListener(ChatController.getInstance());
         newConversationButton.setFont(new Font("Dialog", Font.BOLD, 12));
         newConversationButton.setPreferredSize(new Dimension(160, 30));
+        newConversationButton.setBackground(GUIColors.buttonColor);
         buttonsPanel.add(newConversationButton, BorderLayout.NORTH);
 
         // Open Directory Button
@@ -110,6 +112,7 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
         openDirectoryButton.addActionListener(ChatController.getInstance());
         openDirectoryButton.setFont(new Font("Dialog", Font.BOLD, 12));
         openDirectoryButton.setPreferredSize(new Dimension(160, 30));
+        openDirectoryButton.setBackground(GUIColors.buttonColor);
         buttonsPanel.add(openDirectoryButton, BorderLayout.SOUTH);
 
         leftPanel.add(buttonsPanel, BorderLayout.SOUTH);
@@ -117,9 +120,11 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
 
         add(leftPanel, BorderLayout.WEST);
 
-        chatArea = new JTextArea();
+        chatArea = new JTextPane();
+        chatArea.setContentType("text/html");
         chatArea.setEditable(false);
         chatArea.setFont(new Font("Dialog", Font.PLAIN, 12));
+        chatArea.setBackground(GUIColors.textFieldColor);
         JScrollPane chatScrollPane = new JScrollPane(chatArea);
         centerPanel.add(chatScrollPane, BorderLayout.CENTER);
 
@@ -128,6 +133,7 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
         bottomPanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
         bottomPanel.setBackground(GUIColors.backgroundColor);
         messageField = new JTextField();
+        messageField.setBackground(GUIColors.textFieldColor);
         bottomPanel.add(messageField, BorderLayout.CENTER);
         // Press enter to send.
         messageField.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -142,6 +148,7 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
         sendButton.addActionListener(ChatController.getInstance());
         sendButton.setFont(new Font("Dialog", Font.BOLD, 12));
         sendButton.setPreferredSize(new Dimension(90, 30));
+        sendButton.setBackground(GUIColors.buttonColor);
         bottomPanel.add(sendButton, BorderLayout.EAST);
 
         // Inician deshabilitados porque no hay nada para hacer sin chats seleccionados...
@@ -204,7 +211,12 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
 
     @Override
     public void appendNewMessageToChatArea(String message) {
-        this.chatArea.append(message);
+        int pos = chatArea.getText().indexOf("</body>");
+        String oldContent = chatArea.getText();
+        String newContent = oldContent.substring(0, pos) + message + oldContent.substring(pos);
+        System.out.println(message);
+
+        chatArea.setText(newContent);
     }
 
     @Override

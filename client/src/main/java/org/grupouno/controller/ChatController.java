@@ -225,7 +225,7 @@ public class ChatController implements ActionListener {
                 logger.info("Encrypted as: " + encryptedData);
                 this.chatClient.sendMessage(encryptedMessage);
                 this.chatSession.sendMessage(message);
-                this.chatSessionScreen.appendNewMessageToChatArea(message.getFormattedMessage() + "\n");
+                this.chatSessionScreen.appendNewMessageToChatArea(message.getFormattedMessageHTML(this.chatSession.getNickname()));
                 this.chatSessionScreen.resetTextInputArea();
                 logger.info("Message sent to " + contactNickName);
             }
@@ -252,7 +252,7 @@ public class ChatController implements ActionListener {
         this.chatSession.receiveMessage(decryptedMessage);
         if (message.senderNickname().equals(this.chatSessionScreen.getCurrentConversationContact())) {
             logger.info("Message received from current conversation contact: " + decryptedMessage.senderNickname());
-            this.chatSessionScreen.appendNewMessageToChatArea(decryptedMessage.getFormattedMessage());
+            this.chatSessionScreen.appendNewMessageToChatArea(decryptedMessage.getFormattedMessageHTML(this.chatSession.getNickname()));
         } else {
             logger.info("New message from: " + decryptedMessage.senderNickname());
             this.chatSessionScreen.updateConversationList(decryptedMessage.senderNickname());

@@ -118,9 +118,10 @@ public class ChatSessionImpl implements IChatSession {
             return "";
         }
         IConversation c = res.get();
-        return c.getMessages().stream()
-                .map(Message::getFormattedMessage)
-                .reduce("", (acc, message) -> acc + message + "\n");
+        StringBuilder ans = new StringBuilder();
+        for (Message m : c.getMessages())
+            ans.append(m.getFormattedMessageHTML(nickname));
+        return ans.toString();
     }
 
     @Override

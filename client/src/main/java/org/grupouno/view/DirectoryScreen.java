@@ -35,6 +35,7 @@ public class DirectoryScreen extends JFrame {
         DefaultListModel<String> listModel = new DefaultListModel<>();
         activeContactsList = new JList<>(listModel);
         JScrollPane listScrollPane = new JScrollPane(activeContactsList);
+        activeContactsList.setBackground(GUIColors.textFieldColor);
         listScrollPane.setBounds(20, 50, 130, 160);
         add(listScrollPane);
 
@@ -47,6 +48,7 @@ public class DirectoryScreen extends JFrame {
         nicknameField.setBounds(180, 70, 150, 25);
         add(nicknameField);
         nicknameField.setEditable(false);
+        nicknameField.setBackground(GUIColors.textFieldColor);
 
         // IP
         JLabel ipLabel = new JLabel("IP");
@@ -57,6 +59,7 @@ public class DirectoryScreen extends JFrame {
         ipField.setBounds(180, 120, 150, 25);
         add(ipField);
         ipField.setEditable(false);
+        ipField.setBackground(GUIColors.textFieldColor);
 
         // Puerto
         JLabel puertoLabel = new JLabel("Puerto");
@@ -67,11 +70,13 @@ public class DirectoryScreen extends JFrame {
         portField.setBounds(180, 170, 150, 25);
         add(portField);
         portField.setEditable(false);
+        portField.setBackground(GUIColors.textFieldColor);
 
         // Agregar Button
         addButton = new JButton("Agregar");
         addButton.setActionCommand("addContact");
         addButton.setBounds(100, 250, 180, 35);
+        addButton.setBackground(GUIColors.buttonColor);
         add(addButton);
 
         // List Selection Listener

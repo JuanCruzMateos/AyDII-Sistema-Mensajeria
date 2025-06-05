@@ -22,4 +22,18 @@ public record Message(
                 timestamp.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")),
                 content);
     }
+
+    public String getFormattedMessageHTML(String user) {
+        String ans;
+        if (user.equals(senderNickname))
+            ans = "<p style=\"text-align: right;\">";
+        else
+            ans = "<p style=\"text-align: left;\">";
+        ans += String.format("<b>%s</b> - [%s]:<br/>%s<br/>",
+                senderNickname,
+                timestamp.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")),
+                content);
+        ans += "</p>";
+        return ans;
+    }
 }
