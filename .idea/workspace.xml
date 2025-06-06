@@ -4,16 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5486df74-5d68-4513-bf6f-42320c48c0d3" name="Changes" comment="Muchas mejoras en GUI.">
-      <change afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/SwitchableColor.java" afterDir="false" />
+    <list default="true" id="5486df74-5d68-4513-bf6f-42320c48c0d3" name="Changes" comment="Detalles mínimo en un sleep()">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/controller/ChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/controller/ChatController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/AgendaScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/AgendaScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/ChatSessionScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/ChatSessionScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/ConfigScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/ConfigScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/DirectoryScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/DirectoryScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/GUIColors.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/GUIColors.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/network/ChatClientImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/network/ChatClientImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/src/main/java/org/grupouno/model/protocols/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/org/grupouno/model/protocols/Message.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/src/main/java/org/grupouno/model/session/ChatSessionImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/org/grupouno/model/session/ChatSessionImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/src/main/java/org/grupouno/model/session/IChatSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/org/grupouno/model/session/IChatSession.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -440,7 +437,31 @@
       <option name="project" value="LOCAL" />
       <updated>1749154977354</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Más mejoras en GUI.">
+      <option name="closed" value="true" />
+      <created>1749182481163</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1749182481163</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Detalles en la GUI al desconectar...">
+      <option name="closed" value="true" />
+      <created>1749228654784</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1749228654784</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Detalles mínimo en un sleep()">
+      <option name="closed" value="true" />
+      <created>1749229082446</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1749229082446</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -475,7 +496,10 @@
     <MESSAGE value="Finalizado EncryptionStrategy." />
     <MESSAGE value="Mejorado Encryption. Mejoras en GUI." />
     <MESSAGE value="Muchas mejoras en GUI." />
-    <option name="LAST_COMMIT_MESSAGE" value="Muchas mejoras en GUI." />
+    <MESSAGE value="Más mejoras en GUI." />
+    <MESSAGE value="Detalles en la GUI al desconectar..." />
+    <MESSAGE value="Detalles mínimo en un sleep()" />
+    <option name="LAST_COMMIT_MESSAGE" value="Detalles mínimo en un sleep()" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

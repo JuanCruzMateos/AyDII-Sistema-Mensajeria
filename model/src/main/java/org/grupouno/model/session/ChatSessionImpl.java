@@ -24,6 +24,7 @@ public class ChatSessionImpl implements IChatSession {
     private int port;
     private IDirectory agenda;
     private IConversationService conversationService;
+    private String lastSender;
 
     private ChatSessionImpl() {
 
@@ -78,12 +79,6 @@ public class ChatSessionImpl implements IChatSession {
     }
 
     @Override
-    public void initAgenda(IDirectory agenda) {
-        logger.info("Loading agenda");
-        this.agenda = agenda;
-    }
-
-    @Override
     public void initConversationService() {
         logger.info("Initializing conversation service");
         this.conversationService = new ConversationService();
@@ -92,12 +87,6 @@ public class ChatSessionImpl implements IChatSession {
     @Override
     public IConversationService getConversationService() {
         return this.conversationService;
-    }
-
-    @Override
-    public void initConversationService(IConversationService conversationService) {
-        logger.info("Loading conversation service");
-        this.conversationService = conversationService;
     }
 
     @Override
@@ -119,9 +108,17 @@ public class ChatSessionImpl implements IChatSession {
         }
         IConversation c = res.get();
         StringBuilder ans = new StringBuilder();
-        for (Message m : c.getMessages())
-            ans.append(m.getFormattedMessageHTML(nickname));
+        lastSender = "";
+        for (Message m : c.getMessages()) {
+            ans.append(m.getFormattedMessageHTML(nickname, lastSender));
+            lastSender = m.senderNickname();
+        }
         return ans.toString();
+    }
+
+    @Override
+    public String getLastSender() {
+        return this.lastSender;
     }
 
     @Override

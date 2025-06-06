@@ -25,17 +25,15 @@ public interface IChatSession {
 
     IDirectory getAgenda();
 
-    void initAgenda(IDirectory agenda);
-
     void initConversationService();
 
     IConversationService getConversationService();
-    
-    void initConversationService(IConversationService conversationService);
 
     List<String> getAgendaContacts();
 
     String getMessagesByContact(String contactNickname);
+
+    String getLastSender();
 
     void addNewContact(User user);
 

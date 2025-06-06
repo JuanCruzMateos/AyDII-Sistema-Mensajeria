@@ -36,4 +36,20 @@ public record Message(
         ans += "</p>";
         return ans;
     }
+
+    public String getFormattedMessageHTML(String user, String lastSender) {
+        String ans, body;
+        if (user.equals(senderNickname)) {
+            ans = "<p style=\"text-align: right; margin:0\">";
+            body = "<span style=\"color:gray\"><font size=\"2\">" + timestamp.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) + "</font></span> " + content;
+        } else {
+            ans = "<p style=\"text-align: left; margin:0\">";
+            body = content + " <span style=\"color:gray\"><font size=\"2\">" + timestamp.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) + "</font></span>";
+        }
+        if (!senderNickname.equals(lastSender))
+            ans += "<font size=\"5\"><b>~" + senderNickname + "~</b></font><br/>";
+        ans += body;
+        ans += "</p>";
+        return ans;
+    }
 }

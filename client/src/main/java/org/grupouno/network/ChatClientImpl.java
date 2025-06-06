@@ -255,13 +255,13 @@ public class ChatClientImpl implements IChatClient, Runnable {
                 try {
                     serverSocket.close();
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    logger.severe("Error on closing server socket: " + e.getMessage());
                 }
             if (monitorSocket != null && !monitorSocket.isClosed())
                 try {
                     monitorSocket.close();
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    logger.severe("Error on closing monitor socket: " + e.getMessage());
                 }
         }
     }

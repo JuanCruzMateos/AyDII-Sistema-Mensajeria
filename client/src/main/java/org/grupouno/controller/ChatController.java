@@ -42,6 +42,7 @@ public class ChatController implements ActionListener {
     private ISessionPersistence persistence;
     private String encStrat;
     private EncryptionStrategy encrypter;
+    private String lastMessageSender = "";
 
     private ChatController() {
     }
@@ -227,7 +228,8 @@ public class ChatController implements ActionListener {
                 logger.info("Encrypted as: " + encryptedData);
                 this.chatClient.sendMessage(encryptedMessage);
                 this.chatSession.sendMessage(message);
-                this.chatSessionScreen.appendNewMessageToChatArea(message.getFormattedMessageHTML(this.chatSession.getNickname()));
+                this.chatSessionScreen.appendNewMessageToChatArea(message.getFormattedMessageHTML(this.chatSession.getNickname(), lastMessageSender));
+                this.lastMessageSender = message.senderNickname();
                 this.chatSessionScreen.resetTextInputArea();
                 logger.info("Message sent to " + contactNickName);
             }
@@ -254,7 +256,8 @@ public class ChatController implements ActionListener {
         this.chatSession.receiveMessage(decryptedMessage);
         if (message.senderNickname().equals(this.chatSessionScreen.getCurrentConversationContact())) {
             logger.info("Message received from current conversation contact: " + decryptedMessage.senderNickname());
-            this.chatSessionScreen.appendNewMessageToChatArea(decryptedMessage.getFormattedMessageHTML(this.chatSession.getNickname()));
+            this.chatSessionScreen.appendNewMessageToChatArea(decryptedMessage.getFormattedMessageHTML(this.chatSession.getNickname(), lastMessageSender));
+            this.lastMessageSender = message.senderNickname();
         } else {
             logger.info("New message from: " + decryptedMessage.senderNickname());
             this.chatSessionScreen.updateConversationList(decryptedMessage.senderNickname());
@@ -267,6 +270,7 @@ public class ChatController implements ActionListener {
         this.chatSessionScreen.enableInputArea();
         this.chatSessionScreen.setChatTitle("Conversando con: " + selectedContact);
         this.chatSessionScreen.setChatAreaText(this.chatSession.getMessagesByContact(selectedContact));
+        this.lastMessageSender = this.chatSession.getLastSender();
         this.chatSessionScreen.selectContactInList(selectedContact);
     }
 
