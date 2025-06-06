@@ -30,6 +30,7 @@ public class ConfigScreen extends JFrame {
         // Title Label
         JLabel titleLabel = new JLabel("Sistema de Mensajeria", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Dialog", Font.BOLD, 28));
+        titleLabel.setForeground(GUIColors.textFontColor);
         mainPanel.add(titleLabel, BorderLayout.NORTH);
 
         // Spacer Panel to add more space below the title
@@ -41,13 +42,16 @@ public class ConfigScreen extends JFrame {
         JPanel formPanel = new JPanel(new GridLayout(3, 2, 10, 7));
         JLabel labelNick = new JLabel("👤 Nickname:");
         labelNick.setFont(new Font("Dialog", Font.PLAIN, 14));
+        labelNick.setForeground(GUIColors.textFontColor);
         formPanel.add(labelNick);
         nicknameField = new JTextField();
         nicknameField.setFont(new Font("Dialog", Font.PLAIN, 14));
+        nicknameField.setForeground(GUIColors.textFontColor);
         formPanel.add(nicknameField);
 
         JLabel labelIP = new JLabel("🌐 IP:");
         labelIP.setFont(new Font("Dialog", Font.PLAIN, 14));
+        labelIP.setForeground(GUIColors.textFontColor);
         formPanel.add(labelIP);
         String ip;
         try {
@@ -58,10 +62,12 @@ public class ConfigScreen extends JFrame {
         }
         ipField = new JTextField(ip);
         ipField.setFont(new Font("Dialog", Font.PLAIN, 14));
+        ipField.setForeground(GUIColors.textFontColor);
         formPanel.add(ipField);
 
         JLabel labelPort = new JLabel("📡 Puerto:");
         labelPort.setFont(new Font("Dialog", Font.PLAIN, 14));
+        labelPort.setForeground(GUIColors.textFontColor);
         formPanel.add(labelPort);
         int defaultPort = 50700;
         while (!NetworkValidator.isPortAvailable(defaultPort))
@@ -69,6 +75,7 @@ public class ConfigScreen extends JFrame {
         String port = Integer.toString(defaultPort); // Fallback to default port
         portField = new JTextField(port);
         portField.setFont(new Font("Dialog", Font.PLAIN, 14));
+        portField.setForeground(GUIColors.textFontColor);
         formPanel.add(portField);
 
         // Wrap formPanel inside another panel to keep spacing
@@ -77,12 +84,33 @@ public class ConfigScreen extends JFrame {
         mainPanel.add(formContainer, BorderLayout.CENTER);
 
         // Button Panel
-        JPanel buttonPanel = new JPanel();
+        JPanel buttonPanel = new JPanel(new GridBagLayout());
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
+        GridBagConstraints gbc = new GridBagConstraints();
         JButton startButton = new JButton("Iniciar");
         startButton.setFont(new Font("Dialog", Font.BOLD, 16)); // Bigger font
+        startButton.setForeground(GUIColors.textFontColor);
         startButton.setPreferredSize(new Dimension(120, 40)); // Bigger button
-        buttonPanel.add(startButton);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1;
+        gbc.weighty = 1;
+        gbc.anchor = GridBagConstraints.CENTER;
+        buttonPanel.add(startButton, gbc);
+
+        JButton switchModeButton = new JButton("☀");
+        switchModeButton.addActionListener(e -> {
+            GUIColors.switchTheme();
+            this.update(this.getGraphics());
+        });
+        switchModeButton.setRequestFocusEnabled(false);
+        switchModeButton.setFont(new Font("Dialog", Font.BOLD, 12));
+        switchModeButton.setBackground(GUIColors.buttonColor);
+        switchModeButton.setForeground(GUIColors.textFontColor);
+        gbc.anchor = GridBagConstraints.SOUTHEAST;
+        buttonPanel.add(switchModeButton, gbc);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+
 
         mainPanel.setBackground(GUIColors.backgroundColor);
         formPanel.setBackground(GUIColors.backgroundColor);

@@ -29,7 +29,7 @@ public record Message(
             ans = "<p style=\"text-align: right;\">";
         else
             ans = "<p style=\"text-align: left;\">";
-        ans += String.format("<b>%s</b> - [%s]:<br/>%s<br/>",
+        ans += String.format("<b>%s</b> - [%s]<br/>%s<br/>",
                 senderNickname,
                 timestamp.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")),
                 content);

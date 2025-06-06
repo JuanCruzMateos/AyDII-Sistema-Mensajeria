@@ -41,6 +41,28 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
         userInfoLabel.setFont(new Font("Dialog", Font.PLAIN, 14));
         topPanel.add(userInfoLabel, gbc);
 
+
+        gbc.gridx = 1;
+        gbc.weightx = 0;
+        gbc.anchor = GridBagConstraints.EAST;
+
+        JPanel topButtonsPanel = new JPanel(new BorderLayout());
+        topPanel.add(topButtonsPanel, gbc);
+
+        chatArea = new JTextPane();
+        JButton switchModeButton = new JButton("☀");
+        switchModeButton.addActionListener(e -> {
+            GUIColors.switchTheme();
+            this.update(this.getGraphics());
+            updateChatAreaTextColor();
+        });
+        switchModeButton.setRequestFocusEnabled(false);
+        switchModeButton.setFont(new Font("Dialog", Font.BOLD, 12));
+        switchModeButton.setBackground(GUIColors.buttonColor);
+        switchModeButton.setForeground(GUIColors.textFontColor);
+        topButtonsPanel.add(switchModeButton, BorderLayout.EAST);
+
+
         gbc.gridx = 1;
         gbc.weightx = 0;
         gbc.anchor = GridBagConstraints.EAST;
@@ -54,7 +76,7 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
         disconnectButton.setFocusPainted(false);
 //        disconnectButton.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 
-        topPanel.add(disconnectButton, gbc);
+        topButtonsPanel.add(disconnectButton, BorderLayout.WEST);
         add(topPanel, BorderLayout.NORTH);
 
         // Set current conversation contact to empty string
@@ -67,6 +89,7 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
 
         JLabel conversationsLabel = new JLabel("Conversaciones 📨", SwingConstants.CENTER);
         conversationsLabel.setFont(new Font("Dialog", Font.BOLD, 18));
+        conversationsLabel.setForeground(GUIColors.textFontColor);
         leftPanel.add(conversationsLabel, BorderLayout.NORTH);
 
         // Center Panel - Chat Area
@@ -76,6 +99,7 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
 
         this.chatTitle = new JLabel("Seleccione un contacto ", SwingConstants.CENTER);
         chatTitle.setFont(new Font("Dialog", Font.BOLD, 18));
+        chatTitle.setForeground(GUIColors.textFontColor);
         centerPanel.add(chatTitle, BorderLayout.NORTH);
 
         JList<String> demoList = new JList<>(new DefaultListModel<>());
@@ -91,6 +115,7 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
             }
         });
         this.conversationList.setBackground(GUIColors.textFieldColor);
+        this.conversationList.setForeground(GUIColors.textFontColor);
         leftPanel.add(this.conversationList, BorderLayout.CENTER);
 
         JPanel buttonsPanel = new JPanel(new BorderLayout(1, 1));
@@ -102,6 +127,7 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
         newConversationButton.setActionCommand("openNewConversationScreen");
         newConversationButton.addActionListener(ChatController.getInstance());
         newConversationButton.setFont(new Font("Dialog", Font.BOLD, 12));
+        newConversationButton.setForeground(GUIColors.textFontColor);
         newConversationButton.setPreferredSize(new Dimension(160, 30));
         newConversationButton.setBackground(GUIColors.buttonColor);
         buttonsPanel.add(newConversationButton, BorderLayout.NORTH);
@@ -111,6 +137,7 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
         openDirectoryButton.setActionCommand("openDirectoryScreen");
         openDirectoryButton.addActionListener(ChatController.getInstance());
         openDirectoryButton.setFont(new Font("Dialog", Font.BOLD, 12));
+        openDirectoryButton.setForeground(GUIColors.textFontColor);
         openDirectoryButton.setPreferredSize(new Dimension(160, 30));
         openDirectoryButton.setBackground(GUIColors.buttonColor);
         buttonsPanel.add(openDirectoryButton, BorderLayout.SOUTH);
@@ -120,10 +147,10 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
 
         add(leftPanel, BorderLayout.WEST);
 
-        chatArea = new JTextPane();
         chatArea.setContentType("text/html");
         chatArea.setEditable(false);
         chatArea.setFont(new Font("Dialog", Font.PLAIN, 12));
+        updateChatAreaTextColor();
         chatArea.setBackground(GUIColors.textFieldColor);
         JScrollPane chatScrollPane = new JScrollPane(chatArea);
         centerPanel.add(chatScrollPane, BorderLayout.CENTER);
@@ -134,6 +161,7 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
         bottomPanel.setBackground(GUIColors.backgroundColor);
         messageField = new JTextField();
         messageField.setBackground(GUIColors.textFieldColor);
+        messageField.setForeground(GUIColors.textFontColor);
         bottomPanel.add(messageField, BorderLayout.CENTER);
         // Press enter to send.
         messageField.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -147,6 +175,7 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
         sendButton.setActionCommand("send");
         sendButton.addActionListener(ChatController.getInstance());
         sendButton.setFont(new Font("Dialog", Font.BOLD, 12));
+        sendButton.setForeground(GUIColors.textFontColor);
         sendButton.setPreferredSize(new Dimension(90, 30));
         sendButton.setBackground(GUIColors.buttonColor);
         bottomPanel.add(sendButton, BorderLayout.EAST);
@@ -202,6 +231,7 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
     @Override
     public void setChatAreaText(String messagesByContact) {
         this.chatArea.setText(messagesByContact);
+        updateChatAreaTextColor();
     }
 
     @Override
@@ -214,8 +244,6 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
         int pos = chatArea.getText().indexOf("</body>");
         String oldContent = chatArea.getText();
         String newContent = oldContent.substring(0, pos) + message + oldContent.substring(pos);
-        System.out.println(message);
-
         chatArea.setText(newContent);
     }
 
@@ -248,6 +276,30 @@ public class ChatSessionScreen extends JFrame implements IChatSessionScreen {
         this.messageField.setEnabled(true);
         this.chatArea.setEnabled(true);
         this.sendButton.setEnabled(true);
+    }
+
+    private void updateChatAreaTextColor() {
+        //sets <body ...> to <body color="#AAAAAA">
+        String html = chatArea.getText();
+        int pos = html.indexOf("<body");
+        int last = html.indexOf(">", pos) + 1;
+        html = html.substring(0, pos) + "<body color=\"" + colorToHex(GUIColors.textFontColor) + "\">" + html.substring(last);
+        chatArea.setText(html);
+    }
+
+    //Warning estúpido de IntelliJ...
+    @SuppressWarnings("SameParameterValue")
+    private String colorToHex(Color color) {
+        String red = Integer.toHexString(color.getRed());
+        String green = Integer.toHexString(color.getGreen());
+        String blue = Integer.toHexString(color.getBlue());
+
+        // Ensure each hex string has a length of 2
+        red = red.length() == 1 ? "0" + red : red;
+        green = green.length() == 1 ? "0" + green : green;
+        blue = blue.length() == 1 ? "0" + blue : blue;
+
+        return "#" + red + green + blue;
     }
 
 }

@@ -130,6 +130,7 @@ public class ChatController implements ActionListener {
     private void openNewConversationScreen() {
         logger.info("Opening new conversation screen.");
         this.agendaScreen = new AgendaScreen();
+        this.agendaScreen.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
         this.agendaScreen.addActionListener(this);
         this.agendaScreen.setContactList(this.chatSession.getAgendaContacts());
         this.agendaScreen.setDefaultCloseOperation(AgendaScreen.DISPOSE_ON_CLOSE);
@@ -170,6 +171,7 @@ public class ChatController implements ActionListener {
     public void openDirectoryScreen() {
         logger.info("Opening directory screen.");
         this.directoryScreen = new DirectoryScreen();
+        this.directoryScreen.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
         this.directoryScreen.addActionListener(this);
         this.chatClient.getConnectedUsers(this.chatSession.getNickname());
         this.directoryScreen.setDefaultCloseOperation(DirectoryScreen.DISPOSE_ON_CLOSE);

@@ -4,7 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5486df74-5d68-4513-bf6f-42320c48c0d3" name="Changes" comment="Mejorado Encryption. Mejoras en GUI.">
+    <list default="true" id="5486df74-5d68-4513-bf6f-42320c48c0d3" name="Changes" comment="Muchas mejoras en GUI.">
+      <change afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/SwitchableColor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/controller/ChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/controller/ChatController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/AgendaScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/AgendaScreen.java" afterDir="false" />
@@ -13,7 +14,6 @@
       <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/DirectoryScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/DirectoryScreen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/GUIColors.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/view/GUIColors.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/src/main/java/org/grupouno/model/protocols/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/org/grupouno/model/protocols/Message.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/src/main/java/org/grupouno/model/session/ChatSessionImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/org/grupouno/model/session/ChatSessionImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -432,7 +432,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749143680377</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Muchas mejoras en GUI.">
+      <option name="closed" value="true" />
+      <created>1749154977354</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1749154977354</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -466,7 +474,8 @@
     <MESSAGE value="Quick start para powershell. Que fiaca iniciar todo esto uno por uno a mano." />
     <MESSAGE value="Finalizado EncryptionStrategy." />
     <MESSAGE value="Mejorado Encryption. Mejoras en GUI." />
-    <option name="LAST_COMMIT_MESSAGE" value="Mejorado Encryption. Mejoras en GUI." />
+    <MESSAGE value="Muchas mejoras en GUI." />
+    <option name="LAST_COMMIT_MESSAGE" value="Muchas mejoras en GUI." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

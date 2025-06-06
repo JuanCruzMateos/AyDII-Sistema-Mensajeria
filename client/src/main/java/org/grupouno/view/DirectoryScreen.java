@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-public class DirectoryScreen extends JFrame {
+public class DirectoryScreen extends JDialog {
     private final JList<String> activeContactsList;
     private final JTextField nicknameField;
     private final JTextField ipField;
@@ -17,10 +17,11 @@ public class DirectoryScreen extends JFrame {
     private final JButton addButton;
     private HashMap<String, User> activeUsers;
 
+
     public DirectoryScreen() {
         setTitle("Directorio");
         setSize(400, 350);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLayout(null);
         setLocationRelativeTo(null);
         super.getContentPane().setBackground(GUIColors.backgroundColor);
@@ -29,19 +30,22 @@ public class DirectoryScreen extends JFrame {
         JLabel directorioLabel = new JLabel("Directorio");
         directorioLabel.setFont(new Font("Dialog", Font.BOLD, 18));
         directorioLabel.setBounds(20, 10, 150, 30);
+        directorioLabel.setForeground(GUIColors.textFontColor);
         add(directorioLabel);
 
         // List
         DefaultListModel<String> listModel = new DefaultListModel<>();
         activeContactsList = new JList<>(listModel);
-        JScrollPane listScrollPane = new JScrollPane(activeContactsList);
         activeContactsList.setBackground(GUIColors.textFieldColor);
+        activeContactsList.setForeground(GUIColors.textFontColor);
+        JScrollPane listScrollPane = new JScrollPane(activeContactsList);
         listScrollPane.setBounds(20, 50, 130, 160);
         add(listScrollPane);
 
         // Nickname
         JLabel nicknameLabel = new JLabel("Nickname");
         nicknameLabel.setBounds(180, 50, 100, 20);
+        nicknameLabel.setForeground(GUIColors.textFontColor);
         add(nicknameLabel);
 
         nicknameField = new JTextField("");
@@ -49,10 +53,12 @@ public class DirectoryScreen extends JFrame {
         add(nicknameField);
         nicknameField.setEditable(false);
         nicknameField.setBackground(GUIColors.textFieldColor);
+        nicknameField.setForeground(GUIColors.textFontColor);
 
         // IP
         JLabel ipLabel = new JLabel("IP");
         ipLabel.setBounds(180, 100, 100, 20);
+        ipLabel.setForeground(GUIColors.textFontColor);
         add(ipLabel);
 
         ipField = new JTextField("");
@@ -60,10 +66,12 @@ public class DirectoryScreen extends JFrame {
         add(ipField);
         ipField.setEditable(false);
         ipField.setBackground(GUIColors.textFieldColor);
+        ipField.setForeground(GUIColors.textFontColor);
 
         // Puerto
         JLabel puertoLabel = new JLabel("Puerto");
         puertoLabel.setBounds(180, 150, 100, 20);
+        puertoLabel.setForeground(GUIColors.textFontColor);
         add(puertoLabel);
 
         portField = new JTextField("");
@@ -71,12 +79,14 @@ public class DirectoryScreen extends JFrame {
         add(portField);
         portField.setEditable(false);
         portField.setBackground(GUIColors.textFieldColor);
+        portField.setForeground(GUIColors.textFontColor);
 
         // Agregar Button
         addButton = new JButton("Agregar");
         addButton.setActionCommand("addContact");
         addButton.setBounds(100, 250, 180, 35);
         addButton.setBackground(GUIColors.buttonColor);
+        addButton.setForeground(GUIColors.textFontColor);
         add(addButton);
 
         // List Selection Listener

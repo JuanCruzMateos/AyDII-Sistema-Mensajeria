@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-public class AgendaScreen extends JFrame {
+public class AgendaScreen extends JDialog {
     private final JList<String> contactList;
     private final JButton startConversationButton;
     private final JButton addNewContactButton;
@@ -27,6 +27,7 @@ public class AgendaScreen extends JFrame {
         // Title
         JLabel titleLabel = new JLabel("Agenda", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        titleLabel.setForeground(GUIColors.textFontColor);
         mainPanel.add(titleLabel, BorderLayout.NORTH);
 
         // Contact List
@@ -34,6 +35,7 @@ public class AgendaScreen extends JFrame {
         contactList = new JList<>(contactModel);
         contactList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         contactList.setBackground(GUIColors.textFieldColor);
+        contactList.setForeground(GUIColors.textFontColor);
         JScrollPane listScrollPane = new JScrollPane(contactList);
         mainPanel.add(listScrollPane, BorderLayout.CENTER);
 
@@ -45,6 +47,7 @@ public class AgendaScreen extends JFrame {
         startConversationButton.setFont(new Font("Arial", Font.BOLD, 12));
         startConversationButton.setPreferredSize(new Dimension(160, 35));
         startConversationButton.setBackground(GUIColors.buttonColor);
+        startConversationButton.setForeground(GUIColors.textFontColor);
         buttonPanel.add(startConversationButton);
 
         this.addNewContactButton = new JButton("Ver Directorio");
@@ -52,6 +55,7 @@ public class AgendaScreen extends JFrame {
         addNewContactButton.setFont(new Font("Arial", Font.BOLD, 12));
         addNewContactButton.setPreferredSize(new Dimension(160, 35));
         addNewContactButton.setBackground(GUIColors.buttonColor);
+        addNewContactButton.setForeground(GUIColors.textFontColor);
         buttonPanel.add(addNewContactButton);
 
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
