@@ -38,6 +38,7 @@ public class ChatClientImpl implements IChatClient, Runnable {
         this.chatController = chatController;
     }
 
+
     public boolean fetchPrimaryServerFromMonitor(int delay) {
         int maxRetries = 5;
         int attempts = 0;
@@ -46,6 +47,7 @@ public class ChatClientImpl implements IChatClient, Runnable {
         this.primaryServer = null;
         while (this.primaryServer == null && attempts < maxRetries) {
             try {
+                Thread.sleep(delay);
                 this.monitorOutputStream.writeObject("primary.server");
                 this.monitorOutputStream.flush();
                 this.primaryServer = (SocketAddress) this.monitorInputStream.readObject();
@@ -53,8 +55,6 @@ public class ChatClientImpl implements IChatClient, Runnable {
                 if (this.primaryServer == null) {
                     logger.info("No servers found, retrying in " + delay + "ms");
                     attempts++;
-                    System.out.println(attempts);
-                    Thread.sleep(delay);
                 } else {
                     connected = true;
                     logger.info("Primary server address fetched successfully: " + primaryServer);
