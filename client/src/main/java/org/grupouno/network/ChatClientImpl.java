@@ -249,7 +249,21 @@ public class ChatClientImpl implements IChatClient, Runnable {
 
     @Override
     public synchronized void disconnect(String nickname) {
-        this.sendMessage(this.createMessage(nickname, serverSocket.getLocalAddress().getHostAddress(), serverSocket.getLocalPort(), MessageType.DISCONNECT));
+        if (serverSocket != null) {
+            this.sendMessage(this.createMessage(nickname, serverSocket.getLocalAddress().getHostAddress(), serverSocket.getLocalPort(), MessageType.DISCONNECT));
+            if (!serverSocket.isClosed())
+                try {
+                    serverSocket.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            if (monitorSocket != null && !monitorSocket.isClosed())
+                try {
+                    monitorSocket.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+        }
     }
 
     public synchronized void close() {

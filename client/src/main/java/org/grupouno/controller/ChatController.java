@@ -116,10 +116,10 @@ public class ChatController implements ActionListener {
         //Persiste datos del usuario
         logger.info("Persisting chat session.");
         persistence.saveSession();
-        this.chatClient.disconnect(this.chatSessionScreen.getSessionUsername());
-        this.chatSessionScreen.closeWindow();
         logger.info("Disconnected from chat session.");
         JOptionPane.showMessageDialog(null, "Desconectado de la sesión de chat.");
+        this.chatClient.disconnect(this.chatSessionScreen.getSessionUsername());
+        this.chatSessionScreen.closeWindow();
     }
 
     /**
