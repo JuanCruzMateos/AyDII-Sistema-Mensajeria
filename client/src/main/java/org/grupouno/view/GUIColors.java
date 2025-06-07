@@ -4,13 +4,13 @@ import java.awt.*;
 
 public class GUIColors {
     private static final Color LIGHTbackgroundColor = new Color(183, 228, 240);
-    public static final SwitchableColor backgroundColor = new SwitchableColor(LIGHTbackgroundColor);
+    public static final Color backgroundColor = new SwitchableColor(LIGHTbackgroundColor);
     private static final Color LIGHTbuttonColor = new Color(153, 217, 234);
-    public static final SwitchableColor buttonColor = new SwitchableColor(LIGHTbuttonColor);
+    public static final Color buttonColor = new SwitchableColor(LIGHTbuttonColor);
     private static final Color LIGHTtextFieldColor = new Color(213, 240, 246);
-    public static final SwitchableColor textFieldColor = new SwitchableColor(LIGHTtextFieldColor);
+    public static final Color textFieldColor = new SwitchableColor(LIGHTtextFieldColor);
     private static final Color LIGHTtextFontColor = new Color(0, 0, 0);
-    public static final SwitchableColor textFontColor = new SwitchableColor(LIGHTtextFontColor);
+    public static final Color textFontColor = new SwitchableColor(LIGHTtextFontColor);
 
     //Darker... No, darker... No no, DARKER... DARKER!!!
     private static final Color DARKbackgroundColor = LIGHTbackgroundColor.darker().darker().darker().darker();
@@ -21,15 +21,15 @@ public class GUIColors {
 
     public static void switchTheme() {
         if (theme == 1) {
-            backgroundColor.setColor(LIGHTbackgroundColor);
-            buttonColor.setColor(LIGHTbuttonColor);
-            textFieldColor.setColor(LIGHTtextFieldColor);
-            textFontColor.setColor(LIGHTtextFontColor);
+            ((SwitchableColor) backgroundColor).setColor(LIGHTbackgroundColor);
+            ((SwitchableColor) buttonColor).setColor(LIGHTbuttonColor);
+            ((SwitchableColor) textFieldColor).setColor(LIGHTtextFieldColor);
+            ((SwitchableColor) textFontColor).setColor(LIGHTtextFontColor);
         } else {
-            backgroundColor.setColor(DARKbackgroundColor);
-            buttonColor.setColor(DARKbuttonColor);
-            textFieldColor.setColor(DARKtextFieldColor);
-            textFontColor.setColor(DARKtextFontColor);
+            ((SwitchableColor) backgroundColor).setColor(DARKbackgroundColor);
+            ((SwitchableColor) buttonColor).setColor(DARKbuttonColor);
+            ((SwitchableColor) textFieldColor).setColor(DARKtextFieldColor);
+            ((SwitchableColor) textFontColor).setColor(DARKtextFontColor);
         }
         theme ^= 1; //theme XOR 1 =>  0<->1
     }

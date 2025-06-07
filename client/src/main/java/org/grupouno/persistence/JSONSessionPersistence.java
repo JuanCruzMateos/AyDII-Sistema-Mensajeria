@@ -43,8 +43,8 @@ public class JSONSessionPersistence extends FileSessionPersistence {
             IConversationService convService = session.getConversationService();
             openBracket = "\t\t{\n";
             for (User act : agenda.getAllContacts()) {
-                writer.write(openBracket);
                 if (convService.existsConversationWith(act.nickname())) {
+                    writer.write(openBracket);
                     //"user": "USER"
                     writer.write("\t\t\t\"user\": \"" + act.nickname() + "\",\n");
                     //"messages": [
@@ -61,9 +61,9 @@ public class JSONSessionPersistence extends FileSessionPersistence {
                     if (openBracket.equals(",\n\t\t\t\t{\n"))
                         writer.write("\n");
                     writer.write("\t\t\t]\n");
+                    writer.write("\t\t}");
+                    openBracket = ",\n\t\t{\n";
                 }
-                writer.write("\t\t}");
-                openBracket = ",\n\t\t{\n";
             }
             if (openBracket.equals(",\n\t\t{\n"))
                 writer.write("\n");

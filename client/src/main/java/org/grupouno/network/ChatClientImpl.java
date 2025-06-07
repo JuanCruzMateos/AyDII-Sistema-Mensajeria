@@ -251,18 +251,18 @@ public class ChatClientImpl implements IChatClient, Runnable {
     public synchronized void disconnect(String nickname) {
         if (serverSocket != null) {
             this.sendMessage(this.createMessage(nickname, serverSocket.getLocalAddress().getHostAddress(), serverSocket.getLocalPort(), MessageType.DISCONNECT));
-            if (!serverSocket.isClosed())
-                try {
-                    serverSocket.close();
-                } catch (IOException e) {
-                    logger.severe("Error on closing server socket: " + e.getMessage());
-                }
-            if (monitorSocket != null && !monitorSocket.isClosed())
-                try {
-                    monitorSocket.close();
-                } catch (IOException e) {
-                    logger.severe("Error on closing monitor socket: " + e.getMessage());
-                }
+//            if (!serverSocket.isClosed())
+//                try {
+//                    serverSocket.close();
+//                } catch (IOException e) {
+//                    logger.severe("Error on closing server socket: " + e.getMessage());
+//                }
+//            if (monitorSocket != null && !monitorSocket.isClosed())
+//                try {
+//                    monitorSocket.close();
+//                } catch (IOException e) {
+//                    logger.severe("Error on closing monitor socket: " + e.getMessage());
+//                }
         }
     }
 
@@ -284,6 +284,10 @@ public class ChatClientImpl implements IChatClient, Runnable {
                 logger.info("Closing getSocket: " + this.serverSocket);
                 this.serverSocket.close();
                 this.serverSocket = null;
+            }
+            if (monitorSocket != null && !monitorSocket.isClosed()) {
+                logger.info("Closing monitor socket: " + this.monitorSocket);
+                monitorSocket.close();
             }
         } catch (IOException e) {
             logger.warning("Error closing connection: " + e.getMessage());

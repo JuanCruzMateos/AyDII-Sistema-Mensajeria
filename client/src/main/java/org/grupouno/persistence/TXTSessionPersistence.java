@@ -61,7 +61,7 @@ public class TXTSessionPersistence extends FileSessionPersistence {
 
             logger.info("Cargando agenda");
             String line = reader.readLine().trim();
-            if (!line.equals("AGENDA")) throw new IOException("XML Mal formateado! - Agenda");
+            if (!line.equals("AGENDA")) throw new IOException("TXT Mal formateado! - Agenda");
             line = reader.readLine();
             while (!line.equals(line.trim())) {
                 //\tUSER

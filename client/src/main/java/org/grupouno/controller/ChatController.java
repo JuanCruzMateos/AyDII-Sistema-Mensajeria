@@ -69,7 +69,8 @@ public class ChatController implements ActionListener {
         new Thread((Runnable) this.chatClient).start();
         this.chatSessionScreen.setVisible(true);
 
-        // Verifica si ya existe archivo de guardado para este usuario.
+        //TODO Persistence service
+        //Verifica si ya existe archivo de guardado para este usuario.
         persistence = PersistenceFactory.getPersistence(nickname);
         if (persistence == null) { // Si no existe, pregunto cuál quiere usar.
             String[] options = new String[]{"XML", "JSON", "TXT"};

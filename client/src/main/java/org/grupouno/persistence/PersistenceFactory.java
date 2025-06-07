@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class PersistenceFactory {
-
+    //TODO Abstract factory y 2 archivos...
     public static final int XML_PERSISTENCE = 1;
     public static final int JSON_PERSISTENCE = 2;
     public static final int TXT_PERSISTENCE = 3;
