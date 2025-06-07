@@ -26,5 +26,4 @@ public abstract class Encrypter {
      * @return El mensaje desencriptado.
      */
     public abstract String decrypt(String data);
-
 }

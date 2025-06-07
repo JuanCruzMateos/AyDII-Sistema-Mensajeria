@@ -23,10 +23,10 @@ else
           exit 1
       fi
       log "$CYAN" "Running server instance number $2 ..."
-      java -jar ./"$1"/target/"$1"-3.0.0.jar "$2"
+      java -jar ./"$1"/target/"$1"-4.0.0.jar "$2"
   else
       log "$CYAN" "Running $1 Application..."
-      java -jar ./"$1"/target/"$1"-3.0.0.jar
+      java -jar ./"$1"/target/"$1"-4.0.0.jar
   fi
 
   EXIT_CODE=$?

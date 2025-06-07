@@ -1,7 +1,8 @@
 package org.grupouno.controller;
 
 import org.grupouno.config.ConfigService;
-import org.grupouno.encryption.EncryptionStrategy;
+import org.grupouno.encryption.Encrypter;
+import org.grupouno.encryption.EncrypterFactory;
 import org.grupouno.model.directory.User;
 import org.grupouno.model.protocols.Message;
 import org.grupouno.model.protocols.MessageType;
@@ -41,7 +42,7 @@ public class ChatController implements ActionListener {
     private DirectoryScreen directoryScreen;
     private ISessionPersistence persistence;
     private String encStrat;
-    private EncryptionStrategy encrypter;
+    private Encrypter encrypter;
     private String lastMessageSender = "";
 
     private ChatController() {
@@ -83,20 +84,18 @@ public class ChatController implements ActionListener {
                 type = PersistenceFactory.TXT_PERSISTENCE;
 
             persistence = PersistenceFactory.getPersistence(nickname, type);
-        } else // Si existe, cargo lo que ya está guardado.
-        {
+        } else {
             logger.info("Loading chat session.");
             persistence.loadSession();
             chatSessionScreen.updateConversationList();
         }
-
         // Instancia de encriptador
         // Primero se elige una estrategia (al azar jaja)
         int max = Integer.parseInt(ConfigService.getConfig("EncryptionStrategyAmount"));
         int randomStrat = (int) (Math.random() * max) + 1;
         encStrat = ConfigService.getConfig("EncryptionStrategy" + randomStrat);
         logger.info("Eligiendo estrategia de encriptacion: " + encStrat);
-        encrypter = new EncryptionStrategy(encStrat);
+        encrypter = EncrypterFactory.createEncrypter(encStrat);
     }
 
     @Override
@@ -161,7 +160,6 @@ public class ChatController implements ActionListener {
             JOptionPane.showMessageDialog(null, "Seleccione un contacto.", "Error", JOptionPane.ERROR_MESSAGE);
         }
         // CARGAR ARCHIVO DE GUARDADO
-
     }
 
     /**
@@ -220,8 +218,9 @@ public class ChatController implements ActionListener {
             if (contact.isPresent()) {
                 LocalDateTime timeStamp = LocalDateTime.now();
                 //CIFRADO... Seteo la estrategia elegida por el cliente primero!
-                encrypter.setStrategy(encStrat);
-                String encryptedData = encStrat + "|" + encrypter.encrypt(textInputArea, this.chatSession.getNickname(), contact.get().nickname());
+                this.encrypter = EncrypterFactory.createEncrypter(encStrat);
+                this.encrypter.setKey(this.chatSession.getNickname(), contact.get().nickname());
+                String encryptedData = encStrat + "|" + encrypter.encrypt(textInputArea);
                 Message encryptedMessage = new Message(this.chatSession.getNickname(), this.chatSession.getIp(), this.chatSession.getPort(), contact.get().nickname(), contact.get().ip(), contact.get().port(), encryptedData, timeStamp, MessageType.MESSAGE);
                 Message message = new Message(this.chatSession.getNickname(), this.chatSession.getIp(), this.chatSession.getPort(), contact.get().nickname(), contact.get().ip(), contact.get().port(), textInputArea, timeStamp, MessageType.MESSAGE);
                 logger.info("Sending message: " + textInputArea);
@@ -243,14 +242,15 @@ public class ChatController implements ActionListener {
         String bodyEnc = body.substring(0, body.indexOf('|'));
         body = body.substring(body.indexOf('|') + 1);
         logger.info("Decrypting \"" + body + "\" with strategy: " + bodyEnc);
-        encrypter.setStrategy(bodyEnc);
+        this.encrypter = EncrypterFactory.createEncrypter(encStrat);
+        this.encrypter.setKey(this.chatSession.getNickname(), message.senderNickname());
         Message decryptedMessage = new Message(message.senderNickname(),
                 message.senderIP(),
                 message.senderPort(),
                 message.receiverNickname(),
                 message.receiverIP(),
                 message.receiverPort(),
-                encrypter.decrypt(body, this.chatSession.getNickname(), message.senderNickname()),
+                encrypter.decrypt(body),
                 message.timestamp(),
                 message.type());
         this.chatSession.receiveMessage(decryptedMessage);
