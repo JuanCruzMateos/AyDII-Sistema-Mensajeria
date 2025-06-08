@@ -185,12 +185,13 @@ public class ChatClientImpl implements IChatClient, Runnable {
                 }
                 logger.info("Received DISCONNECT_ACK, stopping client thread");
                 running = false;
-                this.close();
+                this.closeServerConnection();
+                this.closeMonitorConnection();
             } catch (IOException | ClassNotFoundException e) {
                 logger.info("Connection lost. Reconnecting to server...");
                 try {
                     Thread.sleep(2000); // Wait for 2 second before reconnecting
-                    this.close();
+                    this.closeServerConnection();
                     if (this.connectToServer()) {
                         this.registerWithServer(this.clientName, this.localAddress, this.localPort);
                     } else {
@@ -254,7 +255,7 @@ public class ChatClientImpl implements IChatClient, Runnable {
         }
     }
 
-    public synchronized void close() {
+    public synchronized void closeServerConnection() {
         try {
             if (this.serverInputStream != null) {
                 this.serverInputStream.close();
@@ -275,6 +276,18 @@ public class ChatClientImpl implements IChatClient, Runnable {
             }
         } catch (IOException e) {
             logger.warning("Error closing connection: " + e.getMessage());
+        }
+    }
+
+    public synchronized void closeMonitorConnection() {
+        try {
+            if (this.monitorSocket != null && !this.monitorSocket.isClosed()) {
+                logger.info("Closing monitor socket: " + this.monitorSocket);
+                this.monitorSocket.close();
+                this.monitorSocket = null;
+            }
+        } catch (IOException e) {
+            logger.warning("Error closing monitor connection: " + e.getMessage());
         }
     }
 }

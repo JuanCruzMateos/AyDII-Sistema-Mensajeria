@@ -58,6 +58,6 @@ public class AddressServerHandler implements Runnable {
 
     public synchronized void setPrimaryServerAddress(SocketAddress address) {
         this.primaryServerAddress = address;
-        logger.info("xxxxxxxxxxxxxxxx xxxxxxxx Primary server address set to: " + address);
+        logger.info("Primary server address set to: " + address);
     }
 }

@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5486df74-5d68-4513-bf6f-42320c48c0d3" name="Changes" comment="Detalles mínimo en un sleep()">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/org/grupouno/network/ChatClientImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/org/grupouno/network/ChatClientImpl.java" afterDir="false" />
     </list>
