@@ -8,12 +8,13 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.logging.Logger;
 
-public abstract class FileSessionPersistence implements ISessionPersistence {
-    protected static final Logger logger = Logger.getLogger(FileSessionPersistence.class.getName());
+public abstract class AbstractChatPersistence {
+
+    protected static final Logger logger = Logger.getLogger(AbstractChatPersistence.class.getName());
     protected File file;
     protected IChatSession session;
 
-    public FileSessionPersistence(String pathName) throws IOException {
+    public AbstractChatPersistence(String pathName) throws IOException {
         file = new File(pathName);
         if (!file.isFile())
             file.createNewFile(); //El retorno debería ser siempre TRUE...
@@ -35,4 +36,8 @@ public abstract class FileSessionPersistence implements ISessionPersistence {
         int second = Integer.parseInt(date.substring(17, 19));
         return LocalDateTime.of(year, month, day, hour, minute, second);
     }
+
+    public abstract void saveChat();
+
+    public abstract void loadChat();
 }

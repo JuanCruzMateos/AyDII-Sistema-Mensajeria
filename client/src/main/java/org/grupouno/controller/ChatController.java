@@ -10,8 +10,7 @@ import org.grupouno.model.session.ChatSessionImpl;
 import org.grupouno.model.session.IChatSession;
 import org.grupouno.network.ChatClientImpl;
 import org.grupouno.network.IChatClient;
-import org.grupouno.persistence.ISessionPersistence;
-import org.grupouno.persistence.PersistenceFactory;
+import org.grupouno.persistence.PersistenceService;
 import org.grupouno.view.AgendaScreen;
 import org.grupouno.view.ChatSessionScreen;
 import org.grupouno.view.DirectoryScreen;
@@ -40,7 +39,7 @@ public class ChatController implements ActionListener {
     private IChatSessionScreen chatSessionScreen;
     private AgendaScreen agendaScreen;
     private DirectoryScreen directoryScreen;
-    private ISessionPersistence persistence;
+    private PersistenceService persistence;
     private String encStrat;
     private Encrypter encrypter;
     private String lastMessageSender = "";
@@ -69,22 +68,21 @@ public class ChatController implements ActionListener {
         new Thread((Runnable) this.chatClient).start();
         this.chatSessionScreen.setVisible(true);
 
-        //TODO Persistence service
         //Verifica si ya existe archivo de guardado para este usuario.
-        persistence = PersistenceFactory.getPersistence(nickname);
-        if (persistence == null) { // Si no existe, pregunto cuál quiere usar.
+        persistence = new PersistenceService(nickname);
+        if (!persistence.areFilesCreated()) { // Si no existe, pregunto cuál quiere usar.
             String[] options = new String[]{"XML", "JSON", "TXT"};
             String ans = (String) JOptionPane.showInputDialog((Component) this.chatSessionScreen, "Elija el tipo de archivo de guardado:", "Formato de guardado", JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
             // Creo el nuevo archivo de guardado
             int type = 0;
             if (ans.equals(options[0]))
-                type = PersistenceFactory.XML_PERSISTENCE;
+                type = PersistenceService.XML_PERSISTENCE;
             else if (ans.equals(options[1]))
-                type = PersistenceFactory.JSON_PERSISTENCE;
+                type = PersistenceService.JSON_PERSISTENCE;
             else if (ans.equals(options[2]))
-                type = PersistenceFactory.TXT_PERSISTENCE;
+                type = PersistenceService.TXT_PERSISTENCE;
 
-            persistence = PersistenceFactory.getPersistence(nickname, type);
+            persistence.createPersistence(type);
         } else {
             logger.info("Loading chat session.");
             persistence.loadSession();
@@ -243,7 +241,7 @@ public class ChatController implements ActionListener {
         String bodyEnc = body.substring(0, body.indexOf('|'));
         body = body.substring(body.indexOf('|') + 1);
         logger.info("Decrypting \"" + body + "\" with strategy: " + bodyEnc);
-        this.encrypter = EncrypterFactory.createEncrypter(encStrat);
+        this.encrypter = EncrypterFactory.createEncrypter(bodyEnc);
         this.encrypter.setKey(this.chatSession.getNickname(), message.senderNickname());
         Message decryptedMessage = new Message(message.senderNickname(),
                 message.senderIP(),

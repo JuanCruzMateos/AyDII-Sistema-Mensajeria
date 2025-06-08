@@ -10,25 +10,19 @@ import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class TXTSessionPersistence extends FileSessionPersistence {
+public class TXTChatPersistence extends AbstractChatPersistence {
 
-    public TXTSessionPersistence(String fileName) throws IOException {
-        super(fileName + ".txt");
+    public TXTChatPersistence(String fileName) throws IOException {
+        super(fileName + "_Chat.txt");
     }
 
     @Override
-    public void saveSession() {
-        logger.info("Guardando sesión en TXT");
+    public void saveChat() {
         BufferedWriter writer;
         try {
             writer = new BufferedWriter(new FileWriter(file));
 
-            logger.info("Guardando agenda");
-            writer.write("AGENDA\n");
             IDirectory agenda = session.getAgenda();
-            for (User act : agenda.getAllContacts()) {
-                writer.write("\t" + act.nickname() + "\n");
-            }
             logger.info("Guardando conversaciones");
             writer.write("CONVERSACIONES\n");
             IConversationService convService = session.getConversationService();
@@ -43,7 +37,7 @@ public class TXTSessionPersistence extends FileSessionPersistence {
                 }
             }
             writer.close();
-            logger.info("TXT Finalizado");
+            logger.info("TXT Chat Finalizado");
         } catch (IOException e) {
             logger.severe("Error al guardar archivo - LLegar a este lugar es crítico, el archivo debería existir y no estar bloqueado...");
             logger.severe(e.toString());
@@ -52,28 +46,15 @@ public class TXTSessionPersistence extends FileSessionPersistence {
     }
 
     @Override
-    public void loadSession() {
+    public void loadChat() {
         //line.split("\t") para separar las 3 partes de los mensajes
         logger.info("Cargando sesión desde TXT");
         BufferedReader reader;
         try {
             reader = new BufferedReader(new FileReader(file));
 
-            logger.info("Cargando agenda");
-            String line = reader.readLine().trim();
-            if (!line.equals("AGENDA")) throw new IOException("TXT Mal formateado! - Agenda");
-            line = reader.readLine();
-            while (!line.equals(line.trim())) {
-                //\tUSER
-                String nickname = line.trim();
-                //No es necesario el IP y el Puerto para el usuario...
-                logger.info("\tCargado " + nickname);
-                session.getAgenda().addContact(new User(nickname, "", 0));
-                line = reader.readLine();
-            }
-            logger.info("Agenda cargada");
-
             logger.info("Cargando conversaciones");
+            String line = reader.readLine();
             if (!line.equals("CONVERSACIONES")) throw new IOException("TXT Mal formateado! - Conversaciones");
             line = reader.readLine();
             while (line != null) {

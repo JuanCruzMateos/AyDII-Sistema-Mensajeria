@@ -10,49 +10,41 @@ import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class XMLSessionPersistence extends FileSessionPersistence {
+public class XMLChatPersistence extends AbstractChatPersistence {
 
-    public XMLSessionPersistence(String fileName) throws IOException {
-        super(fileName + ".xml");
+    public XMLChatPersistence(String fileName) throws IOException {
+        super(fileName + "_Chat.xml");
     }
 
     @Override
-    public void saveSession() {
+    public void saveChat() {
         logger.info("Guardando sesión en XML");
         BufferedWriter writer;
         try {
             writer = new BufferedWriter(new FileWriter(file));
             writer.write("<?xml version=\"1.0\"?>\n");
-            writer.write("<session>\n");
 
-            logger.info("Guardando agenda");
-            writer.write("\t<agenda>\n");
             IDirectory agenda = session.getAgenda();
-            for (User act : agenda.getAllContacts()) {
-                writer.write("\t\t<user nickname=\"" + act.nickname() + "\" />\n");
-            }
-            writer.write("\t</agenda>\n");
             logger.info("Guardando conversaciones");
-            writer.write("\t<conversations>\n");
+            writer.write("<conversations>\n");
             IConversationService convService = session.getConversationService();
             for (User act : agenda.getAllContacts()) {
                 if (convService.existsConversationWith(act.nickname())) {
-                    writer.write("\t\t<conversation user=\"" + act.nickname() + "\">\n");
+                    writer.write("\t<conversation user=\"" + act.nickname() + "\">\n");
                     for (Message mes : convService.getConversationByContactNickname(act.nickname()).orElseThrow().getMessages()) {
-                        writer.write("\t\t\t<message>\n");
-                        writer.write("\t\t\t\t<sender>" + mes.senderNickname() + "</sender>\n");
-                        writer.write("\t\t\t\t<time>" + mes.timestamp().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) + "</time>\n");
-                        writer.write("\t\t\t\t<body>" + mes.content().toString() + "</body>\n");
-                        writer.write("\t\t\t</message>\n");
+                        writer.write("\t\t<message>\n");
+                        writer.write("\t\t\t<sender>" + mes.senderNickname() + "</sender>\n");
+                        writer.write("\t\t\t<time>" + mes.timestamp().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) + "</time>\n");
+                        writer.write("\t\t\t<body>" + mes.content().toString() + "</body>\n");
+                        writer.write("\t\t</message>\n");
                     }
-                    writer.write("\t\t</conversation>\n");
+                    writer.write("\t</conversation>\n");
                 }
             }
-            writer.write("\t</conversations>\n");
+            writer.write("</conversations>\n");
 
-            writer.write("</session>");
             writer.close();
-            logger.info("XML Finalizado");
+            logger.info("XML Chat Finalizado");
         } catch (IOException e) {
             logger.severe("Error al guardar archivo - LLegar a este lugar es crítico, el archivo debería existir y no estar bloqueado...");
             logger.severe(e.toString());
@@ -61,7 +53,7 @@ public class XMLSessionPersistence extends FileSessionPersistence {
     }
 
     @Override
-    public void loadSession() {
+    public void loadChat() {
         logger.info("Cargando sesión desde XML");
         BufferedReader reader;
         try {
@@ -69,27 +61,6 @@ public class XMLSessionPersistence extends FileSessionPersistence {
             //<?xml version="1.0"?>
             String line = reader.readLine().trim();
             if (!line.equals("<?xml version=\"1.0\"?>")) throw new IOException("XML Mal formateado! - XML Version");
-            line = reader.readLine().trim();
-            if (!line.equals("<session>")) throw new IOException("XML Mal formateado! - Session");
-
-            logger.info("Cargando agenda");
-            line = reader.readLine().trim();
-            if (!line.equals("<agenda>")) throw new IOException("XML Mal formateado! - Agenda");
-            line = reader.readLine().trim();
-            while (!line.equals("</agenda>")) {
-                //<user nickname="USER" />
-                String pre = line.substring(0, 16);
-                String nickname = line.substring(16, line.length() - 4);
-                String post = line.substring(line.length() - 4);
-                // No debería fallar, pero por las dudas...
-                if (!pre.equals("<user nickname=\"") || !post.equals("\" />"))
-                    throw new IOException("XML Mal formateado! - User");
-                //No es necesario el IP y el Puerto para el usuario...
-                logger.info("\tCargado " + nickname);
-                session.getAgenda().addContact(new User(nickname, "", 0));
-                line = reader.readLine().trim();
-            }
-            logger.info("Agenda cargada");
 
             logger.info("Cargando conversaciones");
             line = reader.readLine().trim();
@@ -153,9 +124,6 @@ public class XMLSessionPersistence extends FileSessionPersistence {
                 line = reader.readLine().trim();
             }
             logger.info("Conversaciones cargadas");
-
-            line = reader.readLine().trim();
-            if (!line.equals("</session>")) throw new IOException("XML Mal formateado! - /Session");
 
             reader.close();
         } catch (IOException e) {
